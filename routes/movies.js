@@ -6,12 +6,12 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', setLocale, async (req, res) => {
   const movies = await Movie.find().sort('name');
   return successMessage(res, 'success', 200, movies);
 });
 
-router.post('/', async (req, res) => {
+router.post('/', setLocale, async (req, res) => {
   const { error } = validate(req.body); 
   if (error) return errorMessage(res, error.details[0], true);
 
@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
   return successMessage(res, 'success', 201, movie);
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', setLocale, async (req, res) => {
   const { error } = validate(req.body); 
   if (error) return errorMessage(res, error.details[0], true);
 
@@ -55,7 +55,7 @@ router.put('/:id', async (req, res) => {
   return successMessage(res, 'success', 200, movie);
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', setLocale, async (req, res) => {
   const movie = await Movie.findByIdAndRemove(req.params.id);
 
   if (!movie) return errorMessage(res, 'no_movie_found');
@@ -63,7 +63,7 @@ router.delete('/:id', async (req, res) => {
   return successMessage(res, 'success', 200, movie);
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', setLocale, async (req, res) => {
   const movie = await Movie.findById(req.params.id);
 
   if (!movie) return errorMessage(res, 'no_movie_found');

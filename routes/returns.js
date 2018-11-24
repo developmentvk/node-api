@@ -8,7 +8,7 @@ const auth = require('../middleware/auth');
 const express = require('express');
 const router = express.Router();
 
-router.post('/', [auth, validate(validateReturn)], async (req, res) => {
+router.post('/', [setLocale, auth, validate(validateReturn)], async (req, res) => {
   const rental = await Rental.lookup(req.body.customerId, req.body.movieId);
 
   if (!rental) return errorMessage(res, 'rental_not_found');

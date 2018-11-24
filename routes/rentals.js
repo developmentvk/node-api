@@ -10,12 +10,12 @@ const router = express.Router();
 
 Fawn.init(mongoose);
 
-router.get('/', async (req, res) => {
+router.get('/', setLocale, async (req, res) => {
   const rentals = await Rental.find().sort('-dateOut');
   return successMessage(res, 'success', 200, rentals);
 });
 
-router.post('/', async (req, res) => {
+router.post('/', setLocale, async (req, res) => {
   const { error } = validate(req.body); 
   if (error) return errorMessage(res, error.details[0], true);
 
@@ -55,7 +55,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', setLocale, async (req, res) => {
   const rental = await Rental.findById(req.params.id);
 
   if (!rental) return errorMessage(res, 'no_rental_found');

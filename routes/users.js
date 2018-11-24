@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
-router.get('/me', auth, async (req, res) => {
+router.get('/me', [setLocale, auth], async (req, res) => {
   const user = await User.findById(req.user._id).select('-password');
   return successMessage(res, 'success', 200, user);
 });

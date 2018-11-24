@@ -8,12 +8,12 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', setLocale, async (req, res) => {
   const genres = await Genre.find().sort('name');
   return successMessage(res, 'success', 200, genres);
 });
 
-router.post('/', auth, async (req, res) => {
+router.post('/', [setLocale, auth], async (req, res) => {
   const { error } = validate(req.body); 
   if (error) return errorMessage(res, error.details[0], true);
 
@@ -23,7 +23,7 @@ router.post('/', auth, async (req, res) => {
   return successMessage(res, 'success', 201, genre);
 });
 
-router.put('/:id', [auth, validateObjectId], async (req, res) => {
+router.put('/:id', [setLocale, auth, validateObjectId], async (req, res) => {
   const { error } = validate(req.body); 
   if (error) return errorMessage(res, error.details[0], true);
 
@@ -36,7 +36,7 @@ router.put('/:id', [auth, validateObjectId], async (req, res) => {
   return successMessage(res, 'success', 200, genre);
 });
 
-router.delete('/:id', [auth, admin, validateObjectId], async (req, res) => {
+router.delete('/:id', [setLocale, auth, admin, validateObjectId], async (req, res) => {
   const genre = await Genre.findByIdAndRemove(req.params.id);
 
   if (!genre) return errorMessage(res, 'no_genre_found');
@@ -44,7 +44,7 @@ router.delete('/:id', [auth, admin, validateObjectId], async (req, res) => {
   return successMessage(res, 'success', 200, genre);
 });
 
-router.get('/:id', validateObjectId, async (req, res) => {
+router.get('/:id', [setLocale, validateObjectId], async (req, res) => {
   const genre = await Genre.findById(req.params.id);
 
   if (!genre) return errorMessage(res, 'no_genre_found');
