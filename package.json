@@ -1,0 +1,40 @@
+{
+  "name": "node-api",
+  "version": "1.0.0",
+  "description": "A Node JS API application build with node, mongodb, express",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --watchAll --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/developmentvk/node-api.git"
+  },
+  "keywords": [],
+  "author": "Virendra Kumar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/developmentvk/node-api/issues"
+  },
+  "homepage": "https://github.com/developmentvk/node-api#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.2",
+    "config": "^3.0.0",
+    "express": "^4.16.4",
+    "express-async-errors": "^3.1.1",
+    "fawn": "^2.1.5",
+    "i18n": "^0.8.3",
+    "joi": "^14.1.0",
+    "joi-objectid": "^2.0.0",
+    "jsonwebtoken": "^8.4.0",
+    "lodash": "^4.17.11",
+    "moment": "^2.22.2",
+    "mongoose": "^5.3.13",
+    "winston": "^3.1.0",
+    "winston-mongodb": "^4.0.3"
+  },
+  "devDependencies": {
+    "jest": "^23.6.0",
+    "supertest": "^3.3.0"
+  }
+}
