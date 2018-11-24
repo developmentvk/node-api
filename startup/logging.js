@@ -12,14 +12,13 @@ module.exports = function() {
       new winston.transports.Console({ colorize: true, prettyPrint: true }),
       new winston.transports.File({ filename: 'uncaughtExceptions.log' }));
 
-      
+      winston.add(
+        new winston.transports.File({ filename: 'logfile.log' })
+      );
+
       process.on('unhandledRejection', (ex) => {
         throw ex;
       });
-      winston.add(
-        new winston.transports.File({ filename: 'error.log', level: 'error' }),
-        new winston.transports.File({ filename: 'logfile.log' })
-      );
   }
   
   // winston.add(winston.transports.MongoDB, { 
