@@ -3,12 +3,6 @@ const express = require('express'),
         i18n = require("i18n");
 const app = express();
 
-require('./startup/logging')();
-require('./startup/routes')(app);
-require('./startup/db')();
-require('./startup/config')();
-require('./startup/validation')();
-
 i18n.configure({
     locales:['en', 'ar'],
     directory: __dirname + '/locales',
@@ -18,6 +12,12 @@ i18n.configure({
     queryParameter: 'locale',
 });
 app.use(i18n.init);
+
+require('./startup/logging')();
+require('./startup/routes')(app);
+require('./startup/db')();
+require('./startup/config')();
+require('./startup/validation')();
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => winston.info(`Listening on port ${port}...`));
