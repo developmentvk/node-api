@@ -41,17 +41,17 @@ describe('/api/genres', () => {
       expect(res.body).toHaveProperty('name', genre.name);     
     });
 
-    it('should return 404 if invalid id is passed', async () => {
+    it('should return 422 if invalid id is passed', async () => {
       const res = await request(server).get('/api/genres/1');
 
-      expect(res.status).toBe(404);
+      expect(res.status).toBe(422);
     });
 
-    it('should return 404 if no genre with the given id exists', async () => {
+    it('should return 422 if no genre with the given id exists', async () => {
       const id = mongoose.Types.ObjectId();
       const res = await request(server).get('/api/genres/' + id);
 
-      expect(res.status).toBe(404);
+      expect(res.status).toBe(422);
     });
   });
 
@@ -83,20 +83,20 @@ describe('/api/genres', () => {
       expect(res.status).toBe(401);
     });
 
-    it('should return 400 if genre is less than 5 characters', async () => {
+    it('should return 422 if genre is less than 5 characters', async () => {
       name = '1234'; 
       
       const res = await exec();
 
-      expect(res.status).toBe(400);
+      expect(res.status).toBe(422);
     });
 
-    it('should return 400 if genre is more than 50 characters', async () => {
+    it('should return 422 if genre is more than 50 characters', async () => {
       name = new Array(52).join('a');
 
       const res = await exec();
 
-      expect(res.status).toBe(400);
+      expect(res.status).toBe(422);
     });
 
     it('should save the genre if it is valid', async () => {
@@ -147,36 +147,36 @@ describe('/api/genres', () => {
       expect(res.status).toBe(401);
     });
 
-    it('should return 400 if genre is less than 5 characters', async () => {
+    it('should return 422 if genre is less than 5 characters', async () => {
       newName = '1234'; 
       
       const res = await exec();
 
-      expect(res.status).toBe(400);
+      expect(res.status).toBe(422);
     });
 
-    it('should return 400 if genre is more than 50 characters', async () => {
+    it('should return 422 if genre is more than 50 characters', async () => {
       newName = new Array(52).join('a');
 
       const res = await exec();
 
-      expect(res.status).toBe(400);
+      expect(res.status).toBe(422);
     });
 
-    it('should return 404 if id is invalid', async () => {
+    it('should return 422 if id is invalid', async () => {
       id = 1;
 
       const res = await exec();
 
-      expect(res.status).toBe(404);
+      expect(res.status).toBe(422);
     });
 
-    it('should return 404 if genre with the given id was not found', async () => {
+    it('should return 422 if genre with the given id was not found', async () => {
       id = mongoose.Types.ObjectId();
 
       const res = await exec();
 
-      expect(res.status).toBe(404);
+      expect(res.status).toBe(422);
     });
 
     it('should update the genre if input is valid', async () => {
@@ -233,20 +233,20 @@ describe('/api/genres', () => {
       expect(res.status).toBe(403);
     });
 
-    it('should return 404 if id is invalid', async () => {
+    it('should return 422 if id is invalid', async () => {
       id = 1; 
       
       const res = await exec();
 
-      expect(res.status).toBe(404);
+      expect(res.status).toBe(422);
     });
 
-    it('should return 404 if no genre with the given id was found', async () => {
+    it('should return 422 if no genre with the given id was found', async () => {
       id = mongoose.Types.ObjectId();
 
       const res = await exec();
 
-      expect(res.status).toBe(404);
+      expect(res.status).toBe(422);
     });
 
     it('should delete the genre if input is valid', async () => {

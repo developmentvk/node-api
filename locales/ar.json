@@ -1,5 +1,5 @@
 {
-	"locale_required": "معلمة محلية مطلوبة في رأس الصفحة 'x-app-locale'.",
+	"locale_required": "معلمة محلية مطلوبة في رأس الصفحة 'locale'.",
 	"success": "تمت معالجة طلبك بنجاح.",
 	"invalid_combination": "البريد الإلكتروني وكلمة المرور غير موجودان.",
 	"access_denied" : "تم الرفض.",

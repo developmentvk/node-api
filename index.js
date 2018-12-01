@@ -33,5 +33,8 @@ module.exports = server;
  * $env:nodeapi_jwtPrivateKey=123456
  * $env:DEBUG="app:startup,app:db"
  * $env:DEBUG="app:*"
+ * npm i jest --save-dev
+ * npm i supertest --save-dev
+ * 
  */
 // console.log(`NODE_ENV: ${process.env.NODE_ENV}`);

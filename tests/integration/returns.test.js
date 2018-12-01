@@ -65,37 +65,37 @@ describe('/api/returns', () => {
     expect(res.status).toBe(401);
   });
 
-  it('should return 400 if customerId is not provided', async () => {
+  it('should return 422 if customerId is not provided', async () => {
     customerId = ''; 
     
     const res = await exec();
 
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(422);
   });
 
-  it('should return 400 if movieId is not provided', async () => {
+  it('should return 422 if movieId is not provided', async () => {
     movieId = ''; 
 
     const res = await exec();
 
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(422);
   });
 
-  it('should return 404 if no rental found for the customer/movie', async () => {
+  it('should return 422 if no rental found for the customer/movie', async () => {
     await Rental.remove({});
 
     const res = await exec();
 
-    expect(res.status).toBe(404);
+    expect(res.status).toBe(422);
   });
 
-  it('should return 400 if return is already processed', async () => {
+  it('should return 422 if return is already processed', async () => {
     rental.dateReturned = new Date();
     await rental.save();
 
     const res = await exec();
 
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(422);
   });
 
   it('should return 200 if we have a valid request', async () => {

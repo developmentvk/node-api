@@ -1,5 +1,5 @@
 {
-	"locale_required": "Locale param required in header with 'x-app-locale'.",
+	"locale_required": "Locale param required in header with 'locale'.",
 	"success": "Your request processed successfully.",
 	"invalid_combination": "Email & Password Combination does not exist.",
 	"access_denied" : "Access denied.",
