@@ -17,6 +17,7 @@ describe('/api/returns', () => {
     return request(server)
       .post('/api/returns')
       .set('x-auth-token', token)
+      .set('locale', 'en')
       .send({ customerId, movieId });
   };
   
