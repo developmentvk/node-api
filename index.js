@@ -33,6 +33,10 @@ module.exports = server;
  * $env:NODE_ENV="test"
  * $env:app_password=123456
  * $env:nodeapi_jwtPrivateKey=123456
+ * heroku config:set nodeapi_jwtPrivateKey=123456
+ * heroku config:set NODE_ENV="production"
+ * heroku config
+ * heroku config:set nodeapi_db=mongodb://<dbuser>:<dbpassword>@ds123454.mlab.com:23454/node-api47
  * $env:DEBUG="app:startup,app:db"
  * $env:DEBUG="app:*"
  * npm i jest --save-dev

@@ -1,3 +1,4 @@
 {
-  "jwtPrivateKey": "nodeapi_jwtPrivateKey"
+  "jwtPrivateKey": "nodeapi_jwtPrivateKey",
+  "db":"nodeapi_db"
 }
