@@ -37,6 +37,6 @@ module.exports = server;
  * $env:DEBUG="app:*"
  * npm i jest --save-dev
  * npm i supertest --save-dev
- * 
+ * $env:HTTP_PROXY=http://proxy.server.com:1234
  */
 // console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
