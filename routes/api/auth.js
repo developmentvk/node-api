@@ -1,9 +1,9 @@
 const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
-const { User } = require('../models/user');
-const setLocale = require('../middleware/setLocale');
-const { successMessage, errorMessage } = require('../helpers/SocketHelper');
+const { User } = require('../../models/user');
+const setLocale = require('../../middleware/setLocale');
+const { successMessage, errorMessage } = require('../../helpers/SocketHelper');
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();

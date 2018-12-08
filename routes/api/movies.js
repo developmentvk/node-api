@@ -1,7 +1,7 @@
-const { Movie, validate } = require('../models/movie');
-const { Genre } = require('../models/genre');
-const setLocale = require('../middleware/setLocale');
-const { successMessage, errorMessage } = require('../helpers/SocketHelper');
+const { Movie, validate } = require('../../models/movie');
+const { Genre } = require('../../models/genre');
+const setLocale = require('../../middleware/setLocale');
+const { successMessage, errorMessage } = require('../../helpers/SocketHelper');
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();

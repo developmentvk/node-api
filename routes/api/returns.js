@@ -1,10 +1,10 @@
 const Joi = require('joi');
-const validate = require('../middleware/validate');
-const { Rental } = require('../models/rental');
-const { Movie } = require('../models/movie');
-const setLocale = require('../middleware/setLocale');
-const { successMessage, errorMessage } = require('../helpers/SocketHelper');
-const auth = require('../middleware/auth');
+const validate = require('../../middleware/validate');
+const { Rental } = require('../../models/rental');
+const { Movie } = require('../../models/movie');
+const setLocale = require('../../middleware/setLocale');
+const { successMessage, errorMessage } = require('../../helpers/SocketHelper');
+const auth = require('../../middleware/auth');
 const express = require('express');
 const router = express.Router();
 

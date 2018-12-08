@@ -1,6 +1,6 @@
-const { Customer, validate } = require('../models/customer');
-const setLocale = require('../middleware/setLocale');
-const { successMessage, errorMessage } = require('../helpers/SocketHelper');
+const { Customer, validate } = require('../../models/customer');
+const setLocale = require('../../middleware/setLocale');
+const { successMessage, errorMessage } = require('../../helpers/SocketHelper');
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();

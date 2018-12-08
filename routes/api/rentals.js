@@ -1,8 +1,8 @@
-const { Rental, validate } = require('../models/rental');
-const { Movie } = require('../models/movie');
-const { Customer } = require('../models/customer');
-const setLocale = require('../middleware/setLocale');
-const { successMessage, errorMessage } = require('../helpers/SocketHelper');
+const { Rental, validate } = require('../../models/rental');
+const { Movie } = require('../../models/movie');
+const { Customer } = require('../../models/customer');
+const setLocale = require('../../middleware/setLocale');
+const { successMessage, errorMessage } = require('../../helpers/SocketHelper');
 const mongoose = require('mongoose');
 const Fawn = require('fawn');
 const express = require('express');

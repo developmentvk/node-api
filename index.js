@@ -21,7 +21,7 @@ app.use(i18n.init);
 app.set('view engine', 'ejs');
 app.use(ejsLayouts);
 app.set('views', './views');// default
-app.use(express.static(__dirname+'/public'));
+app.use(express.static(__dirname + '/public'));
 
 const port = process.env.PORT || 3000;
 const appServer = http.createServer(app);
@@ -38,7 +38,7 @@ require('./startup/prod')(app);
 
 //The 404 Route (ALWAYS Keep this as the last route)
 app.get('*', function (req, res) {
-    res.render('404', {"header" : false });
+    res.render('404', { "header": false, "layout": "layout" });
 });
 
 if (app.get('env') === 'development') {

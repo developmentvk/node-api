@@ -1,11 +1,11 @@
 const express = require('express');
-const genres = require('../api-routes/genres');
-const customers = require('../api-routes/customers');
-const movies = require('../api-routes/movies');
-const rentals = require('../api-routes/rentals');
-const users = require('../api-routes/users');
-const auth = require('../api-routes/auth');
-const returns = require('../api-routes/returns');
+const genres = require('../routes/api/genres');
+const customers = require('../routes/api/customers');
+const movies = require('../routes/api/movies');
+const rentals = require('../routes/api/rentals');
+const users = require('../routes/api/users');
+const auth = require('../routes/api/auth');
+const returns = require('../routes/api/returns');
 const error = require('../middleware/error');
 
 module.exports = function (app, io) {
