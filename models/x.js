@@ -38,5 +38,6 @@
 /**
  * Heroku Deployment
  * 1. heroku login
- * 
+ * 2. git remote -v
+ * 3. git push heroku master
  */
