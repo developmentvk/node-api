@@ -8,7 +8,7 @@
     "start": "node index.js"
   },
   "engines": {
-    "node" : "v10.13.0"
+    "node": "v10.13.0"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
     "bcrypt": "^3.0.2",
     "compression": "^1.7.3",
     "config": "^3.0.0",
+    "ejs": "^2.6.1",
     "express": "^4.16.4",
     "express-async-errors": "^3.1.1",
     "fawn": "^2.1.5",
@@ -37,6 +38,7 @@
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "mongoose": "^5.3.13",
+    "morgan": "^1.9.1",
     "winston": "^3.1.0",
     "winston-mongodb": "^4.0.3"
   },
