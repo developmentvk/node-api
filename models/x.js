@@ -34,3 +34,9 @@
  * $env:HTTP_PROXY=http://proxy.server.com:1234
  */
 // console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+
+/**
+ * Heroku Deployment
+ * 1. heroku login
+ * 
+ */
