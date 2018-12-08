@@ -27,6 +27,11 @@ require('./startup/config')();
 require('./startup/validation')();
 require('./startup/prod')(app);
 
+//The 404 Route (ALWAYS Keep this as the last route)
+app.get('*', function(req, res){
+    res.render('404');
+});
+
 if(app.get('env') === 'development')
 {
     app.use(morgan('tiny'));
