@@ -1,8 +1,8 @@
-const {Rental, validate} = require('../models/rental'); 
-const {Movie} = require('../models/movie'); 
-const {Customer} = require('../models/customer'); 
+const { Rental, validate } = require('../models/rental');
+const { Movie } = require('../models/movie');
+const { Customer } = require('../models/customer');
 const setLocale = require('../middleware/setLocale');
-const {successMessage, errorMessage} = require('../helpers/SocketHelper');
+const { successMessage, errorMessage } = require('../helpers/SocketHelper');
 const mongoose = require('mongoose');
 const Fawn = require('fawn');
 const express = require('express');
@@ -16,7 +16,7 @@ router.get('/', setLocale, async (req, res) => {
 });
 
 router.post('/', setLocale, async (req, res) => {
-  const { error } = validate(req.body); 
+  const { error } = validate(req.body);
   if (error) return errorMessage(res, error.details[0], true);
 
   const customer = await Customer.findById(req.body.customerId);
@@ -27,10 +27,10 @@ router.post('/', setLocale, async (req, res) => {
 
   if (movie.numberInStock === 0) return errorMessage(res, 'movie_not_in_stock');
 
-  let rental = new Rental({ 
+  let rental = new Rental({
     customer: {
       _id: customer._id,
-      name: customer.name, 
+      name: customer.name,
       phone: customer.phone
     },
     movie: {
@@ -43,14 +43,14 @@ router.post('/', setLocale, async (req, res) => {
   try {
     new Fawn.Task()
       .save('rentals', rental)
-      .update('movies', { _id: movie._id }, { 
+      .update('movies', { _id: movie._id }, {
         $inc: { numberInStock: -1 }
       })
       .run();
-  
+
     return successMessage(res, 'success', 200, rental);
   }
-  catch(ex) {
+  catch (ex) {
     errorMessage(res, 'server_down', 500);
   }
 });

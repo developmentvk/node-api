@@ -1,15 +1,15 @@
-const {User} = require('../../models/user');
-const {Genre} = require('../../models/genre');
+const { User } = require('../../models/user');
+const { Genre } = require('../../models/genre');
 const request = require('supertest');
 
 describe('auth middleware', () => {
   beforeEach(() => { server = require('../../index'); })
-  afterEach(async () => { 
+  afterEach(async () => {
     await Genre.remove({});
-    await server.close(); 
+    await server.close();
   });
 
-  let token; 
+  let token;
 
   const exec = () => {
     return request(server)
@@ -23,7 +23,7 @@ describe('auth middleware', () => {
   });
 
   it('should return 401 if no token is provided', async () => {
-    token = ''; 
+    token = '';
 
     const res = await exec();
 
@@ -31,7 +31,7 @@ describe('auth middleware', () => {
   });
 
   it('should return 400 if token is invalid', async () => {
-    token = 'a'; 
+    token = 'a';
 
     const res = await exec();
 

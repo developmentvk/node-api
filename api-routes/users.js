@@ -1,11 +1,11 @@
 const auth = require('../middleware/auth');
 const setLocale = require('../middleware/setLocale');
-const {successMessage, errorMessage} = require('../helpers/SocketHelper');
+const { successMessage, errorMessage } = require('../helpers/SocketHelper');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
-const {User, validate} = require('../models/user');
+const { User, validate } = require('../models/user');
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
@@ -16,7 +16,7 @@ router.get('/me', [setLocale, auth], async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { error } = validate(req.body); 
+  const { error } = validate(req.body);
   if (error) return errorMessage(res, error.details[0], true);
 
   let user = await User.findOne({ email: req.body.email });
@@ -29,8 +29,8 @@ router.post('/', async (req, res) => {
 
   const token = user.generateAuthToken();
   return successMessage(res, 'success', 200, {
-    'token' : token,
-    'data' : _.pick(user, ['_id', 'name', 'email'])
+    'token': token,
+    'data': _.pick(user, ['_id', 'name', 'email'])
   });
 });
 

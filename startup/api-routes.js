@@ -8,7 +8,7 @@ const auth = require('../api-routes/auth');
 const returns = require('../api-routes/returns');
 const error = require('../middleware/error');
 
-module.exports = function(app) {
+module.exports = function (app, io) {
   app.use(express.json());
   app.use('/api/genres', genres);
   app.use('/api/customers', customers);

@@ -1,6 +1,6 @@
-const {Customer, validate} = require('../models/customer'); 
+const { Customer, validate } = require('../models/customer');
 const setLocale = require('../middleware/setLocale');
-const {successMessage, errorMessage} = require('../helpers/SocketHelper');
+const { successMessage, errorMessage } = require('../helpers/SocketHelper');
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
@@ -11,25 +11,25 @@ router.get('/', setLocale, async (req, res) => {
 });
 
 router.post('/', setLocale, async (req, res) => {
-  const { error } = validate(req.body); 
+  const { error } = validate(req.body);
   if (error) return errorMessage(res, error.details[0], true);
 
-  let customer = new Customer({ 
+  let customer = new Customer({
     name: req.body.name,
     isGold: req.body.isGold,
     phone: req.body.phone
   });
   customer = await customer.save();
-  
+
   return successMessage(res, 'success', 201, customer);
 });
 
 router.put('/:id', setLocale, async (req, res) => {
-  const { error } = validate(req.body); 
+  const { error } = validate(req.body);
   if (error) return errorMessage(res, error.details[0], true);
 
   const customer = await Customer.findByIdAndUpdate(req.params.id,
-    { 
+    {
       name: req.body.name,
       isGold: req.body.isGold,
       phone: req.body.phone

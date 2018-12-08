@@ -1,16 +1,16 @@
 const moment = require('moment');
 const request = require('supertest');
-const {Rental} = require('../../models/rental');
-const {Movie} = require('../../models/movie');
-const {User} = require('../../models/user');
+const { Rental } = require('../../models/rental');
+const { Movie } = require('../../models/movie');
+const { User } = require('../../models/user');
 const mongoose = require('mongoose');
 
 describe('/api/returns', () => {
-  let server; 
-  let customerId; 
+  let server;
+  let customerId;
   let movieId;
   let rental;
-  let movie; 
+  let movie;
   let token;
 
   const exec = () => {
@@ -20,9 +20,9 @@ describe('/api/returns', () => {
       .set('locale', 'en')
       .send({ customerId, movieId });
   };
-  
-  beforeEach(async () => { 
-    server = require('../../index'); 
+
+  beforeEach(async () => {
+    server = require('../../index');
 
     customerId = mongoose.Types.ObjectId();
     movieId = mongoose.Types.ObjectId();
@@ -33,7 +33,7 @@ describe('/api/returns', () => {
       title: '12345',
       dailyRentalRate: 2,
       genre: { name: '12345' },
-      numberInStock: 10 
+      numberInStock: 10
     });
     await movie.save();
 
@@ -52,11 +52,11 @@ describe('/api/returns', () => {
     await rental.save();
   });
 
-  afterEach(async () => { 
-    await server.close(); 
+  afterEach(async () => {
+    await server.close();
     await Rental.remove({});
     await Movie.remove({});
-  });  
+  });
 
   it('should return 401 if client is not logged in', async () => {
     token = '';
@@ -67,15 +67,15 @@ describe('/api/returns', () => {
   });
 
   it('should return 422 if customerId is not provided', async () => {
-    customerId = ''; 
-    
+    customerId = '';
+
     const res = await exec();
 
     expect(res.status).toBe(422);
   });
 
   it('should return 422 if movieId is not provided', async () => {
-    movieId = ''; 
+    movieId = '';
 
     const res = await exec();
 
@@ -137,6 +137,6 @@ describe('/api/returns', () => {
 
     expect(Object.keys(res.body)).toEqual(
       expect.arrayContaining(['dateOut', 'dateReturned', 'rentalFee',
-      'customer', 'movie']));
+        'customer', 'movie']));
   });
 });

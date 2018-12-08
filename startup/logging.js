@@ -4,7 +4,7 @@ const { combine, timestamp, label, printf } = format;
 const ip = require('ip');
 require('express-async-errors');
 
-module.exports = function() {
+module.exports = function () {
 
     createLogger({
         level: 'info',
@@ -20,7 +20,7 @@ module.exports = function() {
                 handleExceptions: true,
                 format: winston.format.simple()
             }),
-            new transports.File({ filename: 'uncaughtExceptions.log', handleExceptions : true })
+            new transports.File({ filename: 'uncaughtExceptions.log', handleExceptions: true })
         ],
         exitOnError: false
     });

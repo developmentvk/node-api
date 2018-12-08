@@ -3,8 +3,8 @@ module.exports = function (handler) {
     try {
       await handler(req, res);
     }
-    catch(ex) {
+    catch (ex) {
       next(ex);
     }
-  };  
+  };
 }

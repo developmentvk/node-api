@@ -1,5 +1,5 @@
 const auth = require('../middleware/auth');
-const {successMessage, errorMessage} = require('../helpers/SocketHelper');
+const { successMessage, errorMessage } = require('../helpers/SocketHelper');
 const express = require('express');
 const router = express.Router();
 

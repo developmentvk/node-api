@@ -7,11 +7,10 @@ function successMessage(res, template = '', httpCode = 200, dataArr = null) {
 }
 
 function errorMessage(res, template = null, object = false, httpCode = 422) {
-    if(object == true)
-    {
-        delete(template.path)
-        delete(template.type)
-        delete(template.context)
+    if (object == true) {
+        delete (template.path)
+        delete (template.type)
+        delete (template.context)
         return res.status(httpCode).send(template);
     } else {
         let output = new Object();
@@ -19,6 +18,6 @@ function errorMessage(res, template = null, object = false, httpCode = 422) {
         return res.status(httpCode).send(output);
     }
 }
-  
-exports.successMessage = successMessage; 
+
+exports.successMessage = successMessage;
 exports.errorMessage = errorMessage;
