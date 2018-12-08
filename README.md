@@ -1,2 +1,2 @@
-# Node JS API Application
-A Node JS API application build with node, mongodb, express
+# Build API + Admin + Frontend Application with Node JS
+A Node JS API + Admin + Frontend application build with node, mongodb, express
