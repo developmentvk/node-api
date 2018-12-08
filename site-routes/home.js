@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    res.render('site/index');
+    res.render("site/index", {"header" : true});
 });
 
 module.exports = router; 

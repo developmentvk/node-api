@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="<%= getLocale(); %>">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <title><%= __('company'); %></title>
+
+    <!-- Styles -->
+    <link href="site/css/core.min.css" rel="stylesheet">
+    <link href="site/css/thesaas.min.css" rel="stylesheet">
+    <link href="site/css/style.css" rel="stylesheet">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="site/img/apple-touch-icon.png">
+    <link rel="icon" href="site/img/favicon.png">
+
+    <!--  Open Graph Tags -->
+    <meta property="og:title" content="<%= __('company'); %>">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="site/img/og-img.jpg">
+    <meta property="og:url" content="">
+    <meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="<%= getLocale(); %>">
+
+    <!-- Topbar -->
+    <%- include('topbar'); %>
+    <!-- END Topbar -->
+    <% if (typeof header !== undefined && header === true) { %>
+        <!-- Header -->
+        <%- include('header'); %>
+        <!-- END Header -->
+    <% } %>
+
+    <!-- Main container -->
+    <main class="main-content">
+        <%- body %>
+    </main>
+    <!-- END Main container -->
+
+    <!-- Footer -->
+    <%- include('footer'); %>
+    <!-- END Footer -->
+
+    <!-- Scripts -->
+    <script src="site/js/core.min.js"></script>
+    <script src="site/js/thesaas.min.js"></script>
+    <script src="site/js/script.js"></script>
+
+</body>
+
+</html>

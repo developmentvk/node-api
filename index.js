@@ -5,6 +5,8 @@ const express = require('express'),
 const app = express();
 const http = require('http');
 const socketIO = require('socket.io');
+const ejsLayouts = require("express-ejs-layouts");
+
 
 i18n.configure({
     locales: ['en', 'ar'],
@@ -17,8 +19,9 @@ i18n.configure({
 app.use(i18n.init);
 
 app.set('view engine', 'ejs');
+app.use(ejsLayouts);
 app.set('views', './views');// default
-app.use(express.static('public'));
+app.use(express.static(__dirname+'/public'));
 
 const port = process.env.PORT || 3000;
 const appServer = http.createServer(app);
@@ -35,7 +38,7 @@ require('./startup/prod')(app);
 
 //The 404 Route (ALWAYS Keep this as the last route)
 app.get('*', function (req, res) {
-    res.render('404');
+    res.render('404', {"header" : false });
 });
 
 if (app.get('env') === 'development') {
