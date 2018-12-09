@@ -18,5 +18,17 @@
 	"movie_not_in_stock": "Movie not in stock.",
 	"return_already_processed": "Return already processed.",
 	"user_already_registered": "User already registered.",
-	"company": "NodeJS"
+	"company": "NodeJS",
+	"admin_panel": "Admin Panel",
+	"sign_in_to_start_your_session": "Sign in to start your session",
+	"person": "person",
+	"username": "Username",
+	"lock": "lock",
+	"password": "Password",
+	"remember_me": "Remember Me",
+	"sign_in": "SIGN IN",
+	"forgot_password": "Forgot password",
+	"recovery_label": "Enter your email address that you used to register. We'll send you an email with your username and a link to reset your password.",
+	"email": "Email",
+	"reset_my_password": "RESET MY PASSWORD"
 }
