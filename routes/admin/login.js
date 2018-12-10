@@ -20,23 +20,23 @@ router.post('/login', async (req, res) => {
     const { error } = validateLogin(req.body);
     if (error) {
         req.flash('error', error.details[0].message);
-        res.redirect('/admin/login');
+        return res.redirect('/admin/login');
     }
 
     let admin = await Admin.findOne({ email: req.body.username });
     if (!admin) {
         req.flash('error', [i18n.__('invalid_combination')]);
-        res.redirect('/admin/login');
+        return res.redirect('/admin/login');
     }
 
     const validPassword = await bcrypt.compare(req.body.password, admin.password);
     if (!validPassword) {
         req.flash('error', [i18n.__('invalid_combination')]);
-        res.redirect('/admin/login');
+        return res.redirect('/admin/login');
     }
 
     req.session.admin = admin;
-    res.redirect('/admin/dashboard');
+    return res.redirect('/admin/dashboard');
 });
 
 router.get('/forgot-password', adminAuth, async (req, res) => {
