@@ -5,6 +5,6 @@ const error = require('../middleware/error');
 
 module.exports = function (app, io) {
   app.use('/admin', login);
-  app.use('/admin/dashboard', dashboard);
+  app.use('/admin', dashboard);
   app.use(error);
 }

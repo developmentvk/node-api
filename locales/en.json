@@ -30,5 +30,6 @@
 	"forgot_password": "Forgot password",
 	"recovery_label": "Enter your email address that you used to register. We'll send you an email with your username and a link to reset your password.",
 	"email": "Email",
-	"reset_my_password": "RESET MY PASSWORD"
+	"reset_my_password": "RESET MY PASSWORD",
+	"dashboard": "dashboard"
 }

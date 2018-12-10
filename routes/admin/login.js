@@ -36,6 +36,7 @@ router.post('/login', async (req, res) => {
     }
 
     req.session.admin = admin;
+    
     return res.redirect('/admin/dashboard');
 });
 
