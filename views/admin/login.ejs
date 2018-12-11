@@ -1,9 +1,14 @@
 <form id="sign_in" method="POST">
     <div class="msg"><%= __('sign_in_to_start_your_session'); %></div>
-    <% if(hasError) { %>
+    <% if(error.length > 0) { %>
         <div class="alert alert-danger">
-            <%= message %>
+            <%= error %>
         </div>
+    <% } %>
+    <% if(success.length > 0) { %>
+    <div class="alert alert-success">
+        <%= success %>
+    </div>
     <% } %>
 
     <div class="input-group">

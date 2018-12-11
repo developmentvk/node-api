@@ -1,4 +1,6 @@
 {
   "jwtPrivateKey": "nodeapi_jwtPrivateKey",
-  "db":"nodeapi_db"
+  "db": "nodeapi_db",
+  "MAIL_USERNAME": "MAIL_USERNAME",
+  "MAIL_PASSWORD": "MAIL_PASSWORD"
 }

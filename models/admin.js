@@ -25,11 +25,15 @@ const userSchema = new mongoose.Schema({
 		minlength: 5,
 		maxlength: 1024
 	},
+	remember_token: {
+		type: String,
+		maxlength: 1024
+	},
 });
 
 const Admin = mongoose.model('Admin', userSchema);
 
-function validateUserLogin(user) {
+function validateLogin(user) {
 	const schema = {
 		username: Joi.string().min(5).max(255).required().email(),
 		password: Joi.string().min(5).max(255).required()
@@ -38,5 +42,24 @@ function validateUserLogin(user) {
 	return Joi.validate(user, schema);
 }
 
+function validateForgotPassword(user) {
+	const schema = {
+		email: Joi.string().min(5).max(255).required().email(),
+	};
+
+	return Joi.validate(user, schema);
+}
+
+function validateUpdatePassword(user) {
+	const schema = {
+		password: Joi.string().min(5).max(255).required(),
+		confirm: Joi.string().valid(Joi.ref('password')).required().options({ language: { any: { allowOnly: 'must match password' } } })
+	};
+
+	return Joi.validate(user, schema);
+}
+
 exports.Admin = Admin;
-exports.validateLogin = validateUserLogin;
+exports.validateLogin = validateLogin;
+exports.validateForgotPassword = validateForgotPassword;
+exports.validateUpdatePassword = validateUpdatePassword;

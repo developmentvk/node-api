@@ -18,7 +18,7 @@
 	"movie_not_in_stock": "Movie not in stock.",
 	"return_already_processed": "Return already processed.",
 	"user_already_registered": "User already registered.",
-	"company": "NodeJS",
+	"company": "NodeJS API",
 	"admin_panel": "Admin Panel",
 	"sign_in_to_start_your_session": "Sign in to start your session",
 	"person": "person",
@@ -31,5 +31,17 @@
 	"recovery_label": "Enter your email address that you used to register. We'll send you an email with your username and a link to reset your password.",
 	"email": "Email",
 	"reset_my_password": "RESET MY PASSWORD",
-	"dashboard": "dashboard"
+	"dashboard": "Dashboard",
+	"password_recovery_subject": "Reset NodeJS API Password",
+	"password_recovery_instruction": "Your password recovery instruction sent your registered email.",
+	"email_not_exist": "Invalid account information you are trying to recover.",
+	"create_password": "Create Password",
+	"password_recovery_link_expired": "Password recovery link expired",
+	"new_password": "New Password",
+	"confirm_password": "Confirm Password",
+	"create_password_label": "Update Your New Password",
+	"change_my_password": "CHANGE MY PASSWORD",
+	"password_changed_subject": "Reset NodeJS API Password",
+	"password_changed": "Your new password updated successfully.",
+	"login": "Login"
 }
