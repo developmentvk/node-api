@@ -1,15 +1,16 @@
-const morgan = require('morgan');
-const winston = require('winston');
-const express = require('express'),
-    i18n = require("i18n");
-const app = express();
-const http = require('http');
-const socketIO = require('socket.io');
-const ejsLayouts = require("express-ejs-layouts");
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
-const flash = require('connect-flash');
-const bodyParser = require('body-parser');
+const morgan = require('morgan'),
+    winston = require('winston'),
+    cookieSession = require('cookie-session'),
+    express = require('express'),
+    i18n = require("i18n"),
+    Keygrip = require('keygrip'),
+    app = express(),
+    http = require('http'),
+    socketIO = require('socket.io'),
+    ejsLayouts = require("express-ejs-layouts"),
+    cookieParser = require('cookie-parser'),
+    flash = require('connect-flash'),
+    bodyParser = require('body-parser');
 
 i18n.configure({
     locales: ['en', 'ar'],
@@ -31,23 +32,23 @@ app.use(flash());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.set('trust proxy', 1) // trust first proxy
 
-// initialize express-session to allow us track the logged-in user across sessions.
-app.use(session({
-    key: 'sid',
-    secret: 'dKxfdQqlGwIM172lCoOB78kwwulRrV7qSezov38jlkPU6LG2xQyXh2DoFDD8',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        expires: 600000
-    }
+app.use(cookieSession({
+    name: 'session',
+    keys: new Keygrip(['dKxfdQqlGwIM172lCoOB78kwwulRrV7qSezov38jlkPU6LG2xQyXh2DoFDD8', 'dKxfdQqlGwIM172lCoOB78kwwulRrJKJKJKJKzov38jlkPU6LG2xQyXh2DoFDD8'], 'SHA384', 'base64'),
+    // Cookie Options
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
 
 // This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
 // This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
 app.use((req, res, next) => {
-    if (req.cookies.sid && !req.session.admin) {
-        res.clearCookie('sid');
+    // Update a value in the cookie so that the set-cookie will be sent.
+    // Only changes every minute so that it's not sent with every request.
+    req.session.nowInMinutes = Math.floor(Date.now() / 60e3);
+    if (req.cookies.session && !req.session.admin) {
+        res.clearCookie('session');
     }
     next();
 });
@@ -66,7 +67,7 @@ require('./startup/validation')();
 require('./startup/prod')(app);
 
 //The 404 Route (ALWAYS Keep this as the last route)
-app.get('*', function (req, res) {
+app.all('*', function (req, res) {
     res.render('404', { "header": false, "layout": "layout" });
 });
 

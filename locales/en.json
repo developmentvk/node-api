@@ -43,5 +43,15 @@
 	"change_my_password": "CHANGE MY PASSWORD",
 	"password_changed_subject": "Reset NodeJS API Password",
 	"password_changed": "Your new password updated successfully.",
-	"login": "Login"
+	"login": "Login",
+	"please_wait": "Please wait",
+	"notifications": "Notifications",
+	"view_all_notifications": "View All Notifications",
+	"profile": "Profile",
+	"change_password": "Change Password",
+	"sign_out": "Sign Out",
+	"version": "Version",
+	"main_navigation": "MAIN NAVIGATION",
+	"home": "Home",
+	"admin_login": "Admin Login"
 }
