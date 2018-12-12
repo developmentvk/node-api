@@ -1,0 +1,39 @@
+2018-12-12T20:21:45.696Z [192.168.1.102] error: uncaughtException: ENOENT: no such file or directory, open 'D:\wamp64\www\node-api\routes\logs\logfile.log'
+Error: ENOENT: no such file or directory, open 'D:\wamp64\www\node-api\routes\logs\logfile.log'
+2018-12-12T20:38:49.950Z [192.168.1.102] error: uncaughtException: Unexpected token ]
+D:\wamp64\www\node-api\routes\admin\log.js:16
+        last[] = chunk;
+             ^
+
+SyntaxError: Unexpected token ]
+    at new Script (vm.js:79:7)
+    at createScript (vm.js:251:10)
+    at Object.runInThisContext (vm.js:303:10)
+    at Module._compile (internal/modules/cjs/loader.js:656:28)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:699:10)
+    at Module.load (internal/modules/cjs/loader.js:598:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:537:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:529:3)
+    at Module.require (internal/modules/cjs/loader.js:636:17)
+    at require (internal/modules/cjs/helpers.js:20:18)
+    at Object.<anonymous> (D:\wamp64\www\node-api\startup\admin-routes.js:4:13)
+    at Module._compile (internal/modules/cjs/loader.js:688:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:699:10)
+    at Module.load (internal/modules/cjs/loader.js:598:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:537:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:529:3)
+    at Module.require (internal/modules/cjs/loader.js:636:17)
+    at require (internal/modules/cjs/helpers.js:20:18)
+    at Object.<anonymous> (D:\wamp64\www\node-api\index.js:62:1)
+    at Module._compile (internal/modules/cjs/loader.js:688:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:699:10)
+    at Module.load (internal/modules/cjs/loader.js:598:32)
+2018-12-12T20:39:08.756Z [192.168.1.102] error: uncaughtException: Cannot read property 'push' of undefined
+TypeError: Cannot read property 'push' of undefined
+    at LineByLineReader.<anonymous> (D:\wamp64\www\node-api\routes\admin\log.js:16:14)
+    at LineByLineReader.emit (events.js:182:13)
+    at LineByLineReader._nextLine (D:\wamp64\www\node-api\node_modules\line-by-line\line-by-line.js:129:8)
+    at Immediate.<anonymous> (D:\wamp64\www\node-api\node_modules\line-by-line\line-by-line.js:88:9)
+    at runCallback (timers.js:705:18)
+    at tryOnImmediate (timers.js:676:5)
+    at processImmediate (timers.js:658:5)

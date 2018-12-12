@@ -53,5 +53,8 @@
 	"version": "Version",
 	"main_navigation": "MAIN NAVIGATION",
 	"home": "Home",
-	"admin_login": "Admin Login"
+	"admin_login": "Admin Login",
+	"application_logs": "Application Logs",
+	"logs": "Logs",
+	"exceptions": "Exceptions"
 }
