@@ -20,7 +20,7 @@ module.exports = function () {
                 handleExceptions: true,
                 format: winston.format.simple()
             }),
-            new transports.File({ filename: 'uncaughtExceptions.log', handleExceptions: true })
+            new transports.File({ filename: 'logs/uncaughtExceptions.log', handleExceptions: true })
         ],
         exitOnError: false
     });
@@ -38,7 +38,7 @@ module.exports = function () {
             })
         ),
         transports: [
-            new transports.File({ filename: 'logfile.log' })
+            new transports.File({ filename: 'logs/logfile.log' })
         ]
     });
 }
