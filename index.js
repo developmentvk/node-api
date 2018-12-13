@@ -1,4 +1,5 @@
 const morgan = require('morgan'),
+    _ = require('lodash')
     winston = require('winston'),
     cookieSession = require('cookie-session'),
     express = require('express'),
@@ -58,9 +59,9 @@ const appServer = http.createServer(app);
 const io = socketIO(appServer);
 
 require('./startup/logging')();
-require('./startup/api-routes')(app, io);
-require('./startup/admin-routes')(app, io);
-require('./startup/site-routes')(app, io);
+require('./startup/api-routes')(app);
+require('./startup/admin-routes')(app);
+require('./startup/site-routes')(app);
 require('./startup/db')();
 require('./startup/config')();
 require('./startup/validation')();
@@ -77,6 +78,7 @@ if (app.get('env') === 'development') {
     winston.info("Morgan enabled...");
 }
 
+app.locals._ = _;
 const server = appServer.listen(port, () => winston.info(`Listening on port ${port}...`));
 
 module.exports = server;

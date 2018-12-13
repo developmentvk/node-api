@@ -1,3 +1,23 @@
-<% lr.on('line', function (line) { %>
-<%= line %>
-<% }); %>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <ol class="breadcrumb breadcrumb-bg-teal">
+        <li><a href="javascript:void(0);"><i class="material-icons">home</i> <%= __('home'); %></a></li>
+        <li class="active"><i class="material-icons">error</i> <%= __('logs');  %> (<%= data.length %>)</li>
+    </ol>
+</div>
+<!-- Special Class For User Entered Browser -->
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="card">
+        <div class="body">
+            <div class="list-group">
+            <% if(data.length > 0) { %>
+                <%  _.forEach(data, function(val) {  if(val) {%>
+                    <p class="list-group-item <%= _.includes(val,'info') ? 'col-cyan' : ''; %> <%= _.includes(val,'error') ? 'col-pink' : ''; %>"><%= val %></p>
+                <% } } ) %>
+            <% } else {%>
+                <p class="list-group-item"><%= __('no_record_found'); %></p>
+            <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- #END# Special Class For User Entered Browser -->

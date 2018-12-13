@@ -56,5 +56,11 @@
 	"admin_login": "Admin Login",
 	"application_logs": "Application Logs",
 	"logs": "Logs",
-	"exceptions": "Exceptions"
+	"exceptions": "Exceptions",
+	"no_record_found": "No record found",
+	"manage_navigations": "Manage Navigations",
+	"navigations": "Navigations",
+	"create_navigation": "Create Navigation",
+	"update_navigation": "Update Navigation",
+	"all_navigations": "All Navigations"
 }

@@ -6,28 +6,52 @@ const LineByLineReader = require('line-by-line');
 const router = express.Router();
 
 router.get('/logs', adminSession, async (req, res) => {
-    let error = req.flash('error');
-    let success = req.flash('success');
     let filePath = (__dirname + `/../../logs/logfile.log`);
     let lr = new LineByLineReader(filePath);
-    res.render('admin/logs/logs', {
-        layout: "admin/include/layout",
-        title: i18n.__('logs'),
-        error: error,
-        success: success,
-        lr : lr
+    let data = [];
+    lr.on('line', function (line) { 
+        data.push(line);
+    }); 
+
+    lr.on('error', function (err) {
+        res.render('admin/logs/logs', {
+            layout: "admin/include/layout",
+            title: i18n.__('logs'),
+            data : []
+        });
+    });
+
+    lr.on('end', function () { 
+        res.render('admin/logs/logs', {
+            layout: "admin/include/layout",
+            title: i18n.__('logs'),
+            data : data
+        });
     });
 });
 
 router.get('/exceptions', adminSession, async (req, res) => {
-    let error = req.flash('error');
-    let success = req.flash('success');
+    let filePath = (__dirname + `/../../logs/uncaughtExceptions.log`);
+    let lr = new LineByLineReader(filePath);
+    let data = [];
+    lr.on('line', function (line) { 
+        data.push(line);
+    }); 
 
-    res.render('admin/logs/exceptions', {
-        layout: "admin/include/layout",
-        title: i18n.__('exceptions'),
-        error: error,
-        success: success
+    lr.on('error', function (err) {
+        res.render('admin/logs/exceptions', {
+            layout: "admin/include/layout",
+            title: i18n.__('exceptions'),
+            data : []
+        });
+    });
+
+    lr.on('end', function () { 
+        res.render('admin/logs/exceptions', {
+            layout: "admin/include/layout",
+            title: i18n.__('exceptions'),
+            data : data
+        });
     });
 });
 
