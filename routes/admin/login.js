@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const adminAuth = require('../../middleware/adminAuth');
-const { Admin, validateLogin, validateForgotPassword, validateUpdatePassword } = require('../../models/Admin');
+const { Admin, validateLogin, validateForgotPassword, validateUpdatePassword } = require('../../models/admin');
 const i18n = require("i18n");
 const TokenGenerator = require('uuid-token-generator');
 const bcrypt = require('bcrypt');
