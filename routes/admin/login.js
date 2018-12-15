@@ -9,6 +9,10 @@ const { sendEmail } = require('../../helpers/SocketHelper');
 const router = express.Router();
 
 router.get('/login', adminAuth, async (req, res) => {
+    if(req.query.logout === 'true') {
+        req.flash('success', [i18n.__('logged_out_successfully')]);
+        return res.redirect('/admin/login');
+    }
     let error = req.flash('error');
     let success = req.flash('success');
     res.render('admin/login', {
@@ -38,7 +42,13 @@ router.post('/login', async (req, res) => {
         return res.redirect('/admin/login');
     }
 
+    req.session.adminAuthenticated = true;
     req.session.admin = admin;
+    if (req.body.rememberme) {
+        req.session.cookie.maxAge = (24 * 30) * 60 * 60 * 1000 // 30 days;
+    } else {
+        req.session.cookie.expires = false;
+    }
 
     return res.redirect('/admin/dashboard');
 });

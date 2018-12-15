@@ -12,7 +12,7 @@ module.exports = function () {
             label({ label: ip.address() }),
             timestamp(),
             printf(info => {
-                return `${info.timestamp} [${info.label}] ${info.level}: ${info.message}`;
+                return `${info.timestamp} [${info.label}] ${info.level} : ${info.message}`;
             })
         ),
         transports: [
@@ -34,7 +34,7 @@ module.exports = function () {
             label({ label: ip.address() }),
             timestamp(),
             printf(info => {
-                return `${info.timestamp} [${info.label}] ${info.level}: ${info.message}`;
+                return `${info.timestamp} [${info.label}] ${info.level} : ${info.message}`;
             })
         ),
         transports: [

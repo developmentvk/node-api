@@ -62,5 +62,6 @@
 	"navigations": "Navigations",
 	"create_navigation": "Create Navigation",
 	"update_navigation": "Update Navigation",
-	"all_navigations": "All Navigations"
+	"all_navigations": "All Navigations",
+	"logged_out_successfully": "Logged Out Successfully"
 }

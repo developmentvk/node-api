@@ -1,17 +1,18 @@
 const morgan = require('morgan'),
     _ = require('lodash')
     winston = require('winston'),
-    cookieSession = require('cookie-session'),
+    session = require('express-session'),
     express = require('express'),
     i18n = require("i18n"),
-    Keygrip = require('keygrip'),
     app = express(),
     http = require('http'),
     socketIO = require('socket.io'),
     ejsLayouts = require("express-ejs-layouts"),
     cookieParser = require('cookie-parser'),
     flash = require('connect-flash'),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    mongoose = require('mongoose'),
+    MongoStore = require('connect-mongo')(session);
 
 i18n.configure({
     locales: ['en', 'ar'],
@@ -33,14 +34,28 @@ app.use(flash());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.set('trust proxy', 1) // trust first proxy
 
-app.use(cookieSession({
-    name: 'session',
-    keys: new Keygrip(['dKxfdQqlGwIM172lCoOB78kwwulRrV7qSezov38jlkPU6LG2xQyXh2DoFDD8', 'dKxfdQqlGwIM172lCoOB78kwwulRrJKJKJKJKzov38jlkPU6LG2xQyXh2DoFDD8'], 'SHA384', 'base64'),
-    // Cookie Options
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
-}));
+const sess = {
+    key: 'session',
+    secret:  'dKxfdQqlGwIM172lCoOB78kwwulRrV7qSezov38jlkPU6LG2xQyXh2DoFDD8',
+    cookie: {
+        maxAge: 2 * 60 * 60 * 1000 // 2 hours
+    },
+    resave: true,
+    saveInitialized: true,
+    saveUninitialized: true,
+    store: new MongoStore({
+        mongooseConnection: mongoose.connection,
+        stringify: true, // if you want to store object instead of id
+        autoRemove: 'native', // Default
+        autoRemoveInterval: 10 // In minutes. Default
+    })
+};
+if (app.get('env') === 'production') {
+    app.set('trust proxy', 1) // trust first proxy
+    sess.cookie.secure = true // serve secure cookies
+}
+app.use(session(sess));
 
 // This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
 // This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
@@ -48,8 +63,9 @@ app.use((req, res, next) => {
     // Update a value in the cookie so that the set-cookie will be sent.
     // Only changes every minute so that it's not sent with every request.
     req.session.nowInMinutes = Math.floor(Date.now() / 60e3);
-    if (req.cookies.session && !req.session.admin) {
+    if (req.cookies.session && req.session.adminAuthenticated !== true) {
         res.clearCookie('session');
+        delete req.session.admin; 
     }
     next();
 });

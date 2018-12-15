@@ -17,9 +17,10 @@ router.get('/dashboard', adminSession, async (req, res) => {
 
 
 router.get('/logout', adminSession, async (req, res) => {
-    if (req.cookies.session) {
+    if (req.session.adminAuthenticated === true && req.cookies.session) {
+        await req.session.destroy();
         await res.clearCookie('session');
-        return res.redirect('/admin/login');
+        return res.redirect('/admin/login?logout=true');
     } else {
         return res.redirect('/admin/logout');
     }
