@@ -98,7 +98,7 @@
                                             <% if(navigationsMasters.length > 0) {%>
                                                 <% 
                                                 _.forEach(navigationsMasters, function(value, index) {
-                                                    let selected = value._id == navigations.parent_id.toString() ? "selected" : "";
+                                                    let selected = (navigations.parent_id && (value._id == navigations.parent_id.toString())) ? "selected" : "";
                                                 %>
                                                     <option value="<%= value._id %>" <%= selected %> ><%= getLocale() == 'en' ? value.en_name : value.name %></option>
                                                 <% }) %>
