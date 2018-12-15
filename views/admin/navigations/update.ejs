@@ -1,7 +1,210 @@
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <ol class="breadcrumb breadcrumb-bg-teal">
-        <li><a href="javascript:void(0);"><i class="material-icons">home</i> <%= __('home'); %></a></li>
-        <li><a href="/admin/navigations"><i class="material-icons">view_list</i> <%= __('all_navigations'); %></a></li>
-        <li class="active"><i class="material-icons">add_circle</i> <%= __('update_navigation'); %></li>
-    </ol>
+<div class="container-fluid">
+    <div class="block-header">
+        <ol class="breadcrumb breadcrumb-bg-teal">
+            <li><a href="javascript:void(0);"><i class="material-icons">home</i> <%= __('home'); %></a></li>
+            <li><a href="/admin/navigations"><i class="material-icons">view_list</i> <%= __('all_navigations'); %></a></li>
+            <li class="active"><i class="material-icons">add_circle</i> <%= __('update_navigation'); %></li>
+        </ol>
+    </div>
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <% if(error.length > 0) { %>
+                <div class="alert alert-danger">
+                    <%= error %>
+                </div>
+            <% } %>
+            <% if(success.length > 0) { %>
+            <div class="alert alert-success">
+                <%= success %>
+            </div>
+            <% } %>
+            <div class="card">
+                <div class="body">
+                    <div class="row clearfix">
+                        <form class="form-horizontal" id="update_record" method="POST">
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="name"><%= __('name'); %> <span class="required">*</span></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" value="<%= navigations.name %>" id="name" name="name" class="form-control" placeholder="<%= __('name'); %>" required autofocus>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="en_name"><%= __('en_name'); %> <span class="required">*</span></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" value="<%= navigations.en_name %>" id="en_name" name="en_name" class="form-control" placeholder="<%= __('en_name'); %>" required autofocus>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="action_path"><%= __('action_path'); %> <span class="required">*</span></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" value="<%= navigations.action_path %>" id="action_path" name="action_path" class="form-control" placeholder="<%= __('action_path'); %>" required autofocus>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="icon"><%= __('icon'); %></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" value="<%= navigations.icon %>" id="icon" name="icon" class="form-control" placeholder="<%= __('icon'); %>">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="display_order"><%= __('display_order'); %> <span class="required">*</span></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" value="<%= navigations.display_order %>" id="display_order" name="display_order" class="form-control" placeholder="<%= __('display_order'); %>" required autofocus>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="parent_id"><%= __('parent'); %></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <select id="parent_id" name="parent_id"  class="form-control show-tick">
+                                            <option value=""><%= __('no_parent'); %></option>
+                                            <% if(navigationsMasters.length > 0) {%>
+                                                <% 
+                                                _.forEach(navigationsMasters, function(value, index) {
+                                                    let selected = value._id == navigations.parent_id.toString() ? "selected" : "";
+                                                %>
+                                                    <option value="<%= value._id %>" <%= selected %> ><%= getLocale() == 'en' ? value.en_name : value.name %></option>
+                                                <% }) %>
+                                            <% } %>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="show_in_menu"><%= __('show_in_menu'); %></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <%  
+                                            _.forEach(__('action_status_array'), function(value, index) { 
+                                                let selected = index == navigations.show_in_menu ?  'checked="checked"' : '';        
+                                        %>
+                                            <input type="radio" <%= selected %> name="show_in_menu" id="show_in_menu_<%= value %>" class="with-gap radio-col-purple" value="<%= index %>">
+                                            <label for="show_in_menu_<%= value %>"><%= value %></label>
+                                        <% }) %>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="show_in_permission"><%= __('show_in_permission'); %></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <%  
+                                        _.forEach(__('action_status_array'), function(value, index) { 
+                                            let selected = index == navigations.show_in_permission ?  'checked="checked"' : ''; 
+                                        %>
+                                            <input type="radio" <%= selected %> name="show_in_permission" id="show_in_permission_<%= value %>" class="with-gap radio-col-purple" value="<%= index %>">
+                                            <label for="show_in_permission_<%= value %>"><%= value %></label>
+                                        <% }) %>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="child_permission"><%= __('child_permission'); %></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <%  
+                                            _.forEach(__('action_status_array'), function(value, index) { 
+                                                let selected = index == navigations.child_permission ?  'checked="checked"' : ''; 
+                                        %>
+                                            <input type="radio" <%= selected %> name="child_permission" id="child_permission_<%= value %>" class="with-gap radio-col-purple" value="<%= index %>">
+                                            <label for="child_permission_<%= value %>"><%= value %></label>
+                                        <% }) %>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="status"><%= __('status'); %></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <%  
+                                            _.forEach(__('status_array'), function(value, index) { 
+                                                let selected = index == navigations.status ?  'checked="checked"' : ''; 
+                                        %>
+                                            <input type="radio" <%= selected %> name="status" id="status_<%= value %>" class="with-gap radio-col-purple" value="<%= index %>">
+                                            <label for="status_<%= value %>"><%= value %></label>
+                                        <% }) %>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row clearfix">
+                                <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
+                                    <button type="submit" class="btn bg-blue waves-effect">
+                                        <%= __('save_changes'); %>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+<script>
+$(function () {
+    $('#update_record').validate({
+        highlight: function (input) {
+            $(input).parents('.form-line').addClass('error');
+        },
+        unhighlight: function (input) {
+            $(input).parents('.form-line').removeClass('error');
+        },
+        errorPlacement: function (error, element) {
+            $(element).parents('.input-group').append(error);
+            $(element).parents('.form-group').append(error);
+        }
+    });
+});
+</script>

@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
+var dataTables = require('mongoose-datatables');
 
 const tableSchema = new mongoose.Schema({
 	name: {
@@ -52,6 +53,7 @@ const tableSchema = new mongoose.Schema({
 	}
 );
 
+tableSchema.plugin(dataTables);
 const NavigationsMasters = mongoose.model('NavigationsMasters', tableSchema);
 
 function validate(table) {
@@ -59,7 +61,7 @@ function validate(table) {
 		name: Joi.string().max(255).required(),
 		en_name: Joi.string().max(255).required(),
 		icon: Joi.allow('').optional(),
-		parent_id: Joi.objectId().optional(),
+		parent_id: Joi.objectId().allow('').optional(),
 		action_path: Joi.allow('').optional(),
 		status: Joi.any().valid('0', '1').required(),
 		show_in_menu: Joi.any().valid('0', '1').required(),

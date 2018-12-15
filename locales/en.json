@@ -63,5 +63,38 @@
 	"create_navigation": "Create Navigation",
 	"update_navigation": "Update Navigation",
 	"all_navigations": "All Navigations",
-	"logged_out_successfully": "Logged Out Successfully"
+	"logged_out_successfully": "Logged Out Successfully",
+	"save": "Save",
+	"name": "Name",
+	"en_name": "English Name",
+	"action_path": "Action Path",
+	"icon": "Icon",
+	"display_order": "Display Order",
+	"parent": "Parent",
+	"show_in_menu": "Show in menu",
+	"show_in_permission": "Show in permission",
+	"child_permission": "Child permission",
+	"status": "Status",
+	"status_array": [
+		"Inactive",
+		"Active"
+	],
+	"action_status_array": [
+		"No",
+		"Yes"
+	],
+	"navigation_menu_saved_successfully": "Navigation menu saved successfully",
+	"no_parent": "No Parent",
+	"action": "Action",
+	"yes": "Yes",
+	"no": "No",
+	"active": "Active",
+	"inactive": "Inactive",
+	"are_you_sure": "Are you sure",
+	"delete_confirmation": "You will not be able to recover this record",
+	"deletion_confirm_button": "Yes, delete it",
+	"deleted": "Deleted",
+	"deletion_successful": "Your record has been deleted",
+	"save_changes": "Save changes",
+	"navigation_menu_updated_successfully": "Navigation menu updated successfully"
 }

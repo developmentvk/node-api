@@ -1,0 +1,34 @@
+2018-12-15T14:55:16.845Z [192.168.1.102] error : uncaughtException: genres is not defined
+ReferenceError: genres is not defined
+    at module.exports (D:\wamp64\www\node-api\startup\api-routes.js:5:26)
+    at Object.<anonymous> (D:\wamp64\www\node-api\index.js:78:32)
+    at Module._compile (internal/modules/cjs/loader.js:688:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:699:10)
+    at Module.load (internal/modules/cjs/loader.js:598:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:537:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:529:3)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:741:12)
+    at startup (internal/bootstrap/node.js:285:19)
+    at bootstrapNodeJSCore (internal/bootstrap/node.js:739:3)
+2018-12-15T16:16:53.478Z [192.168.1.102] error : uncaughtException: Unexpected reserved word
+D:\wamp64\www\node-api\routes\admin\navigation.js:50
+    const await navigationsMasters = NavigationsMasters.find({parent_id:null});
+          ^^^^^
+
+SyntaxError: Unexpected reserved word
+    at new Script (vm.js:79:7)
+    at createScript (vm.js:251:10)
+    at Object.runInThisContext (vm.js:303:10)
+    at Module._compile (internal/modules/cjs/loader.js:656:28)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:699:10)
+    at Module.load (internal/modules/cjs/loader.js:598:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:537:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:529:3)
+    at Module.require (internal/modules/cjs/loader.js:636:17)
+    at require (internal/modules/cjs/helpers.js:20:18)
+    at Object.<anonymous> (D:\wamp64\www\node-api\startup\admin-routes.js:4:20)
+    at Module._compile (internal/modules/cjs/loader.js:688:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:699:10)
+    at Module.load (internal/modules/cjs/loader.js:598:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:537:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:529:3)

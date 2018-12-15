@@ -1,6 +1,124 @@
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <ol class="breadcrumb breadcrumb-bg-teal">
-        <li><a href="javascript:void(0);"><i class="material-icons">home</i> <%= __('home'); %></a></li>
-        <li class="active"><i class="material-icons">view_list</i> <%= __('all_navigations'); %></li>
-    </ol>
+<div class="container-fluid">
+    <div class="block-header">
+        <ol class="breadcrumb breadcrumb-bg-teal">
+            <li><a href="javascript:void(0);"><i class="material-icons">home</i> <%= __('home'); %></a></li>
+            <li class="active"><i class="material-icons">view_list</i> <%= __('all_navigations'); %></li>
+        </ol>
+    </div>
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2><%= __('all_navigations'); %></h2>
+                    <ul class="header-dropdown m-r--5">
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="/admin/navigations/create">
+                                        <i class="material-icons">add_circle_outline</i> 
+                                        <%= __('create_navigation'); %>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-hover dataTable js-table">
+                            <thead>
+                                <tr>
+                                    <th width="100"><%= __('name') %></th>
+                                    <th width="100"><%= __('en_name') %></th>
+                                    <th width="30"><%= __('icon') %></th>
+                                    <th width="30"><%= __('parent') %></th>
+                                    <th width="100"><%= __('action_path') %></th>
+                                    <th width="80"><%= __('show_in_menu') %></th>
+                                    <th width="100"><%= __('show_in_permission') %></th>
+                                    <th width="90"><%= __('child_permission') %></th>
+                                    <th width="70"><%= __('display_order') %></th>
+                                    <th width="50"><%= __('status') %></th>
+                                    <th width="50"><%= __('action') %></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script>
+let yes = "<%= __('yes') %>";
+let no = "<%= __('no') %>";
+let active = "<%= __('active') %>";
+let inactive = "<%= __('inactive') %>";
+$(function () {
+    $('.js-table').DataTable({
+        dom: 'Bflrtip',
+        responsive: true,
+        ajax: {
+            url: '/admin/navigations/listings',
+            type: 'POST'
+        },
+        // processing: true,
+        serverSide: true,
+        scrollX: true,
+        scrollCollapse: true,
+        fixedColumns: true,
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
+        columns: [
+            {data: 'name'},
+            {data: 'en_name'},
+            {data: 'icon'},
+            {data: 'parent_id', mRender: function(data, type, row) {
+                return row.parent_id ?  yes : no;
+            }},
+            {data: 'action_path'},
+            {data: 'show_in_menu', mRender: function(data, type, row) {
+                return row.show_in_menu ?  yes : no;
+            }},
+            {data: 'show_in_permission', mRender: function(data, type, row) {
+                return row.show_in_permission ?  yes : no;
+            }},
+            {data: 'child_permission', mRender: function(data, type, row) {
+                return row.child_permission ?  yes : no;
+            }},
+            {data: 'display_order'},
+            {data: 'status', mRender: function(data, type, row) {
+                return row.status ?  active : inactive;
+            }},
+            { mRender: function(data, type, row) {
+                let action = `<a href="/admin/navigations/delete/${row._id}" class="delete"><i class="material-icons">delete_forever</i></a>`;
+                    action += `<a href="/admin/navigations/update/${row._id}" class=""><i class="material-icons">edit</i></a>`;
+                return action;
+            }}
+        ]
+    });
+    
+    $('.js-table').on('click', '.delete', function(e) {
+        e.preventDefault();
+        let href = $(this).attr('href');
+        swal({
+            title: "<%= __('are_you_sure') %>?",
+            text: "<%= __('delete_confirmation') %>!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "<%=  __('deletion_confirm_button') %>!",
+            closeOnConfirm: false
+        }, function () {
+            $.post( href, function( data ) {
+                $('.js-table').DataTable().ajax.reload();
+                swal("<%=  __('deleted') %>!", "<%=  __('deletion_successful') %>.", "success");
+            });
+        });
+    })
+});
+</script>
