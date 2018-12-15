@@ -31,6 +31,7 @@
                         <table class="table table-bordered table-striped table-hover dataTable js-table">
                             <thead>
                                 <tr>
+                                    <th width="50"><%= __('action') %></th>
                                     <th width="100"><%= __('name') %></th>
                                     <th width="100"><%= __('en_name') %></th>
                                     <th width="30"><%= __('icon') %></th>
@@ -41,7 +42,6 @@
                                     <th width="90"><%= __('child_permission') %></th>
                                     <th width="70"><%= __('display_order') %></th>
                                     <th width="50"><%= __('status') %></th>
-                                    <th width="50"><%= __('action') %></th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -74,6 +74,11 @@ $(function () {
             'copy', 'csv', 'excel', 'pdf', 'print'
         ],
         columns: [
+            { mRender: function(data, type, row) {
+                let action = `<a href="/admin/navigations/delete/${row._id}" class="delete"><i class="material-icons">delete_forever</i></a>`;
+                    action += `<a href="/admin/navigations/update/${row._id}" class=""><i class="material-icons">edit</i></a>`;
+                return action;
+            }},
             {data: 'name'},
             {data: 'en_name'},
             {data: 'icon'},
@@ -94,11 +99,7 @@ $(function () {
             {data: 'status', mRender: function(data, type, row) {
                 return row.status ?  active : inactive;
             }},
-            { mRender: function(data, type, row) {
-                let action = `<a href="/admin/navigations/delete/${row._id}" class="delete"><i class="material-icons">delete_forever</i></a>`;
-                    action += `<a href="/admin/navigations/update/${row._id}" class=""><i class="material-icons">edit</i></a>`;
-                return action;
-            }}
+            
         ]
     });
     
