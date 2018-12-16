@@ -2,14 +2,14 @@
     <div class="block-header">
         <ol class="breadcrumb breadcrumb-bg-teal">
             <li><a href="javascript:void(0);"><i class="material-icons">home</i> <%= __('home'); %></a></li>
-            <li class="active"><i class="material-icons">view_list</i> <%= __('all_navigations'); %></li>
+            <li class="active"><i class="material-icons">view_list</i> <%= __('all_roles'); %></li>
         </ol>
     </div>
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
                 <div class="header">
-                    <h2><%= __('all_navigations'); %></h2>
+                    <h2><%= __('all_roles'); %></h2>
                     <ul class="header-dropdown m-r--5">
                         <li class="dropdown">
                             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -17,9 +17,9 @@
                             </a>
                             <ul class="dropdown-menu pull-right">
                                 <li>
-                                    <a href="/admin/navigations/create">
+                                    <a href="/admin/roles/create">
                                         <i class="material-icons">add_circle_outline</i> 
-                                        <%= __('create_navigation'); %>
+                                        <%= __('create_role'); %>
                                     </a>
                                 </li>
                             </ul>
@@ -31,17 +31,10 @@
                         <table class="table table-bordered table-striped table-hover dataTable js-table">
                             <thead>
                                 <tr>
-                                    <th width="50"><%= __('action') %></th>
-                                    <th width="100"><%= __('name') %></th>
-                                    <th width="100"><%= __('en_name') %></th>
-                                    <th width="30"><%= __('icon') %></th>
-                                    <th width="30"><%= __('parent') %></th>
-                                    <th width="100"><%= __('action_path') %></th>
-                                    <th width="80"><%= __('show_in_menu') %></th>
-                                    <th width="100"><%= __('show_in_permission') %></th>
-                                    <th width="90"><%= __('child_permission') %></th>
-                                    <th width="70"><%= __('display_order') %></th>
-                                    <th width="50"><%= __('status') %></th>
+                                    <th width="20%"><%= __('action') %></th>
+                                    <th width="40%"><%= __('name') %></th>
+                                    <th width="40%"><%= __('en_name') %></th>
+                                    <th width="10%"><%= __('status') %></th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -58,7 +51,7 @@ $(function () {
         dom: 'Bflrtip',
         responsive: true,
         ajax: {
-            url: '/admin/navigations/listings',
+            url: '/admin/roles/listings',
             type: 'POST'
         },
         // processing: true,
@@ -72,27 +65,12 @@ $(function () {
         ],
         columns: [
             { mRender: function(data, type, row) {
-                let action = `<a href="/admin/navigations/delete/${row._id}" class="delete"><i class="material-icons">delete_forever</i></a>`;
-                    action += `<a href="/admin/navigations/update/${row._id}" class=""><i class="material-icons">edit</i></a>`;
+                let action = `<a href="/admin/roles/delete/${row._id}" class="delete"><i class="material-icons">delete_forever</i></a>`;
+                    action += `<a href="/admin/roles/update/${row._id}" class=""><i class="material-icons">edit</i></a>`;
                 return action;
             }},
             {data: 'name', name: 'name'},
             {data: 'en_name', name: 'en_name'},
-            {data: 'icon', name : 'icon'},
-            {data: 'parent_id', name:'parent_id', mRender: function(data, type, row) {
-                return row.parent_id ?  "<%= __('yes') %>" : "<%= __('no') %>";
-            }},
-            {data: 'action_path', name: 'action_path'},
-            {data: 'show_in_menu', name:'show_in_menu', mRender: function(data, type, row) {
-                return row.show_in_menu ?  "<%= __('yes') %>" : "<%= __('no') %>";
-            }},
-            {data: 'show_in_permission', name:'show_in_permission', mRender: function(data, type, row) {
-                return row.show_in_permission ?  "<%= __('yes') %>" : "<%= __('no') %>";
-            }},
-            {data: 'child_permission', name:'child_permission', mRender: function(data, type, row) {
-                return row.child_permission ?  "<%= __('yes') %>" : "<%= __('no') %>";
-            }},
-            {data: 'display_order',  name: 'display_order'},
             {data: 'status', name:'status', mRender: function(data, type, row) {
                 return row.status ?  "<%= __('active') %>" : "<%= __('inactive') %>";
             }},

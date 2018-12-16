@@ -13,6 +13,16 @@ const tableSchema = new mongoose.Schema({
 		maxlength: 255,
 		default: null
 	},
+	iso_code: {
+		type: String,
+		maxlength: 5,
+		default: null
+	},
+	dial_code: {
+		type: Number,
+		maxlength: 5,
+		default: null
+	},
 	status: {
 		type: Number,
 		default: 1 //0.Inactive, 1.Active
@@ -22,17 +32,19 @@ const tableSchema = new mongoose.Schema({
 	}
 );
 tableSchema.plugin(dataTables);
-const UsersRoles = mongoose.model('UsersRoles', tableSchema);
+const Countries = mongoose.model('Countries', tableSchema);
 
 function validate(table) {
 	const schema = {
 		name: Joi.string().max(255).required(),
 		en_name: Joi.string().max(255).required(),
+		iso_code: Joi.string().max(5).required(),
+		dial_code: Joi.string().max(5).required(),
 		status: Joi.any().valid('0', '1').required(),
 	};
 
 	return Joi.validate(table, schema);
 }
 
-exports.UsersRoles = UsersRoles;
+exports.Countries = Countries;
 exports.validate = validate;

@@ -37,6 +37,44 @@ router.post('/navigations/listings', adminSession, async (req, res) => {
     });
 });
 
+
+router.get('/navigations/create', adminSession, async (req, res) => {
+    let error = req.flash('error');
+    let success = req.flash('success');
+    const navigationsMasters = await NavigationsMasters.find({parent_id:null});
+    res.render('admin/navigations/create', {
+        layout: "admin/include/layout",
+        title: i18n.__('create_navigation'),
+        error: error,
+        success: success,
+        navigationsMasters : navigationsMasters
+    });
+});
+
+router.post('/navigations/create', adminSession, async (req, res) => {
+    const { error } = validate(req.body);
+    if (error) {
+        req.flash('error', error.details[0].message);
+        return res.redirect(`/admin/navigations/create`);
+    }
+    const navigationsMasters = new NavigationsMasters({
+        name: req.body.name,
+        en_name: req.body.en_name,
+        icon: req.body.icon,
+        parent_id: req.body.parent_id ? req.body.parent_id : null,
+        action_path: req.body.action_path,
+        status: req.body.status,
+        show_in_menu: req.body.show_in_menu,
+        show_in_permission: req.body.show_in_permission,
+        child_permission: req.body.child_permission,
+        display_order: req.body.display_order
+    })
+    await navigationsMasters.save();
+    req.flash('success', [i18n.__('navigation_menu_saved_successfully')]);
+    return res.redirect('/admin/navigations/create');
+});
+
+
 router.get('/navigations/update/:id', adminSession, async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
@@ -84,42 +122,6 @@ router.post('/navigations/update/:id', adminSession, async (req, res) => {
 
     req.flash('success', [i18n.__('navigation_menu_updated_successfully')]);
     return res.redirect(`/admin/navigations/update/${req.params.id}`);
-});
-
-router.get('/navigations/create', adminSession, async (req, res) => {
-    let error = req.flash('error');
-    let success = req.flash('success');
-    const navigationsMasters = await NavigationsMasters.find({parent_id:null});
-    res.render('admin/navigations/create', {
-        layout: "admin/include/layout",
-        title: i18n.__('create_navigation'),
-        error: error,
-        success: success,
-        navigationsMasters : navigationsMasters
-    });
-});
-
-router.post('/navigations/create', adminSession, async (req, res) => {
-    const { error } = validate(req.body);
-    if (error) {
-        req.flash('error', error.details[0].message);
-        return res.redirect(`/admin/navigations/create`);
-    }
-    const navigationsMasters = new NavigationsMasters({
-        name: req.body.name,
-        en_name: req.body.en_name,
-        icon: req.body.icon,
-        parent_id: req.body.parent_id ? req.body.parent_id : null,
-        action_path: req.body.action_path,
-        status: req.body.status,
-        show_in_menu: req.body.show_in_menu,
-        show_in_permission: req.body.show_in_permission,
-        child_permission: req.body.child_permission,
-        display_order: req.body.display_order
-    })
-    await navigationsMasters.save();
-    req.flash('success', [i18n.__('navigation_menu_saved_successfully')]);
-    return res.redirect('/admin/navigations/create');
 });
 
 

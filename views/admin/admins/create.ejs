@@ -1,0 +1,114 @@
+<div class="container-fluid">
+    <div class="block-header">
+        <ol class="breadcrumb breadcrumb-bg-teal">
+            <li><a href="javascript:void(0);"><i class="material-icons">home</i> <%= __('home'); %></a></li>
+            <li><a href="/admin/admins"><i class="material-icons">view_list</i> <%= __('all_admins'); %></a></li>
+            <li class="active"><i class="material-icons">add_circle_outline</i> <%= __('create_admin'); %></li>
+        </ol>
+    </div>
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <% if(error.length > 0) { %>
+                <div class="alert alert-danger">
+                    <%= error %>
+                </div>
+            <% } %>
+            <% if(success.length > 0) { %>
+            <div class="alert alert-success">
+                <%= success %>
+            </div>
+            <% } %>
+            <div class="card">
+                <div class="body">
+                    <div class="row clearfix">
+                        <form class="form-horizontal" id="new_record" method="POST">
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="name"><%= __('name'); %> <span class="required">*</span></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="name" name="name" class="form-control" placeholder="<%= __('name'); %>" required autofocus>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="email"><%= __('email'); %> <span class="required">*</span></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="email" name="email" class="form-control" placeholder="<%= __('email'); %>" required autofocus>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="role_id"><%= __('account_access'); %></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <select id="role_id" name="role_id"  class="form-control show-tick">
+                                            <option value=""><%= __('select_role'); %></option>
+                                            <% if(usersRoles.length > 0) {%>
+                                                <% _.forEach(usersRoles, function(value, index) {%>
+                                                    <option value="<%= value._id %>"><%= getLocale() == 'en' ? value.en_name : value.name %></option>
+                                                <% }) %>
+                                            <% } %>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="status"><%= __('status'); %></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <%  _.forEach(__('account_status_array'), function(value, index) { %>
+                                            <input type="radio" <%= index == 1 ? 'checked="checked"' : ''; %> name="status" id="status_<%= value %>" class="with-gap radio-col-purple" value="<%= index %>">
+                                            <label for="status_<%= value %>"><%= value %></label>
+                                        <% }) %>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row clearfix">
+                                <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
+                                    <button type="submit" class="btn bg-blue waves-effect">
+                                        <%= __('save'); %>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+$(function () {
+    $('#new_record').validate({
+        highlight: function (input) {
+            $(input).account_accesss('.form-line').addClass('error');
+        },
+        unhighlight: function (input) {
+            $(input).account_accesss('.form-line').removeClass('error');
+        },
+        errorPlacement: function (error, element) {
+            $(element).account_accesss('.input-group').append(error);
+            $(element).account_accesss('.form-group').append(error);
+        }
+    });
+});
+</script>

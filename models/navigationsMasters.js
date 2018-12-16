@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
-var dataTables = require('mongoose-datatables');
+const dataTables = require('mongoose-datatables');
 
 const tableSchema = new mongoose.Schema({
 	name: {

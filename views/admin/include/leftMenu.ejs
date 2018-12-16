@@ -9,6 +9,17 @@
         </li>
         <li>
             <a href="javascript:void(0);" class="menu-toggle">
+                <i class="material-icons">view_list</i>
+                <span><%= __('manage_admins'); %></span>
+            </a>
+            <ul class="ml-menu">
+                <li>
+                    <a href="/admin/admins"><%= __('manage_admins'); %></a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle">
                 <i class="material-icons">error</i>
                 <span><%= __('application_logs'); %></span>
             </a>
@@ -29,6 +40,29 @@
             <ul class="ml-menu">
                 <li>
                     <a href="/admin/navigations"><%= __('manage_navigations'); %></a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle">
+                <i class="material-icons">view_list</i>
+                <span><%= __('manage_roles'); %></span>
+            </a>
+            <ul class="ml-menu">
+                <li>
+                    <a href="/admin/roles"><%= __('manage_roles'); %></a>
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle">
+                <i class="material-icons">view_list</i>
+                <span><%= __('manage_country'); %></span>
+            </a>
+            <ul class="ml-menu">
+                <li>
+                    <a href="/admin/countries"><%= __('manage_country'); %></a>
                 </li>
             </ul>
         </li>

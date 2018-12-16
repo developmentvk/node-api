@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
+const dataTables = require('mongoose-datatables');
 
 const tableSchema = new mongoose.Schema({
 	image: {
@@ -27,6 +28,16 @@ const tableSchema = new mongoose.Schema({
 		default: null,
 		unique: true
 	},
+	dial_code: {
+		type: Number,
+		default: null,
+		maxlength: 5
+	},
+	mobile: {
+		type: Number,
+		default: null,
+		maxlength: 15
+	},
 	password: {
 		type: String,
 		required: true,
@@ -39,9 +50,30 @@ const tableSchema = new mongoose.Schema({
 		default: null,
 		maxlength: 1024
 	},
+	status: {
+		type: Number,
+		default: 1,
+		maxlength: 10// 0. "Inactive", 1. "Active", 2. "Blocked", 4. "Offline"
+	},
+}, {
+	timestamps: true
 });
 
+tableSchema.plugin(dataTables);
 const Admin = mongoose.model('Admin', tableSchema);
+
+function validate(user) {
+	const schema = {
+		image: Joi.string().min(5).max(255).required(),
+		role_id: Joi.string().min(5).max(255).required(),
+		name: Joi.string().min(5).max(255).required(),
+		email: Joi.string().min(5).max(255).required().email(),
+		password: Joi.string().min(5).max(255).required(),
+		status: Joi.string().min(5).max(255).required()
+	};
+
+	return Joi.validate(user, schema);
+}
 
 function validateLogin(user) {
 	const schema = {
@@ -71,6 +103,7 @@ function validateUpdatePassword(user) {
 }
 
 exports.Admin = Admin;
+exports.validate = validate;
 exports.validateLogin = validateLogin;
 exports.validateForgotPassword = validateForgotPassword;
 exports.validateUpdatePassword = validateUpdatePassword;
