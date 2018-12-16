@@ -3,6 +3,7 @@ const adminSession = require('../../middleware/adminSession');
 const i18n = require("i18n");
 const { NavigationsMasters, validate } = require('../../models/navigationsMasters');
 const { successMessage, errorMessage } = require('../../helpers/SocketHelper');
+const _ = require('lodash');
 const router = express.Router();
 
 router.get('/navigations', adminSession, async (req, res) => {
@@ -22,7 +23,11 @@ router.post('/navigations/listings', adminSession, async (req, res) => {
         limit: req.body.length,
         skip: req.body.start,
         order: req.body.order,
-        columns: req.body.columns
+        columns: req.body.columns,
+        search: {
+            value: req.body.search.value,
+            fields: ['name', 'en_name', 'action_path']
+        },
     }).then(function (table) {
         res.json({
             data: table.data,

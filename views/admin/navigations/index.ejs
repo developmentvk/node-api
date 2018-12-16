@@ -70,6 +70,7 @@ $(function () {
         scrollX: true,
         scrollCollapse: true,
         fixedColumns: true,
+        searchable : true,
         buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
         ],
@@ -79,24 +80,24 @@ $(function () {
                     action += `<a href="/admin/navigations/update/${row._id}" class=""><i class="material-icons">edit</i></a>`;
                 return action;
             }},
-            {data: 'name'},
-            {data: 'en_name'},
-            {data: 'icon'},
-            {data: 'parent_id', mRender: function(data, type, row) {
+            {data: 'name', name: 'name'},
+            {data: 'en_name', name: 'en_name'},
+            {data: 'icon', name : 'icon'},
+            {data: 'parent_id', name:'parent_id', mRender: function(data, type, row) {
                 return row.parent_id ?  yes : no;
             }},
-            {data: 'action_path'},
-            {data: 'show_in_menu', mRender: function(data, type, row) {
+            {data: 'action_path', name: 'action_path'},
+            {data: 'show_in_menu', name:'show_in_menu', mRender: function(data, type, row) {
                 return row.show_in_menu ?  yes : no;
             }},
-            {data: 'show_in_permission', mRender: function(data, type, row) {
+            {data: 'show_in_permission', name:'show_in_permission', mRender: function(data, type, row) {
                 return row.show_in_permission ?  yes : no;
             }},
-            {data: 'child_permission', mRender: function(data, type, row) {
+            {data: 'child_permission', name:'child_permission', mRender: function(data, type, row) {
                 return row.child_permission ?  yes : no;
             }},
-            {data: 'display_order'},
-            {data: 'status', mRender: function(data, type, row) {
+            {data: 'display_order',  name: 'display_order'},
+            {data: 'status', name:'status', mRender: function(data, type, row) {
                 return row.status ?  active : inactive;
             }},
             
