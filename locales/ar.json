@@ -118,5 +118,19 @@
 		"Active",
 		"Blocked",
 		"Offline"
-	]
+	],
+	"manage_country": "Manage Country",
+	"countries": "Countries",
+	"all_countries": "All Countries",
+	"create_country": "Create Country",
+	"iso_code": "ISO Code",
+	"dial_code": "Dial Code",
+	"country_saved_successfully": "Country saved successfully",
+	"update_country": "Update Country",
+	"country_updated_successfully": "Country updated successfully",
+	"mobile": "Mobile",
+	"select_dial_code": "Select Dial Code",
+	"request_failed": "Request failed",
+	"admin_account_updated_successfully": "Admin account updated successfully",
+	"admin_account_created_successfully": "Admin account created successfully"
 }

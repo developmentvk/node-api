@@ -130,6 +130,7 @@
 	"country_updated_successfully": "Country updated successfully",
 	"mobile": "Mobile",
 	"select_dial_code": "Select Dial Code",
-	"admin_saved_successfully": "admin_saved_successfully",
-	"request_failed": "request_failed"
+	"request_failed": "Request failed",
+	"admin_account_updated_successfully": "Admin account updated successfully",
+	"admin_account_created_successfully": "Admin account created successfully"
 }

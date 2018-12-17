@@ -29,12 +29,12 @@ const tableSchema = new mongoose.Schema({
 		unique: true
 	},
 	dial_code: {
-		type: Number,
+		type: String,
 		default: null,
 		maxlength: 5
 	},
 	mobile: {
-		type: Number,
+		type: String,
 		default: null,
 		maxlength: 15
 	},
@@ -77,6 +77,19 @@ function validate(user) {
 	return Joi.validate(user, schema);
 }
 
+function validateUpdate(user) {
+	const schema = {
+		name: Joi.string().min(5).max(255).required(),
+		email: Joi.string().min(5).max(255).required().email(),
+		dial_code: Joi.number().min(0).allow('').optional(),
+		mobile: Joi.number().min(0).allow('').optional(),
+		role_id: Joi.objectId().required(),
+		status: Joi.any().valid('0', '1', '2', '3').required()
+	};
+
+	return Joi.validate(user, schema);
+}
+
 function validateLogin(user) {
 	const schema = {
 		username: Joi.string().min(5).max(255).required().email(),
@@ -106,6 +119,7 @@ function validateUpdatePassword(user) {
 
 exports.Admin = Admin;
 exports.validate = validate;
+exports.validateUpdate = validateUpdate;
 exports.validateLogin = validateLogin;
 exports.validateForgotPassword = validateForgotPassword;
 exports.validateUpdatePassword = validateUpdatePassword;

@@ -32,10 +32,11 @@
                             <thead>
                                 <tr>
                                     <th width="50"><%= __('action') %></th>
-                                    <th width="30"><%= __('image') %></th>
+                                    <th width="100"><%= __('image') %></th>
                                     <th width="100"><%= __('name') %></th>
                                     <th width="100"><%= __('email') %></th>
-                                    <th width="30"><%= __('account_access') %></th>
+                                    <th width="100"><%= __('mobile') %></th>
+                                    <th width="100"><%= __('account_access') %></th>
                                     <th width="50"><%= __('status') %></th>
                                 </tr>
                             </thead>
@@ -74,7 +75,13 @@ $(function () {
             {data: 'image', name: 'image'},
             {data: 'name', name: 'name'},
             {data: 'email', name : 'email'},
-            {data: 'role_id', name : 'role_id'},
+            {data: 'mobile', name : 'mobile', mRender: function(data, type, row) {
+                return row.mobile ?  `${row.dial_code}${row.mobile}` : '--';
+            }},
+            {data: 'role_id', name : 'role_id', mRender : function(data, type, row) {
+                let locale = "<%= getLocale() %>";
+                return row.role_id ? (locale == 'en' ? row.role_id.en_name : row.role_id.name) : '';
+            }},
             {data: 'status', name:'status', mRender: function(data, type, row) {
                 return row.status ?  "<%= __('active') %>" : "<%= __('inactive') %>";
             }},

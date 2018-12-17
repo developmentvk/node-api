@@ -1,7 +1,7 @@
 const express = require('express');
 const adminSession = require('../../middleware/adminSession');
 const i18n = require("i18n");
-const { Admin, validate } = require('../../models/admin');
+const { Admin, validate, validateUpdate } = require('../../models/admin');
 const { UsersRoles } = require('../../models/usersRoles');
 const { Countries } = require('../../models/countries');
 const { successMessage, errorMessage, uploadFile } = require('../../helpers/SocketHelper');
@@ -31,8 +31,15 @@ router.post('/admins/listings', adminSession, async (req, res) => {
         columns: req.body.columns,
         search: {
             value: req.body.search.value,
-            fields: ['name', 'email']
+            fields: ['name', 'email', 'mobile']
         },
+        populate: ({
+            path: 'role_id',
+            select: ['name', 'en_name']
+        }),
+        formatter: function(modifiedRecords) {
+            return modifiedRecords;
+        }
     }).then(function (table) {
         res.json({
             data: table.data,
@@ -66,8 +73,11 @@ router.post('/admins/create', adminSession, async (req, res) => {
         res.redirect(`/admin/admins/create`);
     }
 
-    let user = await Admin.findOne({ email: req.body.email });
-    if (user) return errorMessage(res, 'user_already_registered');
+    let admin = await Admin.findOne({ email: req.body.email });
+    if (admin) {
+        req.flash('error', [i18n.__('admin_account_already_registered')]);
+        res.redirect(`/admin/admins/create`);
+    }
 
     admin = new Admin(_.pick(req.body, ['name', 'email', 'dial_code', 'mobile', 'role_id', 'password', 'status']));
     const salt = await bcrypt.genSalt(10);
@@ -79,7 +89,7 @@ router.post('/admins/create', adminSession, async (req, res) => {
     //     console.log(message);
     // });
 
-    req.flash('success', [i18n.__('admin_saved_successfully')]);
+    req.flash('success', [i18n.__('admin_account_created_successfully')]);
     return res.redirect('/admin/admins/create');
 });
 
@@ -96,6 +106,7 @@ router.get('/admins/update/:id', adminSession, async (req, res) => {
     }
 
     const usersRoles = await UsersRoles.find();
+    const countries = await Countries.find();
 
     res.render('admin/admins/update', {
         layout: "admin/include/layout",
@@ -103,26 +114,36 @@ router.get('/admins/update/:id', adminSession, async (req, res) => {
         error: error,
         success: success,
         admins: admins,
-        usersRoles: usersRoles
+        usersRoles: usersRoles,
+        countries: countries
     });
 });
 
 router.post('/admins/update/:id', adminSession, async (req, res) => {
-    const { error } = validate(req.body);
+    const { error } = validateUpdate(req.body);
     if (error) {
         req.flash('error', error.details[0].message);
         res.redirect(`/admin/admins/update/${req.params.id}`);
+    }
+    let admin = await Admin.findOne({ 
+        _id : { $ne : req.params.id },
+        email: req.body.email 
+    });
+    if (admin) {
+        req.flash('error', [i18n.__('admin_account_already_registered')]);
+        res.redirect(`/admin/admins/create`);
     }
 
     await Admin.findByIdAndUpdate(req.params.id, {
         name: req.body.name,
         email: req.body.email,
+        dial_code: req.body.dial_code,
+        mobile: req.body.mobile,
         role_id: req.body.role_id,
-        password: req.body.password,
         status: req.body.status
     }, { new: true });
 
-    req.flash('success', [i18n.__('admin_updated_successfully')]);
+    req.flash('success', [i18n.__('admin_account_updated_successfully')]);
     return res.redirect(`/admin/admins/update/${req.params.id}`);
 });
 
