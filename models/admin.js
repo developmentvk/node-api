@@ -1,6 +1,4 @@
 const Joi = require('joi');
-const ImageExtension = require('joi-image-extension')
-const BaseJoi = Joi.extend(ImageExtension)
 const mongoose = require('mongoose');
 const dataTables = require('mongoose-datatables');
 
@@ -73,7 +71,6 @@ function validate(user) {
 		role_id: Joi.objectId().required(),
 		password: Joi.string().min(5).max(255).required(),
 		confirm: Joi.string().valid(Joi.ref('password')).required().options({ language: { any: { allowOnly: 'must match password' } } }),
-		image: BaseJoi.image().optional(),
 		status: Joi.any().valid('0', '1', '2', '3').required()
 	};
 
