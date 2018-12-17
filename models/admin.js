@@ -62,7 +62,7 @@ const tableSchema = new mongoose.Schema({
 });
 
 tableSchema.plugin(dataTables);
-const Admin = mongoose.model('Admin', tableSchema);
+const Admin = mongoose.model('Admins', tableSchema);
 
 function validate(user) {
 	const schema = {
