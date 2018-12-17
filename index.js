@@ -85,7 +85,7 @@ require('./startup/prod')(app);
 
 //The 404 Route (ALWAYS Keep this as the last route)
 app.all('*', function (req, res) {
-    res.render('404', { "header": false, "layout": "layout" });
+    res.render('404', { header : false, layout: "layout", title : i18n.__('404_page') });
 });
 
 if (app.get('env') === 'development') {

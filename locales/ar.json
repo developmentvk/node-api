@@ -132,5 +132,6 @@
 	"select_dial_code": "Select Dial Code",
 	"request_failed": "Request failed",
 	"admin_account_updated_successfully": "Admin account updated successfully",
-	"admin_account_created_successfully": "Admin account created successfully"
+	"admin_account_created_successfully": "Admin account created successfully",
+	"404_page": "404 Page"
 }
