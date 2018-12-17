@@ -37,7 +37,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const sess = {
     key: 'session',
-    secret:  'dKxfdQqlGwIM172lCoOB78kwwulRrV7qSezov38jlkPU6LG2xQyXh2DoFDD8',
+    secret: 'dKxfdQqlGwIM172lCoOB78kwwulRrV7qSezov38jlkPU6LG2xQyXh2DoFDD8',
     cookie: {
         maxAge: 2 * 60 * 60 * 1000 // 2 hours
     },
@@ -65,7 +65,7 @@ app.use((req, res, next) => {
     req.session.nowInMinutes = Math.floor(Date.now() / 60e3);
     if (req.cookies.session && req.session.adminAuthenticated !== true) {
         res.clearCookie('session');
-        delete req.session.admin; 
+        delete req.session.admin;
     }
     next();
 });

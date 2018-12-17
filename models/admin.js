@@ -1,4 +1,6 @@
 const Joi = require('joi');
+const ImageExtension = require('joi-image-extension')
+const BaseJoi = Joi.extend(ImageExtension)
 const mongoose = require('mongoose');
 const dataTables = require('mongoose-datatables');
 
@@ -64,12 +66,15 @@ const Admin = mongoose.model('Admin', tableSchema);
 
 function validate(user) {
 	const schema = {
-		image: Joi.string().min(5).max(255).required(),
-		role_id: Joi.string().min(5).max(255).required(),
 		name: Joi.string().min(5).max(255).required(),
 		email: Joi.string().min(5).max(255).required().email(),
+		dial_code: Joi.number().min(0).max(4).allow('').optional(),
+		mobile: Joi.number().min(0).max(4).allow('').optional(),
+		role_id: Joi.objectId().required(),
 		password: Joi.string().min(5).max(255).required(),
-		status: Joi.string().min(5).max(255).required()
+		confirm: Joi.string().valid(Joi.ref('password')).required().options({ language: { any: { allowOnly: 'must match password' } } }),
+		image: BaseJoi.image().optional(),
+		status: Joi.any().valid('0', '1', '2', '3').required()
 	};
 
 	return Joi.validate(user, schema);

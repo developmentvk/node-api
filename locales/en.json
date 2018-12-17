@@ -127,5 +127,9 @@
 	"dial_code": "Dial Code",
 	"country_saved_successfully": "Country saved successfully",
 	"update_country": "Update Country",
-	"country_updated_successfully": "Country updated successfully"
+	"country_updated_successfully": "Country updated successfully",
+	"mobile": "Mobile",
+	"select_dial_code": "Select Dial Code",
+	"admin_saved_successfully": "admin_saved_successfully",
+	"request_failed": "request_failed"
 }

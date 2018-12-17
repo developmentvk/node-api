@@ -105,15 +105,23 @@
 <script>
 $(function () {
     $('#update_record').validate({
+        rules: {
+            'terms': {
+                required: true
+            },
+            'confirm': {
+                equalTo: '[name="password"]'
+            }
+        },
         highlight: function (input) {
-            $(input).roles('.form-line').addClass('error');
+            $(input).parents('.form-line').addClass('error');
         },
         unhighlight: function (input) {
-            $(input).roles('.form-line').removeClass('error');
+            $(input).parents('.form-line').removeClass('error');
         },
         errorPlacement: function (error, element) {
-            $(element).roles('.input-group').append(error);
-            $(element).roles('.form-group').append(error);
+            $(element).parents('.input-group').append(error);
+            $(element).parents('.form-group').append(error);
         }
     });
 });

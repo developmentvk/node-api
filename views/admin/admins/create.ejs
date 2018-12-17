@@ -42,7 +42,7 @@
                                 <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" id="email" name="email" class="form-control" placeholder="<%= __('email'); %>" required autofocus>
+                                            <input type="email" id="email" name="email" class="form-control" placeholder="<%= __('email'); %>" required autofocus email>
                                         </div>
                                     </div>
                                 </div>
@@ -50,11 +50,36 @@
 
                             <div class="row clearfix">
                                 <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                    <label for="role_id"><%= __('account_access'); %></label>
+                                    <label for="dial_code"><%= __('mobile'); %></label>
                                 </div>
                                 <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                     <div class="form-group">
-                                        <select id="role_id" name="role_id"  class="form-control show-tick">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                            <select id="dial_code" name="dial_code"  class="form-control show-tick">
+                                                <option value=""><%= __('select_dial_code'); %></option>
+                                                <% if(countries.length > 0) {%>
+                                                    <% _.forEach(countries, function(value, index) {%>
+                                                        <option value="<%= value.dial_code %>">+<%= value.dial_code %> - <%= getLocale() == 'en' ? value.en_name : value.name %></option>
+                                                    <% }) %>
+                                                <% } %>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                            <div class="form-line">
+                                                <input type="text" id="mobile" name="mobile" class="form-control" placeholder="<%= __('mobile'); %>" autofocus>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="role_id"><%= __('account_access'); %><span class="required">*</span></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <select id="role_id" name="role_id"  class="form-control show-tick" autofocus required>
                                             <option value=""><%= __('select_role'); %></option>
                                             <% if(usersRoles.length > 0) {%>
                                                 <% _.forEach(usersRoles, function(value, index) {%>
@@ -62,6 +87,45 @@
                                                 <% }) %>
                                             <% } %>
                                         </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="password"><%= __('password'); %> <span class="required">*</span></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="password" id="password" name="password" class="form-control" placeholder="<%= __('password'); %>" required autofocus>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="confirm"><%= __('confirm_password'); %> <span class="required">*</span></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="password" id="confirm" name="confirm" class="form-control" placeholder="<%= __('confirm_password'); %>" required autofocus>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="image"><%= __('image'); %> </label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="file" id="image" name="image" class="form-control" placeholder="<%= __('image'); %>">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -99,15 +163,23 @@
 <script>
 $(function () {
     $('#new_record').validate({
+        rules: {
+            'terms': {
+                required: true
+            },
+            'confirm': {
+                equalTo: '[name="password"]'
+            }
+        },
         highlight: function (input) {
-            $(input).account_accesss('.form-line').addClass('error');
+            $(input).parents('.form-line').addClass('error');
         },
         unhighlight: function (input) {
-            $(input).account_accesss('.form-line').removeClass('error');
+            $(input).parents('.form-line').removeClass('error');
         },
         errorPlacement: function (error, element) {
-            $(element).account_accesss('.input-group').append(error);
-            $(element).account_accesss('.form-group').append(error);
+            $(element).parents('.input-group').append(error);
+            $(element).parents('.form-group').append(error);
         }
     });
 });

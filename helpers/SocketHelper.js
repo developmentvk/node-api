@@ -3,6 +3,9 @@ const i18n = require("i18n");
 const nodemailer = require('nodemailer');
 const config = require('config');
 const ejs = require('ejs');
+const multer = require('multer');
+const crypto = require('crypto');
+const path = require("path");
 
 function successMessage(res, template = '', httpCode = 200, dataArr = null) {
     let output = new Object();
@@ -62,6 +65,39 @@ function sendEmail(to, template, data, subject) {
     });
 }
 
+function uploadFile(req, res, fileName, fileLocation, callback) {
+    let uploadedFilename = '';
+    let upload = multer({
+        storage: multer.diskStorage({
+            destination: (req, file, cb) => {
+                cb(null, path.join(__dirname, `../public/uploads/${fileLocation}/`))
+            },
+            filename: (req, file, cb) => {
+                let customFileName = crypto.randomBytes(18).toString('hex'),
+                    fileExtension = file.originalname.split('.')[1] // get file extension from original file name
+                uploadedFilename = customFileName + '.' + fileExtension;
+                cb(null, uploadedFilename);
+            }
+        })
+    }).single(fileName);
+    upload(req, res, function (err) {
+        if (err instanceof multer.MulterError) {
+            winston.error("A Multer error occurred when uploading.");
+            callback(err, null);
+            return;
+        } else if (err) {
+            winston.error("An unknown error occurred when uploading.");
+            callback(err, null);
+            return;
+        }
+        winston.info(res);
+        callback(null, uploadedFilename);
+        return;
+    });
+
+}
+
 exports.successMessage = successMessage;
 exports.errorMessage = errorMessage;
 exports.sendEmail = sendEmail;
+exports.uploadFile = uploadFile;
