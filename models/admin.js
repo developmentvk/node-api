@@ -66,8 +66,8 @@ function validate(user) {
 	const schema = {
 		name: Joi.string().min(5).max(255).required(),
 		email: Joi.string().min(5).max(255).required().email(),
-		dial_code: Joi.number().min(0).max(4).allow('').optional(),
-		mobile: Joi.number().min(0).max(4).allow('').optional(),
+		dial_code: Joi.number().min(0).allow('').optional(),
+		mobile: Joi.number().min(0).allow('').optional(),
 		role_id: Joi.objectId().required(),
 		password: Joi.string().min(5).max(255).required(),
 		confirm: Joi.string().valid(Joi.ref('password')).required().options({ language: { any: { allowOnly: 'must match password' } } }),
