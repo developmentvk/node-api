@@ -9,6 +9,7 @@ const TokenGenerator = require('uuid-token-generator');
 const bcrypt = require('bcrypt');
 const { sendEmail } = require('../../helpers/SocketHelper');
 const browser = require('browser-detect');
+const _ = require('lodash');
 const router = express.Router();
 
 router.get('/login', adminAuth, async (req, res) => {
@@ -38,20 +39,25 @@ router.post('/login', async (req, res) => {
         req.flash('error', [i18n.__('invalid_combination')]);
         return res.redirect('/admin/login');
     }
-
     const validPassword = await bcrypt.compare(req.body.password, admin.password);
     if (!validPassword) {
         req.flash('error', [i18n.__('invalid_combination')]);
         return res.redirect('/admin/login');
     }
-    let AdminLoginLogsExists = await AdminLoginLogs.findOne({ 
+
+    let adminLoginLogsExists = await AdminLoginLogs.findOne({ 
         admin_id: admin._id,
         isActive : true
     });
-    if(AdminLoginLogsExists)
+    if(adminLoginLogsExists)
     {
-        await Sessions.remove({"session.admin.login_id" : AdminLoginLogsExists._id});
+        await Sessions.remove({"session.admin.login_id" : adminLoginLogsExists._id});
+        await AdminLoginLogs.findByIdAndUpdate(adminLoginLogsExists._id, { 
+            logout_at: new Date(),
+            isActive: false  
+        }, { new: true });
     }
+
     const adminLoginLogs = await new AdminLoginLogs({ 
         admin_id: admin._id,
         browser : JSON.stringify(browser(req.headers['user-agent'])),
