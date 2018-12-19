@@ -41,14 +41,17 @@ const sess = {
     cookie: {
         maxAge: 2 * 60 * 60 * 1000 // 2 hours
     },
-    resave: true,
-    saveInitialized: true,
-    saveUninitialized: true,
+    resave: false, //don't save session if unmodified
+    // saveInitialized: true,
+    saveUninitialized: false, // don't create session until something stored
     store: new MongoStore({
         mongooseConnection: mongoose.connection,
-        stringify: true, // if you want to store object instead of id
-        autoRemove: 'native', // Default
-        autoRemoveInterval: 10 // In minutes. Default
+        stringify: false, // if you want to store object instead of id
+        autoRemove: 'interval', // Default native/interval
+        autoRemoveInterval: 10, // In minutes. Default
+        touchAfter: 24 * 3600 // time period in seconds means session be updated only one time in a period of 24 hours
+    }, function () {
+        winston.info("db session connection open");
     })
 };
 if (app.get('env') === 'production') {

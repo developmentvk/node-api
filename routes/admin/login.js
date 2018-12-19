@@ -1,11 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const adminAuth = require('../../middleware/adminAuth');
+const { AdminLoginLogs } = require('../../models/adminLoginLogs');
+const { Sessions } = require('../../models/sessions');
 const { Admin, validateLogin, validateForgotPassword, validateUpdatePassword } = require('../../models/admin');
 const i18n = require("i18n");
 const TokenGenerator = require('uuid-token-generator');
 const bcrypt = require('bcrypt');
 const { sendEmail } = require('../../helpers/SocketHelper');
+const browser = require('browser-detect');
 const router = express.Router();
 
 router.get('/login', adminAuth, async (req, res) => {
@@ -41,6 +44,22 @@ router.post('/login', async (req, res) => {
         req.flash('error', [i18n.__('invalid_combination')]);
         return res.redirect('/admin/login');
     }
+    let AdminLoginLogsExists = await AdminLoginLogs.findOne({ 
+        admin_id: admin._id,
+        isActive : true
+    });
+    if(AdminLoginLogsExists)
+    {
+        await Sessions.remove({"session.admin.login_id" : AdminLoginLogsExists._id});
+    }
+    const adminLoginLogs = await new AdminLoginLogs({ 
+        admin_id: admin._id,
+        browser : JSON.stringify(browser(req.headers['user-agent'])),
+        session_id : req.sessionID
+     }).save();
+
+    admin = JSON.parse(JSON.stringify(admin));
+    admin.login_id = adminLoginLogs._id;
 
     req.session.adminAuthenticated = true;
     req.session.admin = admin;
