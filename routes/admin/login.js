@@ -17,6 +17,12 @@ router.get('/login', adminAuth, async (req, res) => {
         req.flash('success', [i18n.__('logged_out_successfully')]);
         return res.redirect('/admin/login');
     }
+
+    if(req.query.logout === 'duplicate') {
+        req.flash('success', [i18n.__('logged_out_duplicate_session_successfully')]);
+        return res.redirect('/admin/login');
+    }
+
     let error = req.flash('error');
     let success = req.flash('success');
     res.render('admin/login', {
@@ -56,6 +62,10 @@ router.post('/login', async (req, res) => {
             logout_at: new Date(),
             isActive: false  
         }, { new: true });
+
+        req.app.io.emit("duplicateSessionExist", {
+            'admin_id' : admin._id
+        });
     }
 
     const adminLoginLogs = await new AdminLoginLogs({ 

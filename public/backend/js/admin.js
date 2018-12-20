@@ -2,6 +2,28 @@ if (typeof jQuery === "undefined") {
     throw new Error("jQuery plugins need to be before this file");
 }
 
+// console.log("Output;");  
+// console.log(location.hostname);
+// console.log(document.domain);
+// console.log("document.URL : "+document.URL);
+// console.log("document.location.href : "+document.location.href);
+// console.log("document.location.origin : "+document.location.origin);
+// console.log("document.location.hostname : "+document.location.hostname);
+// console.log("document.location.host : "+document.location.host);
+// console.log("document.location.pathname : "+document.location.pathname);
+
+let socket = io();
+socket.on('connect', function () {
+    console.log(`Connection Established with socket : ${session_id}`);
+    socket.on('duplicateSessionExist', function (data) {
+        if(data.admin_id == session_id)
+        {
+
+            window.location.replace(`${site_url}/admin/login?logout=duplicate`);
+        }
+    });
+});
+
 $.AdminBSB = {};
 $.AdminBSB.options = {
     colors: {

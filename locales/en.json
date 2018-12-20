@@ -133,5 +133,6 @@
 	"request_failed": "Request failed",
 	"admin_account_updated_successfully": "Admin account updated successfully",
 	"admin_account_created_successfully": "Admin account created successfully",
-	"404_page": "404 Page"
+	"404_page": "404 Page",
+	"logged_out_duplicate_session_successfully": "Logged Out Successfully, due to someone loggedin with same account."
 }

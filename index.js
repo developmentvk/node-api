@@ -76,6 +76,8 @@ app.use((req, res, next) => {
 const port = process.env.PORT || 3000;
 const appServer = http.createServer(app);
 const io = socketIO(appServer);
+app.locals._ = _;
+app.io = io;
 
 require('./startup/logging')();
 require('./startup/api-routes')(app);
@@ -97,7 +99,6 @@ if (app.get('env') === 'development') {
     winston.info("Morgan enabled...");
 }
 
-app.locals._ = _;
 const server = appServer.listen(port, () => winston.info(`Listening on port ${port}...`));
 
 module.exports = server;

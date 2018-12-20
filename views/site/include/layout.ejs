@@ -24,6 +24,15 @@
     <meta property="og:image" content="site/img/og-img.jpg">
     <meta property="og:url" content="">
     <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Scripts -->
+    <script src="site/js/core.min.js"></script>
+    <script src="site/js/thesaas.min.js"></script>
+    <script src="site/js/script.js"></script>
+    <script src="/js/socket.io.js"></script>
+    <script>
+        let session_id = '';
+    </script>
 </head>
 
 <body class="<%= getLocale(); %>">
@@ -47,11 +56,7 @@
     <%- include('footer'); %>
     <!-- END Footer -->
 
-    <!-- Scripts -->
-    <script src="site/js/core.min.js"></script>
-    <script src="site/js/thesaas.min.js"></script>
-    <script src="site/js/script.js"></script>
-
+    
 </body>
 
 </html>
