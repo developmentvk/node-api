@@ -31,13 +31,13 @@
                         <table class="table table-bordered table-striped table-hover dataTable js-table">
                             <thead>
                                 <tr>
-                                    <th width="50"><%= __('action') %></th>
-                                    <th width="100"><%= __('image') %></th>
-                                    <th width="100"><%= __('name') %></th>
-                                    <th width="100"><%= __('email') %></th>
-                                    <th width="100"><%= __('mobile') %></th>
-                                    <th width="100"><%= __('account_access') %></th>
-                                    <th width="50"><%= __('status') %></th>
+                                    <th><%= __('action') %></th>
+                                    <th><%= __('image') %></th>
+                                    <th><%= __('name') %></th>
+                                    <th><%= __('email') %></th>
+                                    <th><%= __('mobile') %></th>
+                                    <th><%= __('account_access') %></th>
+                                    <th><%= __('status') %></th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -51,13 +51,12 @@
 <script>
 $(function () {
     $('.js-table').DataTable({
-        dom: 'Bflrtip',
+        dom: 'Blfrtip',
         responsive: true,
         ajax: {
             url: '/admin/admins/listings',
             type: 'POST'
         },
-        // processing: true,
         serverSide: true,
         scrollX: true,
         scrollCollapse: true,
@@ -68,8 +67,8 @@ $(function () {
         ],
         columns: [
             { mRender: function(data, type, row) {
-                let action = `<a href="/admin/admins/delete/${row._id}" class="delete"><i class="material-icons">delete_forever</i></a>`;
-                    action += `<a href="/admin/admins/update/${row._id}" class=""><i class="material-icons">edit</i></a>`;
+                let action = `<a href="/admin/admins/delete/${row._id}" class="delete btn btn-danger waves-effect btn-xs"><%= __('delete') %></a>`;
+                    action += `<a href="/admin/admins/update/${row._id}" class="btn bg-light-green btn-xs waves-effect"><%= __('update') %></a>`;
                 return action;
             }},
             {data: 'image', name: 'image'},

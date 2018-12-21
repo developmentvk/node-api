@@ -31,17 +31,17 @@
                         <table class="table table-bordered table-striped table-hover dataTable js-table">
                             <thead>
                                 <tr>
-                                    <th width="50"><%= __('action') %></th>
-                                    <th width="100"><%= __('name') %></th>
-                                    <th width="100"><%= __('en_name') %></th>
-                                    <th width="30"><%= __('icon') %></th>
-                                    <th width="30"><%= __('parent') %></th>
-                                    <th width="100"><%= __('action_path') %></th>
-                                    <th width="80"><%= __('show_in_menu') %></th>
-                                    <th width="100"><%= __('show_in_permission') %></th>
-                                    <th width="90"><%= __('child_permission') %></th>
-                                    <th width="70"><%= __('display_order') %></th>
-                                    <th width="50"><%= __('status') %></th>
+                                    <th><%= __('action') %></th>
+                                    <th><%= __('name') %></th>
+                                    <th><%= __('en_name') %></th>
+                                    <th><%= __('icon') %></th>
+                                    <th><%= __('parent') %></th>
+                                    <th><%= __('action_path') %></th>
+                                    <th><%= __('show_in_menu') %></th>
+                                    <th><%= __('show_in_permission') %></th>
+                                    <th><%= __('child_permission') %></th>
+                                    <th><%= __('display_order') %></th>
+                                    <th><%= __('status') %></th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -55,7 +55,7 @@
 <script>
 $(function () {
     $('.js-table').DataTable({
-        dom: 'Bflrtip',
+        dom: 'Blfrtip',
         responsive: true,
         ajax: {
             url: '/admin/navigations/listings',
@@ -72,8 +72,8 @@ $(function () {
         ],
         columns: [
             { mRender: function(data, type, row) {
-                let action = `<a href="/admin/navigations/delete/${row._id}" class="delete"><i class="material-icons">delete_forever</i></a>`;
-                    action += `<a href="/admin/navigations/update/${row._id}" class=""><i class="material-icons">edit</i></a>`;
+                let action = `<a href="/admin/navigations/delete/${row._id}" class="delete btn btn-danger waves-effect btn-xs"><%= __('delete') %></a>`;
+                    action += `<a href="/admin/navigations/update/${row._id}" class="btn bg-light-green btn-xs waves-effect"><%= __('update') %></a>`;
                 return action;
             }},
             {data: 'name', name: 'name'},

@@ -31,12 +31,12 @@
                         <table class="table table-bordered table-striped table-hover dataTable js-table">
                             <thead>
                                 <tr>
-                                    <th width="10%"><%= __('action') %></th>
-                                    <th width="30%"><%= __('name') %></th>
-                                    <th width="30%"><%= __('en_name') %></th>
-                                    <th width="20%"><%= __('iso_code') %></th>
-                                    <th width="20%"><%= __('dial_code') %></th>
-                                    <th width="10%"><%= __('status') %></th>
+                                    <th><%= __('action') %></th>
+                                    <th><%= __('name') %></th>
+                                    <th><%= __('en_name') %></th>
+                                    <th><%= __('iso_code') %></th>
+                                    <th><%= __('dial_code') %></th>
+                                    <th><%= __('status') %></th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -50,7 +50,7 @@
 <script>
 $(function () {
     $('.js-table').DataTable({
-        dom: 'Bflrtip',
+        dom: 'Blfrtip',
         responsive: true,
         ajax: {
             url: '/admin/countries/listings',
@@ -67,8 +67,8 @@ $(function () {
         ],
         columns: [
             { mRender: function(data, type, row) {
-                let action = `<a href="/admin/countries/delete/${row._id}" class="delete"><i class="material-icons">delete_forever</i></a>`;
-                    action += `<a href="/admin/countries/update/${row._id}" class=""><i class="material-icons">edit</i></a>`;
+                let action = `<a href="/admin/countries/delete/${row._id}" class="delete btn btn-danger waves-effect btn-xs"><%= __('delete') %></a>`;
+                    action += `<a href="/admin/countries/update/${row._id}" class="btn bg-light-green btn-xs waves-effect"><%= __('update') %></a>`;
                 return action;
             }},
             {data: 'name', name: 'name'},
