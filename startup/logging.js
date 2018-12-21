@@ -4,6 +4,9 @@ const { combine, timestamp, label, printf } = format;
 const ip = require('ip');
 const fs = require('fs');
 const path = require('path');
+const dateFormat = require('dateformat');
+const now = new Date();
+
 const logDir = 'logs';
 require('express-async-errors');
 
@@ -32,7 +35,7 @@ module.exports = function () {
             errorStackTracerFormat(),
             label({ label: ip.address() }),
             timestamp({
-                format: 'YYYY-MM-DD h:mm:ss A'
+                format: dateFormat(now, "yyyy-mm-dd h:MM:ss TT Z")
             }),
             printf(info => {
                 return `${info.timestamp} [${info.label}] ${info.level} : ${info.message} ${info.full_trace}`;
@@ -41,7 +44,6 @@ module.exports = function () {
         transports: [
             new transports.Console({
                 handleExceptions: true,
-                format: winston.format.simple()
             }),
             new transports.File({ filename: uncaughtExceptions, handleExceptions: true })
         ],
@@ -58,7 +60,7 @@ module.exports = function () {
             errorStackTracerFormat(),
             label({ label: ip.address() }),
             timestamp({
-                format: 'YYYY-MM-DD h:mm:ss A'
+                format: dateFormat(now, "yyyy-mm-dd h:MM:ss TT Z")
             }),
             printf(info => {
                 return `${info.timestamp} [${info.label}] ${info.level} : ${info.message} ${info.full_trace}`;
