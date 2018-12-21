@@ -96,9 +96,9 @@ app.all('*', function (req, res) {
 if (app.get('env') === 'development') {
     // set morgan to log info about our requests for development use.
     app.use(morgan('tiny'));
-    winston.info("Morgan enabled...");
+    winston.info("Morgan enabled");
 }
 
-const server = appServer.listen(port, () => winston.info(`Listening on port ${port}...`));
+const server = appServer.listen(port, () => winston.info(`Listening on port ${port}`));
 
 module.exports = server;
