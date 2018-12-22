@@ -6,17 +6,13 @@ const { UsersRoles } = require('../../models/usersRoles');
 const { Countries } = require('../../models/countries');
 const { UsersPermissions } = require('../../models/usersPermissions');
 const { successMessage, errorMessage, getGroupNavigation, getUsersPermission } = require('../../helpers/SocketHelper');
-
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
-
-
 const router = express.Router();
 
 router.get('/admins', adminSession, async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
-
     res.render('admin/admins/index', {
         layout: "admin/include/layout",
         title: i18n.__('admins'),

@@ -10,6 +10,7 @@ const { NavigationMasters } = require('../models/navigationMasters');
 const { RolesPermissions } = require('../models/rolesPermissions');
 const { UsersPermissions } = require('../models/usersPermissions');
 const arrayToTree = require('array-to-tree');
+const _ = require('lodash');
 
 function successMessage(res, template = '', httpCode = 200, dataArr = null) {
     let output = new Object();
@@ -136,6 +137,51 @@ async function getUsersPermission(admin_id) {
     return usersPermissions;
 }
 
+async function getUsersPermissionIDs(req) {
+    let output = new Array();
+    let usersPermissions = await UsersPermissions.find({
+        admin_id: req.session.admin._id
+    }).select(['navigation_id']).select(["navigation_id", '-_id']).exec();
+    if (usersPermissions.length > 0) {
+        output = _.map(usersPermissions, _.property('navigation_id'));
+    } else {
+        let rolesPermissions = await RolesPermissions.find({
+            role_id: req.session.admin.role_id
+        }).select(["navigation_id", '-_id']).exec();
+        if (rolesPermissions.length > 0) {
+            output = _.map(usersPermissions, _.property('navigation_id'));
+        }
+    }
+    return output;
+}
+
+async function navigationMenuListing(req) {
+    let excludeRoleId = config.get('excludeRoleId');
+    let navigationMasters = [];
+    if(excludeRoleId === req.session.admin.role_id)
+    {
+        navigationMasters = await NavigationMasters.find({
+            status: 1
+        }).sort({ display_order: 'asc' }).select(['-createdAt', '-updatedAt', '-status', '-show_in_permission', '-child_permission', '-display_order']).exec();
+    } else {
+        const allowedNavIds = await getUsersPermissionIDs(req);
+        navigationMasters = await NavigationMasters.find({
+            status: 1,
+            _id: { $in: allowedNavIds }
+        }).sort({ display_order: 'asc' }).select(['-createdAt', '-updatedAt', '-status', '-show_in_permission', '-child_permission', '-display_order']).exec();
+    }
+    req.session.admin.navigationPermissions = navigationMasters;
+    if (navigationMasters.length > 0) {
+        navigationMasters = JSON.parse(JSON.stringify(navigationMasters));
+        navigationMasters = arrayToTree(navigationMasters, {
+            parentProperty: 'parent_id',
+            customID: '_id'
+        });
+    }
+    req.session.admin.navigations = navigationMasters;
+    return navigationMasters;
+}
+
 exports.successMessage = successMessage;
 exports.errorMessage = errorMessage;
 exports.sendEmail = sendEmail;
@@ -143,3 +189,4 @@ exports.uploadFile = uploadFile;
 exports.getGroupNavigation = getGroupNavigation;
 exports.getRolePermission = getRolePermission;
 exports.getUsersPermission = getUsersPermission;
+exports.navigationMenuListing = navigationMenuListing;

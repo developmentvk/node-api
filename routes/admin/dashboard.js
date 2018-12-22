@@ -2,12 +2,13 @@ const express = require('express');
 const adminSession = require('../../middleware/adminSession');
 const { AdminLoginLogs } = require('../../models/adminLoginLogs');
 const i18n = require("i18n");
+const { navigationMenuListing } = require('../../helpers/SocketHelper');
 const router = express.Router();
 
 router.get('/dashboard', adminSession, async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
-
+    navigationMenuListing(req);
     res.render('admin/dashboard/index', {
         layout: "admin/include/layout",
         title: i18n.__('dashboard'),

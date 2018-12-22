@@ -42,3 +42,11 @@ SyntaxError: await is only valid in async function
     at Module.load (internal/modules/cjs/loader.js:598:32)
     at tryModuleLoad (internal/modules/cjs/loader.js:537:12)
     at Function.Module._load (internal/modules/cjs/loader.js:529:3) 
+2018-12-23 1:20:13 AM12 G12T+0530 [192.168.43.11] error : uncaughtException: navigationMasters is not defined
+ReferenceError: navigationMasters is not defined
+    at navigationMenuListing (D:\wamp64\www\node-api\helpers\SocketHelper.js:151:5)
+    at process._tickCallback (internal/process/next_tick.js:68:7) 
+2018-12-23 1:50:38 AM12 G12T+0530 [192.168.43.11] error : uncaughtException: _ is not defined
+ReferenceError: _ is not defined
+    at getUsersPermissionIDs (D:\wamp64\www\node-api\helpers\SocketHelper.js:145:9)
+    at process._tickCallback (internal/process/next_tick.js:68:7) 
