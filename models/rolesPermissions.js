@@ -9,7 +9,7 @@ const tableSchema = new mongoose.Schema({
 	},
 	navigation_id: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'NavigationsMasters',
+		ref: 'NavigationMasters',
 		default: null
 	}
 }, {
@@ -19,13 +19,4 @@ const tableSchema = new mongoose.Schema({
 
 const RolesPermissions = mongoose.model('RolesPermissions', tableSchema);
 
-function validate(table) {
-	const schema = {
-		role_id: Joi.objectId().required(),
-		navigation_id: Joi.objectId().required()
-	};
-	return Joi.validate(table, schema);
-}
-
 exports.RolesPermissions = RolesPermissions;
-exports.validate = validate;

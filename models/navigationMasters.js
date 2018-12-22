@@ -20,7 +20,7 @@ const tableSchema = new mongoose.Schema({
 	},
 	parent_id: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'NavigationsMasters',
+		ref: 'NavigationMasters',
 		default: null
 	},
 	action_path: {
@@ -54,7 +54,7 @@ const tableSchema = new mongoose.Schema({
 );
 
 tableSchema.plugin(dataTables);
-const NavigationsMasters = mongoose.model('NavigationsMasters', tableSchema);
+const NavigationMasters = mongoose.model('NavigationMasters', tableSchema);
 
 function validate(table) {
 	const schema = {
@@ -73,5 +73,5 @@ function validate(table) {
 	return Joi.validate(table, schema);
 }
 
-exports.NavigationsMasters = NavigationsMasters;
+exports.NavigationMasters = NavigationMasters;
 exports.validate = validate;

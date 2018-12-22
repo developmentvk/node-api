@@ -1,0 +1,94 @@
+<div class="container-fluid">
+    <div class="block-header">
+        <ol class="breadcrumb breadcrumb-bg-teal">
+            <li><a href="javascript:void(0);"><i class="material-icons">home</i> <%= __('home'); %></a></li>
+            <li><a href="/admin/roles"><i class="material-icons">view_list</i> <%= __('all_roles'); %></a></li>
+            <li class="active"><i class="material-icons">accessibility</i> <%= __('update_permission'); %></li>
+        </ol>
+    </div>
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <% if(error.length > 0) { %>
+                <div class="alert alert-danger">
+                    <%= error %>
+                </div>
+            <% } %>
+            <% if(success.length > 0) { %>
+            <div class="alert alert-success">
+                <%= success %>
+            </div>
+            <% } %>
+            <div class="card">
+                <div class="body">
+                    <div class="row clearfix">
+                        <form class="form-horizontal" id="new_record" method="POST">
+                            <div class="col-md-12">
+                                <% if(navigations.length > 0) { %>
+                                    <%  _.forEach(navigations, function(value, index) { %>
+                                    <% if( index == 0) {%>
+                                        <input type="hidden"  name="navigation_id[]" value="<%= value._id %>" />
+                                    <% } %>
+                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                        <div class="form-group" id="permission-user-<%= value._id %>">
+                                            <input type="checkbox" id="chkAll_<%= value._id %>" name="navigation_id[]" value="<%= value._id %>" class="checkAll filled-in chk-col-light-green" <%= index == 0 ? 'checked disabled' : (_.some(rolePermissions, {'navigation_id': value._id}) ? 'checked' : '')  %> />
+                                            <label for="chkAll_<%= value._id %>"><strong><%= getLocale() == 'en' ? value.en_name : value.name %></strong></label>
+                                            <div class="checkItemBox">
+                                            <% if(value.hasOwnProperty('children')) {%>
+                                                <%  _.forEach(value.children, function(rowValue, keyIndex) { %>
+                                                    <% if(keyIndex == 0) { %>
+                                                    <div class="clearfix"></div>
+                                                    <% } %>
+                                                    <input type="checkbox" id="chkAll_<%= rowValue._id %>" name="navigation_id[]" value="<%= rowValue._id %>" class="checkItem filled-in chk-col-light-green" <%= (_.some(rolePermissions, {'navigation_id': rowValue._id}) ? 'checked' : '')  %> />
+                                                    <label for="chkAll_<%= rowValue._id %>"><%= getLocale() == 'en' ? rowValue.en_name : rowValue.name %></label>
+                                                <% }) %>
+                                            <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% } ) %>
+                                <% } else {%>
+                                    <p class="list-group-item"><%= __('no_record_found'); %></p>
+                                <% } %>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-12 clearfix">
+                                <div class="row">
+                                    <div class="col-lg-offset-1 col-md-offset-1 col-sm-offset-2 col-xs-offset-3">
+                                        <button type="submit" class="btn bg-blue waves-effect">
+                                            <%= __('save'); %>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+$(function () {
+    $("#new_record").on('change', '.checkAll', function(e){
+        let containerID = $(this).val();
+        let status = this.checked ? true : false;
+        $("#permission-user-"+containerID).find("input[type=checkbox]").each(function(){
+            this.checked = status;
+        })  
+    });
+
+    $("#new_record").on('change', '.checkItem', function(e){
+        let innerBox = $(this).closest('.checkItemBox');
+        let mainBox = $(this).closest('.form-group').find('input:checkbox:first');
+        let status = false;
+        innerBox.find("input[type=checkbox]:checked").each(function(){
+            status = true;
+        });
+        mainBox.each(function() {
+            this.checked = status;
+        })
+    });
+});
+</script>

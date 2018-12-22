@@ -69,13 +69,14 @@ $(function () {
             { mRender: function(data, type, row) {
                 let action = `<a href="/admin/admins/delete/${row._id}" class="delete btn btn-danger waves-effect btn-xs"><%= __('delete') %></a>`;
                     action += `<a href="/admin/admins/update/${row._id}" class="btn bg-light-green btn-xs waves-effect"><%= __('update') %></a>`;
+                    action += `<a href="/admin/admins/permission/${row._id}" class="btn bg-purple btn-xs waves-effect"><%= __('permission') %></a>`;
                 return action;
             }},
             {data: 'image', name: 'image'},
             {data: 'name', name: 'name'},
             {data: 'email', name : 'email'},
             {data: 'mobile', name : 'mobile', mRender: function(data, type, row) {
-                return row.mobile ?  `${row.dial_code}${row.mobile}` : '--';
+                return row.mobile ?  `+${row.dial_code}${row.mobile}` : '--';
             }},
             {data: 'role_id', name : 'role_id', mRender : function(data, type, row) {
                 let locale = "<%= getLocale() %>";

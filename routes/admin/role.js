@@ -2,7 +2,8 @@ const express = require('express');
 const adminSession = require('../../middleware/adminSession');
 const i18n = require("i18n");
 const { UsersRoles, validate } = require('../../models/usersRoles');
-const { successMessage, errorMessage } = require('../../helpers/SocketHelper');
+const { RolesPermissions } = require('../../models/rolesPermissions');
+const { successMessage, errorMessage, getGroupNavigation, getRolePermission } = require('../../helpers/SocketHelper');
 const _ = require('lodash');
 const router = express.Router();
 
@@ -69,7 +70,7 @@ router.get('/roles/update/:id', adminSession, async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
     const roles = await UsersRoles.findOne({
-        _id:req.params.id
+        _id: req.params.id
     });
     if (!roles) {
         req.flash('error', [i18n.__('record_not_found')]);
@@ -80,7 +81,7 @@ router.get('/roles/update/:id', adminSession, async (req, res) => {
         title: i18n.__('update_role'),
         error: error,
         success: success,
-        roles : roles
+        roles: roles
     });
 });
 
@@ -101,11 +102,52 @@ router.post('/roles/update/:id', adminSession, async (req, res) => {
     return res.redirect(`/admin/roles/update/${req.params.id}`);
 });
 
-
-
 router.post('/roles/delete/:id', adminSession, async (req, res) => {
     const usersRoles = await UsersRoles.findByIdAndRemove(req.params.id);
-	if (!usersRoles) return errorMessage(res, 'no_record_found');
-	return successMessage(res, 'success', 200, usersRoles);
+    if (!usersRoles) return errorMessage(res, 'no_record_found');
+    return successMessage(res, 'success', 200, usersRoles);
 });
+
+router.get('/roles/permission/:id', adminSession, async (req, res) => {
+    if (!req.params.id) {
+        req.flash('error', [i18n.__('record_not_found')]);
+        return res.redirect('/admin/roles');
+    }
+
+    let error = req.flash('error');
+    let success = req.flash('success');
+    let navigations = await getGroupNavigation();
+    let rolePermissions = await getRolePermission(req.params.id);
+    res.render('admin/roles/permission', {
+        layout: "admin/include/layout",
+        title: i18n.__('role_permission'),
+        error: error,
+        success: success,
+        navigations: navigations,
+        rolePermissions: rolePermissions
+    });
+});
+
+router.post('/roles/permission/:id', adminSession, async (req, res) => {
+    if (!req.params.id) {
+        req.flash('error', [i18n.__('record_not_found')]);
+        return res.redirect(`/admin/roles/permission/${req.params.id}`);
+    }
+
+    RolesPermissions.deleteMany({ role_id: req.params.id }).exec();
+
+    if (req.body.hasOwnProperty('navigation_id')) {
+        _.forEach(req.body.navigation_id, function (navigation_id) {
+            const rolesPermissions = new RolesPermissions({
+                role_id: req.params.id,
+                navigation_id: navigation_id
+            })
+            rolesPermissions.save();
+        });
+    }
+
+    req.flash('success', [i18n.__('role_permission_updated_successfully')]);
+    return res.redirect(`/admin/roles/permission/${req.params.id}`);
+});
+
 module.exports = router; 

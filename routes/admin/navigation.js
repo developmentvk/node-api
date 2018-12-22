@@ -1,7 +1,7 @@
 const express = require('express');
 const adminSession = require('../../middleware/adminSession');
 const i18n = require("i18n");
-const { NavigationsMasters, validate } = require('../../models/navigationsMasters');
+const { NavigationMasters, validate } = require('../../models/navigationMasters');
 const { successMessage, errorMessage } = require('../../helpers/SocketHelper');
 const _ = require('lodash');
 const router = express.Router();
@@ -19,7 +19,7 @@ router.get('/navigations', adminSession, async (req, res) => {
 });
 
 router.post('/navigations/listings', adminSession, async (req, res) => {
-    NavigationsMasters.dataTables({
+    NavigationMasters.dataTables({
         limit: req.body.length,
         skip: req.body.start,
         order: req.body.order,
@@ -41,13 +41,13 @@ router.post('/navigations/listings', adminSession, async (req, res) => {
 router.get('/navigations/create', adminSession, async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
-    const navigationsMasters = await NavigationsMasters.find({parent_id:null});
+    const navigationMasters = await NavigationMasters.find({parent_id:null});
     res.render('admin/navigations/create', {
         layout: "admin/include/layout",
         title: i18n.__('create_navigation'),
         error: error,
         success: success,
-        navigationsMasters : navigationsMasters
+        navigationMasters : navigationMasters
     });
 });
 
@@ -57,7 +57,7 @@ router.post('/navigations/create', adminSession, async (req, res) => {
         req.flash('error', error.details[0].message);
         return res.redirect(`/admin/navigations/create`);
     }
-    const navigationsMasters = new NavigationsMasters({
+    const navigationMasters = new NavigationMasters({
         name: req.body.name,
         en_name: req.body.en_name,
         icon: req.body.icon,
@@ -69,7 +69,7 @@ router.post('/navigations/create', adminSession, async (req, res) => {
         child_permission: req.body.child_permission,
         display_order: req.body.display_order
     })
-    await navigationsMasters.save();
+    await navigationMasters.save();
     req.flash('success', [i18n.__('navigation_menu_saved_successfully')]);
     return res.redirect('/admin/navigations/create');
 });
@@ -78,7 +78,7 @@ router.post('/navigations/create', adminSession, async (req, res) => {
 router.get('/navigations/update/:id', adminSession, async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
-    const navigations = await NavigationsMasters.findOne({
+    const navigations = await NavigationMasters.findOne({
         _id:req.params.id
     });
     if (!navigations) {
@@ -86,7 +86,7 @@ router.get('/navigations/update/:id', adminSession, async (req, res) => {
         return res.redirect('/admin/navigations');
     }
 
-    const navigationsMasters = await NavigationsMasters.find({
+    const navigationMasters = await NavigationMasters.find({
         parent_id:null,
         _id: { $ne: req.params.id }
     });
@@ -96,7 +96,7 @@ router.get('/navigations/update/:id', adminSession, async (req, res) => {
         error: error,
         success: success,
         navigations : navigations,
-        navigationsMasters : navigationsMasters
+        navigationMasters : navigationMasters
     });
 });
 
@@ -107,7 +107,7 @@ router.post('/navigations/update/:id', adminSession, async (req, res) => {
         res.redirect(`/admin/navigations/update/${req.params.id}`);
     }
 
-    await NavigationsMasters.findByIdAndUpdate(req.params.id, {
+    await NavigationMasters.findByIdAndUpdate(req.params.id, {
         name: req.body.name,
         en_name: req.body.en_name,
         icon: req.body.icon,
@@ -126,8 +126,8 @@ router.post('/navigations/update/:id', adminSession, async (req, res) => {
 
 
 router.post('/navigations/delete/:id', adminSession, async (req, res) => {
-    const navigationsMasters = await NavigationsMasters.findByIdAndRemove(req.params.id);
-	if (!navigationsMasters) return errorMessage(res, 'no_record_found');
-	return successMessage(res, 'success', 200, navigationsMasters);
+    const navigationMasters = await NavigationMasters.findByIdAndRemove(req.params.id);
+	if (!navigationMasters) return errorMessage(res, 'no_record_found');
+	return successMessage(res, 'success', 200, navigationMasters);
 });
 module.exports = router; 

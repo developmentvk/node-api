@@ -6,6 +6,10 @@ const ejs = require('ejs');
 const multer = require('multer');
 const crypto = require('crypto');
 const path = require("path");
+const { NavigationMasters } = require('../models/navigationMasters');
+const { RolesPermissions } = require('../models/rolesPermissions');
+const { UsersPermissions } = require('../models/usersPermissions');
+const arrayToTree = require('array-to-tree');
 
 function successMessage(res, template = '', httpCode = 200, dataArr = null) {
     let output = new Object();
@@ -97,7 +101,45 @@ function uploadFile(req, res, fileName, fileLocation, callback) {
 
 }
 
+async function getGroupNavigation() {
+    let navigationMasters = await NavigationMasters.find({
+        status: 1,
+        show_in_permission: 1
+    }).sort({ display_order: 'asc' }).select(['name', 'en_name', 'parent_id']).exec();
+    if (navigationMasters.length > 0) {
+        navigationMasters = JSON.parse(JSON.stringify(navigationMasters));
+        navigationMasters = arrayToTree(navigationMasters, {
+            parentProperty: 'parent_id',
+            customID: '_id'
+        });
+    }
+    return navigationMasters;
+}
+
+async function getRolePermission(role_id) {
+    let rolesPermissions = await RolesPermissions.find({
+        role_id: role_id
+    }).select(['navigation_id']).exec();
+    if (rolesPermissions.length > 0) {
+        rolesPermissions = JSON.parse(JSON.stringify(rolesPermissions));
+    }
+    return rolesPermissions;
+}
+
+async function getUsersPermission(admin_id) {
+    let usersPermissions = await UsersPermissions.find({
+        admin_id: admin_id
+    }).select(['navigation_id']).exec();
+    if (usersPermissions.length > 0) {
+        usersPermissions = JSON.parse(JSON.stringify(usersPermissions));
+    }
+    return usersPermissions;
+}
+
 exports.successMessage = successMessage;
 exports.errorMessage = errorMessage;
 exports.sendEmail = sendEmail;
 exports.uploadFile = uploadFile;
+exports.getGroupNavigation = getGroupNavigation;
+exports.getRolePermission = getRolePermission;
+exports.getUsersPermission = getUsersPermission;

@@ -4,7 +4,9 @@ const i18n = require("i18n");
 const { Admin, validate, validateUpdate } = require('../../models/admin');
 const { UsersRoles } = require('../../models/usersRoles');
 const { Countries } = require('../../models/countries');
-const { successMessage, errorMessage, uploadFile } = require('../../helpers/SocketHelper');
+const { UsersPermissions } = require('../../models/usersPermissions');
+const { successMessage, errorMessage, getGroupNavigation, getUsersPermission } = require('../../helpers/SocketHelper');
+
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
 
@@ -153,4 +155,48 @@ router.post('/admins/delete/:id', adminSession, async (req, res) => {
     if (!admin) return errorMessage(res, 'no_record_found');
     return successMessage(res, 'success', 200, admin);
 });
+
+
+router.get('/admins/permission/:id', adminSession, async (req, res) => {
+    if (!req.params.id) {
+        req.flash('error', [i18n.__('record_not_found')]);
+        return res.redirect('/admin/admins');
+    }
+
+    let error = req.flash('error');
+    let success = req.flash('success');
+    let navigations = await getGroupNavigation();
+    let userPermissions = await getUsersPermission(req.params.id);
+    res.render('admin/admins/permission', {
+        layout: "admin/include/layout",
+        title: i18n.__('account_permission'),
+        error: error,
+        success: success,
+        navigations: navigations,
+        userPermissions: userPermissions
+    });
+});
+
+router.post('/admins/permission/:id', adminSession, async (req, res) => {
+    if (!req.params.id) {
+        req.flash('error', [i18n.__('record_not_found')]);
+        return res.redirect(`/admin/admins/permission/${req.params.id}`);
+    }
+
+    UsersPermissions.deleteMany({ admin_id: req.params.id }).exec();
+
+    if (req.body.hasOwnProperty('navigation_id')) {
+        _.forEach(req.body.navigation_id, function (navigation_id) {
+            const usersPermissions = new UsersPermissions({
+                admin_id: req.params.id,
+                navigation_id: navigation_id
+            })
+            usersPermissions.save();
+        });
+    }
+
+    req.flash('success', [i18n.__('account_permission_updated_successfully')]);
+    return res.redirect(`/admin/admins/permission/${req.params.id}`);
+});
+
 module.exports = router; 

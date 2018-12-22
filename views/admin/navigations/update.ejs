@@ -95,9 +95,9 @@
                                     <div class="form-group">
                                         <select id="parent_id" name="parent_id"  class="form-control show-tick">
                                             <option value=""><%= __('no_parent'); %></option>
-                                            <% if(navigationsMasters.length > 0) {%>
+                                            <% if(navigationMasters.length > 0) {%>
                                                 <% 
-                                                _.forEach(navigationsMasters, function(value, index) {
+                                                _.forEach(navigationMasters, function(value, index) {
                                                     let selected = (navigations.parent_id && (value._id == navigations.parent_id.toString())) ? "selected" : "";
                                                 %>
                                                     <option value="<%= value._id %>" <%= selected %> ><%= getLocale() == 'en' ? value.en_name : value.name %></option>

@@ -67,6 +67,7 @@ $(function () {
             { mRender: function(data, type, row) {
                 let action = `<a href="/admin/roles/delete/${row._id}" class="delete btn btn-danger waves-effect btn-xs"><%= __('delete') %></a>`;
                     action += `<a href="/admin/roles/update/${row._id}" class="btn bg-light-green btn-xs waves-effect"><%= __('update') %></a>`;
+                    action += `<a href="/admin/roles/permission/${row._id}" class="btn bg-purple btn-xs waves-effect"><%= __('permission') %></a>`;
                 return action;
             }},
             {data: 'name', name: 'name'},

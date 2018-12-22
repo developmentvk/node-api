@@ -1,5 +1,5 @@
 const morgan = require('morgan'),
-    _ = require('lodash')
+    _ = require('lodash'),
     winston = require('winston'),
     session = require('express-session'),
     express = require('express'),
