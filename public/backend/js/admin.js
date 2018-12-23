@@ -15,10 +15,9 @@ if (typeof jQuery === "undefined") {
 let socket = io();
 socket.on('connect', function () {
     console.log(`Connection Established with socket : ${session_id}`);
-    socket.on('duplicateSessionExist', function (data) {
+    socket.on('logoutSessionEvent', function (data) {
         if(data.admin_id == session_id)
         {
-
             window.location.replace(`${site_url}/admin/login?logout=duplicate`);
         }
     });

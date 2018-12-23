@@ -7,7 +7,7 @@ const { Admin, validateLogin, validateForgotPassword, validateUpdatePassword } =
 const i18n = require("i18n");
 const TokenGenerator = require('uuid-token-generator');
 const bcrypt = require('bcrypt');
-const { sendEmail } = require('../../helpers/SocketHelper');
+const { sendEmail, navigationMenuListing } = require('../../helpers/SocketHelper');
 const browser = require('browser-detect');
 const _ = require('lodash');
 const router = express.Router();
@@ -63,7 +63,7 @@ router.post('/login', async (req, res) => {
             isActive: false  
         }, { new: true });
 
-        req.app.io.emit("duplicateSessionExist", {
+        req.app.io.emit("logoutSessionEvent", {
             'admin_id' : admin._id
         });
     }
@@ -84,7 +84,7 @@ router.post('/login', async (req, res) => {
     } else {
         req.session.cookie.expires = false;
     }
-
+    await navigationMenuListing(req);
     return res.redirect('/admin/dashboard');
 });
 
