@@ -126,7 +126,7 @@ app.all('*', function (req, res) {
 
 const server = appServer.listen(port, function () {
     let host = server.address().address;
-    winston.info(`Websocket is running at https://${host}:${port}`);
+    winston.info(`Websocket is running at ${host}:${port}`);
 });
 
 module.exports = server;
