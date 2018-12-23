@@ -70,6 +70,9 @@ router.post('/navigations/create', adminSession, async (req, res) => {
         display_order: req.body.display_order
     })
     await navigationMasters.save();
+
+    req.app.io.emit("navigationUpdatedEvent");
+
     req.flash('success', [i18n.__('navigation_menu_saved_successfully')]);
     return res.redirect('/admin/navigations/create');
 });
@@ -119,7 +122,8 @@ router.post('/navigations/update/:id', adminSession, async (req, res) => {
         child_permission: req.body.child_permission,
         display_order: req.body.display_order
     }, { new: true });
-
+    req.app.io.emit("navigationUpdatedEvent");
+    
     req.flash('success', [i18n.__('navigation_menu_updated_successfully')]);
     return res.redirect(`/admin/navigations/update/${req.params.id}`);
 });
@@ -127,7 +131,9 @@ router.post('/navigations/update/:id', adminSession, async (req, res) => {
 
 router.post('/navigations/delete/:id', adminSession, async (req, res) => {
     const navigationMasters = await NavigationMasters.findByIdAndRemove(req.params.id);
-	if (!navigationMasters) return errorMessage(res, 'no_record_found');
+    if (!navigationMasters) return errorMessage(res, 'no_record_found');
+    req.app.io.emit("navigationUpdatedEvent");
+    
 	return successMessage(res, 'success', 200, navigationMasters);
 });
 module.exports = router; 

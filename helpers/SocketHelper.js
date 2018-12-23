@@ -179,6 +179,8 @@ async function navigationMenuListing(req) {
         });
     }
     req.session.admin.navigations = navigationMasters;
+    req.session.save();
+    
     return navigationMasters;
 }
 

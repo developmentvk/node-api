@@ -21,6 +21,7 @@ socket.on('connect', function () {
             window.location.replace(`${site_url}/admin/login?logout=duplicate`);
         }
     });
+
 });
 
 $.AdminBSB = {};

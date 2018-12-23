@@ -24,6 +24,7 @@ const appServer = http.createServer(app, function (req, res) {
 
 const io = app.io = socketIO(appServer);
 app.locals._ = _;
+app.locals.SocketHelper = require('./helpers/SocketHelper');
 
 i18n.configure({
     locales: ['en', 'ar'],
@@ -80,6 +81,8 @@ io.use(ios(session(sess)));
  * This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
  */
 app.use((req, res, next) => {
+    res.locals.req = req;
+    app.locals.req = req;
     if (req.cookies.session && req.session.adminAuthenticated !== true) {
         res.clearCookie('session');
         delete req.session.admin;
@@ -104,6 +107,12 @@ io.on("connection", function (socket) {
             --numUsers;
             delete socket.handshake.session.userdata;
             socket.handshake.session.save();
+        }
+    });
+
+    socket.on("navigationUpdatedEvent", async function () {
+        if(app.locals.req.session.admin.hasOwnProperty('navigations')) {
+            await app.locals.SocketHelper.navigationMenuListing(app.locals.req);
         }
     });
 
