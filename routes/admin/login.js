@@ -13,12 +13,12 @@ const _ = require('lodash');
 const router = express.Router();
 
 router.get('/login', adminAuth, async (req, res) => {
-    if(req.query.logout === 'true') {
+    if (req.query.logout === 'true') {
         req.flash('success', [i18n.__('logged_out_successfully')]);
         return res.redirect('/admin/login');
     }
 
-    if(req.query.logout === 'duplicate') {
+    if (req.query.logout === 'duplicate') {
         req.flash('success', [i18n.__('logged_out_duplicate_session_successfully')]);
         return res.redirect('/admin/login');
     }
@@ -51,28 +51,27 @@ router.post('/login', async (req, res) => {
         return res.redirect('/admin/login');
     }
 
-    let adminLoginLogsExists = await AdminLoginLogs.findOne({ 
+    let adminLoginLogsExists = await AdminLoginLogs.findOne({
         admin_id: admin._id,
-        isActive : true
+        isActive: true
     });
-    if(adminLoginLogsExists)
-    {
-        await Sessions.remove({"session.admin.login_id" : adminLoginLogsExists._id});
-        await AdminLoginLogs.findByIdAndUpdate(adminLoginLogsExists._id, { 
+    if (adminLoginLogsExists) {
+        await Sessions.remove({ "session.admin.login_id": adminLoginLogsExists._id });
+        await AdminLoginLogs.findByIdAndUpdate(adminLoginLogsExists._id, {
             logout_at: new Date(),
-            isActive: false  
+            isActive: false
         }, { new: true });
 
         req.app.io.emit("logoutSessionEvent", {
-            'admin_id' : admin._id
+            'admin_id': admin._id
         });
     }
 
-    const adminLoginLogs = await new AdminLoginLogs({ 
+    const adminLoginLogs = await new AdminLoginLogs({
         admin_id: admin._id,
-        browser : JSON.stringify(browser(req.headers['user-agent'])),
-        session_id : req.sessionID
-     }).save();
+        browser: JSON.stringify(browser(req.headers['user-agent'])),
+        session_id: req.sessionID
+    }).save();
 
     admin = JSON.parse(JSON.stringify(admin));
     admin.login_id = adminLoginLogs._id;
@@ -84,7 +83,9 @@ router.post('/login', async (req, res) => {
     } else {
         req.session.cookie.expires = false;
     }
+    
     await navigationMenuListing(req);
+
     return res.redirect('/admin/dashboard');
 });
 

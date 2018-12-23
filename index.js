@@ -1,8 +1,7 @@
-const morgan = require('morgan'),
+const express = require('express'),
     _ = require('lodash'),
     winston = require('winston'),
     session = require('express-session'),
-    express = require('express'),
     i18n = require("i18n"),
     app = express(),
     http = require('http'),
@@ -12,7 +11,19 @@ const morgan = require('morgan'),
     flash = require('connect-flash'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
-    MongoStore = require('connect-mongo')(session);
+    MongoStore = require('connect-mongo')(session)
+    ios = require('socket.io-express-session'),
+    numUsers = 0,
+    port = process.env.PORT || 3000;
+
+//Socket.IO Connections
+const appServer = http.createServer(app, function (req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
+});
+
+const io = app.io = socketIO(appServer);
+app.locals._ = _;
 
 i18n.configure({
     locales: ['en', 'ar'],
@@ -22,6 +33,7 @@ i18n.configure({
     // query parameter to switch locale (ie. /home?locale=ar) - defaults to NULL
     queryParameter: 'locale',
 });
+
 app.use(i18n.init);
 
 app.set('view engine', 'ejs');
@@ -30,10 +42,20 @@ app.set('views', './views');// default
 app.use(express.static(__dirname + '/public'));
 app.use(flash());
 
-// initialize cookie-parser to allow us access the cookies stored in the browser. 
+/**
+ * initialize cookie-parser to allow us access the cookies stored in the browser. 
+ */
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+const store = new MongoStore({
+    mongooseConnection: mongoose.connection,
+    stringify: false, // if you want to store object instead of id
+    autoRemove: 'interval', // Default native/interval
+    autoRemoveInterval: 10, // In minutes. Default
+    touchAfter: 24 * 3600 // time period in seconds means session be updated only one time in a period of 24 hours
+});
 
 const sess = {
     key: 'session',
@@ -41,31 +63,23 @@ const sess = {
     cookie: {
         maxAge: 2 * 60 * 60 * 1000 // 2 hours
     },
-    resave: false, //don't save session if unmodified
-    // saveInitialized: true,
-    saveUninitialized: false, // don't create session until something stored
-    store: new MongoStore({
-        mongooseConnection: mongoose.connection,
-        stringify: false, // if you want to store object instead of id
-        autoRemove: 'interval', // Default native/interval
-        autoRemoveInterval: 10, // In minutes. Default
-        touchAfter: 24 * 3600 // time period in seconds means session be updated only one time in a period of 24 hours
-    }, function () {
-        winston.info("db session connection open");
-    })
+    resave: true, //don't save session if unmodified
+    saveUninitialized: true, // don't create session until something stored
+    store: store
 };
+
 if (app.get('env') === 'production') {
     app.set('trust proxy', 1) // trust first proxy
     sess.cookie.secure = true // serve secure cookies
 }
 app.use(session(sess));
+io.use(ios(session(sess)));
 
-// This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
-// This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
+/**
+ * This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
+ * This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
+ */
 app.use((req, res, next) => {
-    // Update a value in the cookie so that the set-cookie will be sent.
-    // Only changes every minute so that it's not sent with every request.
-    req.session.nowInMinutes = Math.floor(Date.now() / 60e3);
     if (req.cookies.session && req.session.adminAuthenticated !== true) {
         res.clearCookie('session');
         delete req.session.admin;
@@ -73,11 +87,26 @@ app.use((req, res, next) => {
     next();
 });
 
-const port = process.env.PORT || 3000;
-const appServer = http.createServer(app);
-const io = socketIO(appServer);
-app.locals._ = _;
-app.io = io;
+io.on("connection", function (socket) {
+    winston.info('Socket connected with SID: ' + socket.handshake.sessionID);
+    /**
+     * Accept a login event with user's data
+     */
+    socket.on("login", function (userdata) {
+        ++numUsers;
+        winston.info(JSON.stringify(userdata));
+        socket.handshake.session.userdata = userdata;
+        socket.handshake.session.save();
+    });
+
+    socket.on("logout", function (userdata) {
+        if (socket.handshake.session.userdata) {
+            --numUsers;
+            delete socket.handshake.session.userdata;
+            socket.handshake.session.save();
+        }
+    });
+});
 
 require('./startup/logging')();
 require('./startup/api-routes')(app);
@@ -88,17 +117,16 @@ require('./startup/config')();
 require('./startup/validation')();
 require('./startup/prod')(app);
 
-//The 404 Route (ALWAYS Keep this as the last route)
+/**
+ * The 404 Route (ALWAYS Keep this as the last route)
+ */
 app.all('*', function (req, res) {
-    res.render('404', { header : false, layout: "layout", title : i18n.__('404_page') });
+    res.render('404', { header: false, layout: "layout", title: i18n.__('404_page') });
 });
 
-if (app.get('env') === 'development') {
-    // set morgan to log info about our requests for development use.
-    app.use(morgan('tiny'));
-    winston.info("Morgan enabled");
-}
-
-const server = appServer.listen(port, () => winston.info(`Listening on port ${port}`));
+const server = appServer.listen(port, function () {
+    let host = server.address().address;
+    winston.info(`Websocket is running at https://${host}:${port}`);
+});
 
 module.exports = server;

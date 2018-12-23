@@ -2,11 +2,19 @@ const express = require('express');
 const adminSession = require('../../middleware/adminSession');
 const { AdminLoginLogs } = require('../../models/adminLoginLogs');
 const i18n = require("i18n");
+// const EventEmitter = require('events');
 const router = express.Router();
 
 router.get('/dashboard', adminSession, async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
+    
+    // var ee = new EventEmitter()
+    // ee.on('message', function (text) {
+    //     console.log(text)
+    // });
+    // ee.emit('message', 'hello world');
+
     res.render('admin/dashboard/index', {
         layout: "admin/include/layout",
         title: i18n.__('dashboard'),
@@ -25,6 +33,7 @@ router.get('/logout', adminSession, async (req, res) => {
                 isActive: false
             }, { new: true });
         }
+
         await req.session.destroy();
         await res.clearCookie('session');
         return res.redirect('/admin/login?logout=true');
