@@ -1,0 +1,9 @@
+2018-12-24 12:48:04 AM12 G12T+0530 [192.168.43.11] info : Websocket is running at :::3000 
+2018-12-24 12:48:04 AM12 G12T+0530 [192.168.43.11] info : Connected to mongodb://localhost/nodejs 
+2018-12-24 12:48:04 AM12 G12T+0530 [192.168.43.11] info : Socket connected with SID: j9OD7rdgdxXTgHLhxgHn5lNW-yN3NspA 
+2018-12-24 12:53:23 AM12 G12T+0530 [192.168.43.11] info : Websocket is running at :::3000 
+2018-12-24 12:53:23 AM12 G12T+0530 [192.168.43.11] info : Connected to mongodb://localhost/nodejs 
+2018-12-24 12:53:23 AM12 G12T+0530 [192.168.43.11] info : Socket connected with SID: j9OD7rdgdxXTgHLhxgHn5lNW-yN3NspA 
+2018-12-24 12:53:28 AM12 G12T+0530 [192.168.43.11] info : Websocket is running at :::3000 
+2018-12-24 12:53:28 AM12 G12T+0530 [192.168.43.11] info : Connected to mongodb://localhost/nodejs 
+2018-12-24 12:53:28 AM12 G12T+0530 [192.168.43.11] info : Socket connected with SID: j9OD7rdgdxXTgHLhxgHn5lNW-yN3NspA 

@@ -106,6 +106,11 @@ io.on("connection", function (socket) {
             socket.handshake.session.save();
         }
     });
+
+    socket.on('disconnect', () => {
+        winston.info('Socket dis-connected with SID: ' + socket.handshake.sessionID);
+    });
+    
 });
 
 require('./startup/logging')();
