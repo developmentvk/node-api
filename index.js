@@ -121,6 +121,7 @@ io.on("connection", function (socket) {
     });
     
 });
+app.use(require('./middleware/storeRequestLogs'));
 
 require('./startup/logging')();
 require('./startup/api-routes')(app);
