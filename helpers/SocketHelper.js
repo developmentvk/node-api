@@ -142,14 +142,14 @@ async function getUsersPermissionIDs(req) {
     let usersPermissions = await UsersPermissions.find({
         admin_id: req.session.admin._id
     }).select(['navigation_id']).select(["navigation_id", '-_id']).exec();
-    if (usersPermissions.length > 0) {
-        output = _.map(usersPermissions, _.property('navigation_id'));
+    if (usersPermissions.length > 1) {
+        output = await _.map(usersPermissions, _.property('navigation_id'));
     } else {
         let rolesPermissions = await RolesPermissions.find({
             role_id: req.session.admin.role_id
         }).select(["navigation_id", '-_id']).exec();
         if (rolesPermissions.length > 0) {
-            output = _.map(usersPermissions, _.property('navigation_id'));
+            output = await _.map(rolesPermissions, _.property('navigation_id'));
         }
     }
     return output;
@@ -158,8 +158,7 @@ async function getUsersPermissionIDs(req) {
 async function navigationMenuListing(req) {
     let excludeRoleId = config.get('excludeRoleId');
     let navigationMasters = [];
-    if(excludeRoleId === req.session.admin.role_id)
-    {
+    if (excludeRoleId === req.session.admin.role_id) {
         navigationMasters = await NavigationMasters.find({
             status: 1
         }).sort({ display_order: 'asc' }).select(['-createdAt', '-updatedAt', '-status', '-show_in_permission', '-child_permission', '-display_order']).exec();
@@ -170,7 +169,7 @@ async function navigationMenuListing(req) {
             _id: { $in: allowedNavIds }
         }).sort({ display_order: 'asc' }).select(['-createdAt', '-updatedAt', '-status', '-show_in_permission', '-child_permission', '-display_order']).exec();
     }
-    req.session.admin.navigationPermissions = navigationMasters;
+    req.session.navigationPermissions = navigationMasters;
     if (navigationMasters.length > 0) {
         navigationMasters = JSON.parse(JSON.stringify(navigationMasters));
         navigationMasters = arrayToTree(navigationMasters, {
@@ -180,8 +179,13 @@ async function navigationMenuListing(req) {
     }
     req.session.admin.navigations = navigationMasters;
     req.session.save();
-    
     return navigationMasters;
+}
+
+function hasAccess(req, actionPath, exclude = false) {
+    if (exclude == true) { return true; }
+    let result = _.find(req.session.navigationPermissions, { "action_path": actionPath });
+    if (result !== undefined) { return true; } else { return false; }
 }
 
 exports.successMessage = successMessage;
@@ -192,3 +196,4 @@ exports.getGroupNavigation = getGroupNavigation;
 exports.getRolePermission = getRolePermission;
 exports.getUsersPermission = getUsersPermission;
 exports.navigationMenuListing = navigationMenuListing;
+exports.hasAccess = hasAccess;
