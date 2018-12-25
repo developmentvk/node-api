@@ -8,9 +8,10 @@ const dateFormat = require('dateformat');
 const now = new Date();
 
 const logDir = 'logs';
+require('winston-daily-rotate-file');
 require('express-async-errors');
 
-const logfile = path.join(logDir, 'logfile.log');
+const logfile = path.join(logDir, 'logfile-%DATE%.log');
 const uncaughtExceptions = path.join(logDir, 'uncaughtExceptions.log');
 
 // Create the log directory if it does not exist
@@ -25,6 +26,13 @@ const errorStackTracerFormat = winston.format(info => {
     }
     return info;
 });
+const transport = new (winston.transports.DailyRotateFile)({
+    filename: logfile,
+    datePattern: 'YYYY-MM-DD-HH',
+    // zippedArchive: true,
+    // maxSize: '20m',
+    // maxFiles: '14d'
+  });
 
 module.exports = function () {
 
@@ -67,7 +75,7 @@ module.exports = function () {
             })
         ),
         transports: [
-            new transports.File({ filename: logfile })
+            transport
         ]
     });
 }
