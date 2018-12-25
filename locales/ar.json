@@ -142,5 +142,6 @@
 	"role_permission_updated_successfully": "Role permission updated successfully",
 	"account_permission": "Account Permission",
 	"account_permission_updated_successfully": "Account permission updated successfully",
-	"role_permission": "Role Permission"
+	"role_permission": "Role Permission",
+	"all_logs": "All logs"
 }
