@@ -28,8 +28,11 @@ module.exports = (req, res, next) => {
         };
     
         res.once('finish', function logIt() {
-            let body = Buffer.concat(chunks).toString('utf8');
-            if (body.length > 0) { winston.info(`Response : ${body}`); }
+            if(chunks.length > 0)
+            {
+                let body = Buffer.concat(chunks).toString('utf8');
+                if (body.length > 0) { winston.info(`Response : ${body}`); }
+            }
         });
     }
     winston.info(`*** ==== | Request End with Status Code: ${res.statusCode} | ==== ***`);

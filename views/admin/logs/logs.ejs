@@ -12,7 +12,7 @@
                     <div class="list-group">
                     <% if(data.length > 0) { %>
                         <%  _.forEach(data, function(val) {  if(val) {%>
-                            <p class="list-group-item <%= _.includes(val,'info') ? 'col-cyan' : ''; %> <%= _.includes(val,'error') ? 'col-pink' : ''; %>"><%= val %></p>
+                            <p class="list-group-item <%= _.includes(val,'error') ? 'col-pink' : ''; %>"><%= val %></p>
                         <% } } ) %>
                     <% } else {%>
                         <p class="list-group-item"><%= __('no_record_found'); %></p>
