@@ -12,7 +12,7 @@ require('winston-daily-rotate-file');
 require('express-async-errors');
 
 const logfile = path.join(logDir, 'logfile-%DATE%.log');
-const uncaughtExceptions = path.join(logDir, 'uncaughtExceptions.log');
+const uncaughtExceptions = path.join(logDir, 'uncaughtException.log');
 
 // Create the log directory if it does not exist
 if (!fs.existsSync(logDir)) {
