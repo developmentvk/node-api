@@ -13,9 +13,11 @@ const express = require('express'),
     mongoose = require('mongoose'),
     MongoStore = require('connect-mongo')(session)
     ios = require('socket.io-express-session'),
+    moment = require('moment-timezone').tz.setDefault("Asia/Calcutta"),
     numUsers = 0,
     port = process.env.PORT || 3000;
 
+// console.log(moment.tz.guess());
 //Socket.IO Connections
 const appServer = http.createServer(app, function (req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');

@@ -22,6 +22,7 @@
  * $env:NODE_ENV="test"
  * $env:app_password=123456
  * $env:nodeapi_jwtPrivateKey=123456
+ * $env:TZ="Europe/Amsterdam"
  * $env:MAIL_USERNAME="virendra.smtp@gmail.com"
  * $env:MAIL_PASSWORD="tsjmryqrewgxxeujvk"
  * heroku config:set nodeapi_jwtPrivateKey=123456

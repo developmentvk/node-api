@@ -43,7 +43,7 @@ module.exports = function () {
             errorStackTracerFormat(),
             label({ label: ip.address() }),
             timestamp({
-                format: dateFormat(now, "yyyy-mm-dd h:MM:ss TT Z")
+                format: dateFormat(now, "yyyy-mm-dd h:MM:ss TT")
             }),
             printf(info => {
                 return `${info.timestamp} [${info.label}] ${info.level} : ${info.message} ${info.full_trace}`;
@@ -68,7 +68,7 @@ module.exports = function () {
             errorStackTracerFormat(),
             label({ label: ip.address() }),
             timestamp({
-                format: dateFormat(now, "yyyy-mm-dd h:MM:ss TT Z")
+                format: dateFormat(now, "yyyy-mm-dd h:MM:ss TT")
             }),
             printf(info => {
                 return `${info.timestamp} [${info.label}] ${info.level} : ${info.message} ${info.full_trace}`;

@@ -12,7 +12,7 @@ const router = express.Router();
 router.get('/logs', adminSession, async (req, res) => {
     res.render('admin/logs/logs', {
         layout: "admin/include/layout",
-        title: i18n.__('logs')
+        title: i18n.__('all_logs')
     });
 });
 
