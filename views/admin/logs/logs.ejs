@@ -8,19 +8,21 @@
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
+                <div class="header">
+                    <h2>
+                        <%= __('all_logs');  %>
+                    </h2>
+                    <ul class="header-dropdown m-r--5">
+                        <li>
+                            <a href="javascript:void(0);" data-toggle="cardloading" data-loading-effect="pulse">
+                                <i class="material-icons">loop</i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
                 <div class="body">
                     <div class="list-group" id="message_file_box">
-                        <div class="preloader pl-size-xs">
-                            <div class="spinner-layer pl-teal">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <p><%= __("please_wait"); %>...</p>
+                        
                     </div>
                 </div>
             </div>
@@ -29,9 +31,19 @@
 </div>
 
 <script>
-    $(window).load(function(){
-        $.get("/admin/logs/prepare", function(data, status){ 
-            $('#message_file_box').html("");
-        });
-    })
+$(function () {
+    $('[data-toggle="cardloading"]').click();
+});
+$('[data-toggle="cardloading"]').on('click', function () {
+    var effect = $(this).data('loadingEffect');
+    var $loading = $(this).parents('.card').waitMe({
+        effect: effect,
+        text: 'Loading...',
+        bg: 'rgba(255,255,255,0.90)',
+        color: '#555'
+    });
+    $.get("/admin/logs/prepare", function(data, status){ 
+        $loading.waitMe('hide');
+    });
+});
 </script>
