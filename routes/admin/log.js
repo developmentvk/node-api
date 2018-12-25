@@ -41,8 +41,13 @@ router.get('/logs/prepare', adminSession, async (req, res) => {
             const stats = fs.statSync(file)
             const fileSizeInBytes = stats.size;
             let size = filesize(fileSizeInBytes, {bits: true});
-            let fileName = _.last(file.split("\\"));
-
+            let fileName = '';
+            if(_.includes(file,'\\'))
+            {
+                fileName = _.last(file.split("\\"));
+            } else {
+                fileName = _.last(file.split("/"));
+            }
             output.push({
                 fileName : fileName,
                 size : size
