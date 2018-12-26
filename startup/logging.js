@@ -35,18 +35,17 @@ const transport = new (winston.transports.DailyRotateFile)({
   });
 
 module.exports = function () {
-
     createLogger({
         level: 'info',
         format: combine(
             winston.format.splat(),
             errorStackTracerFormat(),
-            label({ label: ip.address() }),
+            label({ label: process.env.NODE_ENV || 'development' }),
             timestamp({
-                format: dateFormat(now, "yyyy-mm-dd h:MM:ss TT")
+                format: dateFormat(now, "yyyy-mm-dd h:MM:ss")
             }),
             printf(info => {
-                return `${info.timestamp} [${info.label}] ${info.level} : ${info.message} ${info.full_trace}`;
+                return `[${info.timestamp}] ${info.level}.${info.label}: ${info.message} ${info.full_trace}`;
             })
         ),
         transports: [
@@ -66,12 +65,12 @@ module.exports = function () {
         format: combine(
             winston.format.splat(),
             errorStackTracerFormat(),
-            label({ label: ip.address() }),
+            label({ label: process.env.NODE_ENV || 'development' }),
             timestamp({
-                format: dateFormat(now, "yyyy-mm-dd h:MM:ss TT")
+                format: dateFormat(now, "yyyy-mm-dd h:MM:ss")
             }),
             printf(info => {
-                return `${info.timestamp} [${info.label}] ${info.level} : ${info.message} ${info.full_trace}`;
+                return `[${info.timestamp}] ${info.level}.${info.label}: ${info.message} ${info.full_trace}`;
             })
         ),
         transports: [
