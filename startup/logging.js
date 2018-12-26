@@ -1,12 +1,10 @@
 const winston = require('winston');
 const { createLogger, format, transports } = winston;
 const { combine, timestamp, label, printf } = format;
-const ip = require('ip');
 const fs = require('fs');
 const path = require('path');
 const dateFormat = require('dateformat');
 const now = new Date();
-const ipAddress = ip.address();
 const logDir = 'logs';
 require('winston-daily-rotate-file');
 require('express-async-errors');
@@ -40,12 +38,12 @@ module.exports = function () {
         format: combine(
             winston.format.splat(),
             errorStackTracerFormat(),
-            label({ label: process.env.NODE_ENV || 'development' }),
+            label({ label: process.env.NODE_ENV || 'local' }),
             timestamp({
                 format: dateFormat(now, "yyyy-mm-dd h:MM:ss")
             }),
             printf(info => {
-                return `[${info.timestamp}] ${info.label}.${info.level}: ${ipAddress}: ${info.message} ${info.full_trace}`;
+                return `[${info.timestamp}] ${info.label}.${info.level}: ${info.message} ${info.full_trace}`;
             })
         ),
         transports: [
@@ -65,12 +63,12 @@ module.exports = function () {
         format: combine(
             winston.format.splat(),
             errorStackTracerFormat(),
-            label({ label: process.env.NODE_ENV || 'development' }),
+            label({ label: process.env.NODE_ENV || 'local' }),
             timestamp({
                 format: dateFormat(now, "yyyy-mm-dd h:MM:ss")
             }),
             printf(info => {
-                return `[${info.timestamp}] ${info.label}.${info.level}: ${ipAddress}: ${info.message} ${info.full_trace}`;
+                return `[${info.timestamp}] ${info.label}.${info.level}: ${info.message} ${info.full_trace}`;
             })
         ),
         transports: [

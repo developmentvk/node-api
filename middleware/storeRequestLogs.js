@@ -1,4 +1,6 @@
 const winston = require('winston');
+const ip = require('ip');
+const ipAddress = ip.address();
 
 module.exports = (req, res, next) => {
     let start_time = new Date().getTime();
@@ -15,8 +17,8 @@ module.exports = (req, res, next) => {
     let params = req.params ? ` Params : ${JSON.stringify(req.params)}` : '';
     params += req.query ? ` Query : ${JSON.stringify(req.query)}` : '';
     params += req.body ? ` Body : ${JSON.stringify(req.body)}` : '';
-    let log = `[${method}] @ ${url}${authorization}${contentType}${userAgent}${params}`;
-    winston.info('*** ==== | Request Start | ==== ***');
+    let log = `${ipAddress}: [${method}] @ ${url}${authorization}${contentType}${userAgent}${params}`;
+    winston.info('*** ==== | Request Started | ==== ***');
     winston.info(log);
     res.write = function newWrite(chunk) {
         chunks.push(chunk);
@@ -35,7 +37,7 @@ module.exports = (req, res, next) => {
             if (body.length > 0) { winston.info(`Response : ${body}`); }
         }
         elapsedTime = new Date().getTime() - start_time + 'ms';
-        winston.info(`*** ==== | Request End with Status Code: ${res.statusCode} & Elapsed Time : ${elapsedTime} | ==== ***`);
+        winston.info(`*** ==== | Request Completed with Status Code: ${res.statusCode} & Elapsed Time : ${elapsedTime} | ==== ***`);
     });
 
     next();
