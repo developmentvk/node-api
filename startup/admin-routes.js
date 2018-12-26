@@ -7,9 +7,11 @@ const role = require('../routes/admin/role');
 const admin = require('../routes/admin/admin');
 const countries = require('../routes/admin/countries');
 const error = require('../middleware/error');
+const adminPermission = require('../middleware/adminPermission');
 
 module.exports = function (app, io) {
   app.use('/admin', login);
+  app.use(adminPermission);
   app.use('/admin', dashboard);
   app.use('/admin', log);
   app.use('/admin', navigation);
