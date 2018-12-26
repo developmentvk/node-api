@@ -14,9 +14,9 @@ module.exports = (req, res, next) => {
     let authorization = req.headers['x-access-token'] ? ` JWT Token : ${req.headers['x-access-token']}` : '';
     let contentType = req.headers['content-type'] ? ` Content Type : ${req.headers['content-type']}` : '';
     let userAgent = ""; //req.headers['user-agent'] ? ` Browser : ${req.headers['user-agent']}` : '';
-    let params = req.params ? ` Params : ${JSON.stringify(req.params)}` : '';
-    params += req.query ? ` Query : ${JSON.stringify(req.query)}` : '';
-    params += req.body ? ` Body : ${JSON.stringify(req.body)}` : '';
+    let params = req.params.length > 0 ? ` Params : ${JSON.stringify(req.params)}` : '';
+    params += req.query.length > 0 ? ` Query : ${JSON.stringify(req.query)}` : '';
+    params += req.body.length > 0 ? ` Body : ${JSON.stringify(req.body)}` : '';
     let log = `${ipAddress}: [${method}] @ ${url}${authorization}${contentType}${userAgent}${params}`;
     winston.info('*** ==== | Request Started | ==== ***');
     winston.info(log);
