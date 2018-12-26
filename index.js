@@ -93,7 +93,7 @@ app.use((req, res, next) => {
 });
 
 io.on("connection", function (socket) {
-    winston.info('Socket connected with SID: ' + socket.handshake.sessionID);
+    // winston.info('Socket connected with SID: ' + socket.handshake.sessionID);
     /**
      * Accept a login event with user's data
      */
@@ -112,14 +112,14 @@ io.on("connection", function (socket) {
         }
     });
 
-    socket.on("navigationUpdatedEvent", async function () {
-        if(app.locals.req.session.admin.hasOwnProperty('navigations')) {
-            await app.locals.SocketHelper.navigationMenuListing(app.locals.req);
-        }
-    });
+    // socket.on("navigationUpdatedEvent", async function () {
+    //     if(app.locals.req.session.admin.hasOwnProperty('navigations')) {
+    //         await app.locals.SocketHelper.navigationMenuListing(app.locals.req);
+    //     }
+    // });
 
     socket.on('disconnect', () => {
-        winston.info('Socket dis-connected with SID: ' + socket.handshake.sessionID);
+        // winston.info('Socket dis-connected with SID: ' + socket.handshake.sessionID);
     });
     
 });
