@@ -39,7 +39,6 @@
                                     <th><%= __('action_path') %></th>
                                     <th><%= __('show_in_menu') %></th>
                                     <th><%= __('show_in_permission') %></th>
-                                    <th><%= __('child_permission') %></th>
                                     <th><%= __('display_order') %></th>
                                     <th><%= __('status') %></th>
                                 </tr>
@@ -96,9 +95,6 @@ $(function () {
             }},
             {data: 'show_in_permission', name:'show_in_permission', mRender: function(data, type, row) {
                 return row.show_in_permission ?  "<%= __('yes') %>" : "<%= __('no') %>";
-            }},
-            {data: 'child_permission', name:'child_permission', mRender: function(data, type, row) {
-                return row.child_permission ?  "<%= __('yes') %>" : "<%= __('no') %>";
             }},
             {data: 'display_order',  name: 'display_order'},
             {data: 'status', name:'status', mRender: function(data, type, row) {

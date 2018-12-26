@@ -73,7 +73,6 @@
 	"parent": "Parent",
 	"show_in_menu": "Show in menu",
 	"show_in_permission": "Show in permission",
-	"child_permission": "Child permission",
 	"status": "Status",
 	"status_array": [
 		"Inactive",

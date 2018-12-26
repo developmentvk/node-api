@@ -66,7 +66,6 @@ router.post('/navigations/create', adminSession, async (req, res) => {
         status: req.body.status,
         show_in_menu: req.body.show_in_menu,
         show_in_permission: req.body.show_in_permission,
-        child_permission: req.body.child_permission,
         display_order: req.body.display_order
     })
     await navigationMasters.save();
@@ -119,7 +118,6 @@ router.post('/navigations/update/:id', adminSession, async (req, res) => {
         status: req.body.status,
         show_in_menu: req.body.show_in_menu,
         show_in_permission: req.body.show_in_permission,
-        child_permission: req.body.child_permission,
         display_order: req.body.display_order
     }, { new: true });
     req.app.io.emit("navigationUpdatedEvent");

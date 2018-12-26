@@ -40,10 +40,6 @@ const tableSchema = new mongoose.Schema({
 		type: Number,
 		default: 1 //0.No, 1.Yes
 	},
-	child_permission: {
-		type: Number,
-		default: 1 //0.No, 1.Yes
-	},
 	display_order: {
 		type: Number,
 		default: 1 //0.No, 1.Yes
@@ -66,7 +62,6 @@ function validate(table) {
 		status: Joi.any().valid('0', '1').required(),
 		show_in_menu: Joi.any().valid('0', '1').required(),
 		show_in_permission: Joi.any().valid('0', '1').required(),
-		child_permission: Joi.any().valid('0', '1').required(),
 		display_order: Joi.number().min(0).required()
 	};
 
