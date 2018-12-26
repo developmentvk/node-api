@@ -45,7 +45,7 @@ module.exports = function () {
                 format: dateFormat(now, "yyyy-mm-dd h:MM:ss")
             }),
             printf(info => {
-                return `[${info.timestamp}] ${info.level}.${info.label}: ${info.message} ${info.full_trace}`;
+                return `[${info.timestamp}] ${info.label}.${info.level}: ${info.message} ${info.full_trace}`;
             })
         ),
         transports: [
@@ -70,7 +70,7 @@ module.exports = function () {
                 format: dateFormat(now, "yyyy-mm-dd h:MM:ss")
             }),
             printf(info => {
-                return `[${info.timestamp}] ${info.level}.${info.label}: ${info.message} ${info.full_trace}`;
+                return `[${info.timestamp}] ${info.label}.${info.level}: ${info.message} ${info.full_trace}`;
             })
         ),
         transports: [
