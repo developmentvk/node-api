@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const dateFormat = require('dateformat');
 const now = new Date();
-
+const ipAddress = ip.address();
 const logDir = 'logs';
 require('winston-daily-rotate-file');
 require('express-async-errors');
@@ -45,7 +45,7 @@ module.exports = function () {
                 format: dateFormat(now, "yyyy-mm-dd h:MM:ss")
             }),
             printf(info => {
-                return `[${info.timestamp}] ${info.label}.${info.level}: ${info.message} ${info.full_trace}`;
+                return `[${info.timestamp}] ${info.label}.${info.level}: ${ipAddress}: ${info.message} ${info.full_trace}`;
             })
         ),
         transports: [
@@ -70,7 +70,7 @@ module.exports = function () {
                 format: dateFormat(now, "yyyy-mm-dd h:MM:ss")
             }),
             printf(info => {
-                return `[${info.timestamp}] ${info.label}.${info.level}: ${info.message} ${info.full_trace}`;
+                return `[${info.timestamp}] ${info.label}.${info.level}: ${ipAddress}: ${info.message} ${info.full_trace}`;
             })
         ),
         transports: [
