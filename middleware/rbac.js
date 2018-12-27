@@ -19,8 +19,8 @@ module.exports = async function (req, res, next) {
         }
         if(checkHasAccess !== true) {
             req.flash('error', [i18n.__('you_do_not_have_permission_to_access_this_module')]);
-            // return res.redirect('/admin/dashboard');
-            return res.status(403).send(i18n.__('you_do_not_have_permission_to_access_this_module'));
+            return res.redirect('/admin/dashboard');
+            // return res.status(403).send(i18n.__('you_do_not_have_permission_to_access_this_module'));
         }
     }
 
