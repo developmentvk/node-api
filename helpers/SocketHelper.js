@@ -54,12 +54,11 @@ function sendEmail(to, template, data, subject) {
 
         // setup email data with unicode symbols
         let mailOptions = {
-            from: `"NodeJS 👻" <${MAIL_USERNAME}>`, // sender address
+            from: `"${i18n.__('company')} 👻" <${MAIL_USERNAME}>`, // sender address
             to: to, // list of receivers
             subject: `${subject} ✔`, // Subject line
             html: html_body // html body
         };
-
         // send mail with defined transport object
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {

@@ -8,7 +8,7 @@ const admin = require('../routes/admin/admin');
 const countries = require('../routes/admin/countries');
 const error = require('../middleware/error');
 
-module.exports = function (app, io) {
+module.exports = function (app) {
   app.use('/admin', login);
   app.use('/admin', dashboard);
   app.use('/admin', log);
