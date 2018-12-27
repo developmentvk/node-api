@@ -1,12 +1,13 @@
 const express = require('express');
 const adminSession = require('../../middleware/adminSession');
+const rbac = require('../../middleware/rbac');
 const i18n = require("i18n");
 const { Countries, validate } = require('../../models/countries');
 const { successMessage, errorMessage } = require('../../helpers/SocketHelper');
 const _ = require('lodash');
 const router = express.Router();
 
-router.get('/countries', adminSession, async (req, res) => {
+router.get('/countries', [adminSession, rbac], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
 
@@ -18,7 +19,7 @@ router.get('/countries', adminSession, async (req, res) => {
     });
 });
 
-router.post('/countries/listings', adminSession, async (req, res) => {
+router.post('/countries/listings', [adminSession, rbac], async (req, res) => {
     Countries.dataTables({
         limit: req.body.length,
         skip: req.body.start,
@@ -38,7 +39,7 @@ router.post('/countries/listings', adminSession, async (req, res) => {
 });
 
 
-router.get('/countries/create', adminSession, async (req, res) => {
+router.get('/countries/create', [adminSession, rbac], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
     res.render('admin/countries/create', {
@@ -49,7 +50,7 @@ router.get('/countries/create', adminSession, async (req, res) => {
     });
 });
 
-router.post('/countries/create', adminSession, async (req, res) => {
+router.post('/countries/create', [adminSession, rbac], async (req, res) => {
     const { error } = validate(req.body);
     if (error) {
         req.flash('error', error.details[0].message);
@@ -67,7 +68,7 @@ router.post('/countries/create', adminSession, async (req, res) => {
     return res.redirect('/admin/countries/create');
 });
 
-router.get('/countries/update/:id', adminSession, async (req, res) => {
+router.get('/countries/update/:id', [adminSession, rbac], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
     const countries = await Countries.findOne({
@@ -86,7 +87,7 @@ router.get('/countries/update/:id', adminSession, async (req, res) => {
     });
 });
 
-router.post('/countries/update/:id', adminSession, async (req, res) => {
+router.post('/countries/update/:id', [adminSession, rbac], async (req, res) => {
     const { error } = validate(req.body);
     if (error) {
         req.flash('error', error.details[0].message);
@@ -107,7 +108,7 @@ router.post('/countries/update/:id', adminSession, async (req, res) => {
 
 
 
-router.post('/countries/delete/:id', adminSession, async (req, res) => {
+router.post('/countries/delete/:id', [adminSession, rbac], async (req, res) => {
     const countries = await Countries.findByIdAndRemove(req.params.id);
 	if (!countries) return errorMessage(res, 'no_record_found');
 	return successMessage(res, 'success', 200, countries);

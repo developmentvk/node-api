@@ -1,5 +1,6 @@
 const express = require('express');
 const adminSession = require('../../middleware/adminSession');
+const rbac = require('../../middleware/rbac');
 const i18n = require("i18n");
 const { UsersRoles, validate } = require('../../models/usersRoles');
 const { RolesPermissions } = require('../../models/rolesPermissions');
@@ -7,7 +8,7 @@ const { successMessage, errorMessage, getGroupNavigation, getRolePermission } = 
 const _ = require('lodash');
 const router = express.Router();
 
-router.get('/roles', adminSession, async (req, res) => {
+router.get('/roles', [adminSession, rbac], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
 
@@ -19,7 +20,7 @@ router.get('/roles', adminSession, async (req, res) => {
     });
 });
 
-router.post('/roles/listings', adminSession, async (req, res) => {
+router.post('/roles/listings', [adminSession, rbac], async (req, res) => {
     UsersRoles.dataTables({
         limit: req.body.length,
         skip: req.body.start,
@@ -39,7 +40,7 @@ router.post('/roles/listings', adminSession, async (req, res) => {
 });
 
 
-router.get('/roles/create', adminSession, async (req, res) => {
+router.get('/roles/create', [adminSession, rbac], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
     res.render('admin/roles/create', {
@@ -50,7 +51,7 @@ router.get('/roles/create', adminSession, async (req, res) => {
     });
 });
 
-router.post('/roles/create', adminSession, async (req, res) => {
+router.post('/roles/create', [adminSession, rbac], async (req, res) => {
     const { error } = validate(req.body);
     if (error) {
         req.flash('error', error.details[0].message);
@@ -66,7 +67,7 @@ router.post('/roles/create', adminSession, async (req, res) => {
     return res.redirect('/admin/roles/create');
 });
 
-router.get('/roles/update/:id', adminSession, async (req, res) => {
+router.get('/roles/update/:id', [adminSession, rbac], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
     const roles = await UsersRoles.findOne({
@@ -85,7 +86,7 @@ router.get('/roles/update/:id', adminSession, async (req, res) => {
     });
 });
 
-router.post('/roles/update/:id', adminSession, async (req, res) => {
+router.post('/roles/update/:id', [adminSession, rbac], async (req, res) => {
     const { error } = validate(req.body);
     if (error) {
         req.flash('error', error.details[0].message);
@@ -102,13 +103,13 @@ router.post('/roles/update/:id', adminSession, async (req, res) => {
     return res.redirect(`/admin/roles/update/${req.params.id}`);
 });
 
-router.post('/roles/delete/:id', adminSession, async (req, res) => {
+router.post('/roles/delete/:id', [adminSession, rbac], async (req, res) => {
     const usersRoles = await UsersRoles.findByIdAndRemove(req.params.id);
     if (!usersRoles) return errorMessage(res, 'no_record_found');
     return successMessage(res, 'success', 200, usersRoles);
 });
 
-router.get('/roles/permission/:id', adminSession, async (req, res) => {
+router.get('/roles/permission/:id', [adminSession, rbac], async (req, res) => {
     if (!req.params.id) {
         req.flash('error', [i18n.__('record_not_found')]);
         return res.redirect('/admin/roles');
@@ -128,7 +129,7 @@ router.get('/roles/permission/:id', adminSession, async (req, res) => {
     });
 });
 
-router.post('/roles/permission/:id', adminSession, async (req, res) => {
+router.post('/roles/permission/:id', [adminSession, rbac], async (req, res) => {
     if (!req.params.id) {
         req.flash('error', [i18n.__('record_not_found')]);
         return res.redirect(`/admin/roles/permission/${req.params.id}`);

@@ -1,10 +1,11 @@
 const express = require('express');
 const adminSession = require('../../middleware/adminSession');
+const rbac = require('../../middleware/rbac');
 const { AdminLoginLogs } = require('../../models/adminLoginLogs');
 const i18n = require("i18n");
 const router = express.Router();
 
-router.get('/dashboard', adminSession, async (req, res) => {
+router.get('/dashboard', [adminSession, rbac], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
     res.render('admin/dashboard/index', {
@@ -16,7 +17,7 @@ router.get('/dashboard', adminSession, async (req, res) => {
 });
 
 
-router.get('/logout', adminSession, async (req, res) => {
+router.get('/logout', [adminSession, rbac], async (req, res) => {
     if (req.session.adminAuthenticated === true && req.cookies.session) {
         if(req.session.admin.login_id)
         {

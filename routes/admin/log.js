@@ -1,5 +1,6 @@
 const express = require('express');
 const adminSession = require('../../middleware/adminSession');
+const rbac = require('../../middleware/rbac');
 const i18n = require("i18n");
 const LineByLineReader = require('line-by-line');
 const dir = require('node-dir');
@@ -9,7 +10,7 @@ const filesize = require("filesize");
 const _ = require('lodash');
 const router = express.Router();
 
-router.get('/logs', adminSession, async (req, res) => {
+router.get('/logs', [adminSession, rbac], async (req, res) => {
     res.render('admin/logs/logs', {
         layout: "admin/include/layout",
         title: i18n.__('all_logs')
@@ -17,7 +18,7 @@ router.get('/logs', adminSession, async (req, res) => {
 });
 
 
-router.get('/logs/prepare', adminSession, async (req, res) => {
+router.get('/logs/prepare', [adminSession, rbac], async (req, res) => {
     let filePath = (__dirname + `/../../logs/`);
     dir.readFilesStream(filePath, {
         match: /.log$/,
@@ -61,7 +62,7 @@ router.get('/logs/prepare', adminSession, async (req, res) => {
     return successMessage(res, 'success', 200);
 });
 
-router.get('/logs/file/:file', adminSession, async (req, res) => {
+router.get('/logs/file/:file', [adminSession], async (req, res) => {
     let filePath = (__dirname + `/../../logs/${req.params.file}`);
     let lr = new LineByLineReader(filePath);
     let data = [];

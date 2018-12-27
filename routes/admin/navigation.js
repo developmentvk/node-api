@@ -1,12 +1,13 @@
 const express = require('express');
 const adminSession = require('../../middleware/adminSession');
+const rbac = require('../../middleware/rbac');
 const i18n = require("i18n");
 const { NavigationMasters, validate } = require('../../models/navigationMasters');
 const { successMessage, errorMessage } = require('../../helpers/SocketHelper');
 const _ = require('lodash');
 const router = express.Router();
 
-router.get('/navigations', adminSession, async (req, res) => {
+router.get('/navigations', [adminSession, rbac], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
 
@@ -18,7 +19,7 @@ router.get('/navigations', adminSession, async (req, res) => {
     });
 });
 
-router.post('/navigations/listings', adminSession, async (req, res) => {
+router.post('/navigations/listings', [adminSession, rbac], async (req, res) => {
     NavigationMasters.dataTables({
         limit: req.body.length,
         skip: req.body.start,
@@ -38,7 +39,7 @@ router.post('/navigations/listings', adminSession, async (req, res) => {
 });
 
 
-router.get('/navigations/create', adminSession, async (req, res) => {
+router.get('/navigations/create', [adminSession, rbac], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
     const navigationMasters = await NavigationMasters.find({parent_id:null});
@@ -51,7 +52,7 @@ router.get('/navigations/create', adminSession, async (req, res) => {
     });
 });
 
-router.post('/navigations/create', adminSession, async (req, res) => {
+router.post('/navigations/create', [adminSession, rbac], async (req, res) => {
     const { error } = validate(req.body);
     if (error) {
         req.flash('error', error.details[0].message);
@@ -77,7 +78,7 @@ router.post('/navigations/create', adminSession, async (req, res) => {
 });
 
 
-router.get('/navigations/update/:id', adminSession, async (req, res) => {
+router.get('/navigations/update/:id', [adminSession, rbac], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
     const navigations = await NavigationMasters.findOne({
@@ -102,7 +103,7 @@ router.get('/navigations/update/:id', adminSession, async (req, res) => {
     });
 });
 
-router.post('/navigations/update/:id', adminSession, async (req, res) => {
+router.post('/navigations/update/:id', [adminSession, rbac], async (req, res) => {
     const { error } = validate(req.body);
     if (error) {
         req.flash('error', error.details[0].message);
@@ -127,7 +128,7 @@ router.post('/navigations/update/:id', adminSession, async (req, res) => {
 });
 
 
-router.post('/navigations/delete/:id', adminSession, async (req, res) => {
+router.post('/navigations/delete/:id', [adminSession, rbac], async (req, res) => {
     const navigationMasters = await NavigationMasters.findByIdAndRemove(req.params.id);
     if (!navigationMasters) return errorMessage(res, 'no_record_found');
     req.app.io.emit("navigationUpdatedEvent");
