@@ -49,6 +49,25 @@ router.post('/admins/listings',[adminSession, rbac], async (req, res) => {
 });
 
 
+router.get('/admins/view/:id', [adminSession, rbac], async (req, res) => {
+    let error = req.flash('error');
+    let success = req.flash('success');
+    const admins = await Admin.findOne({
+        _id: req.params.id
+    });
+    if (!admins) {
+        req.flash('error', [i18n.__('record_not_found')]);
+        return res.redirect('/admin/admins');
+    }
+    res.render('admin/admins/view', {
+        layout: "admin/include/layout",
+        title: i18n.__('view_details'),
+        error: error,
+        success: success,
+        data : admins
+    });
+});
+
 router.get('/admins/create',[adminSession, rbac], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');

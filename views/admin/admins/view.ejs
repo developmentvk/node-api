@@ -1,0 +1,127 @@
+<div class="container-fluid">
+    <div class="block-header">
+        <ol class="breadcrumb breadcrumb-bg-teal">
+            <li><a href="javascript:void(0);"><i class="material-icons">home</i> <%= __('home'); %></a></li>
+            <li><a href="/admin/admins"><i class="material-icons">view_list</i> <%= __('all_admins'); %></a></li>
+            <li class="active"><i class="material-icons">remove_red_eye</i> <%= __('view_details'); %></li>
+        </ol>
+    </div>
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <% if(error.length > 0) { %>
+                <div class="alert alert-danger">
+                    <%= error %>
+                </div>
+            <% } %>
+            <% if(success.length > 0) { %>
+            <div class="alert alert-success">
+                <%= success %>
+            </div>
+            <% } %>
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        <%= data.name %>
+                        <small><%= __('account_id') %> : <%= data._id %></small>
+                    </h2>
+                    <ul class="header-dropdown m-r--5">
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                
+                                <% if(locals.SocketHelper.hasAccess(locals.req, "/admin/admins/update") == true) {%>
+                                    <li>
+                                        <a href="/admin/admins/update/<%= data._id %>"><%= __('update') %></a>
+                                    </li>
+                                <% } %>
+                                <% if(locals.SocketHelper.hasAccess(locals.req, "/admin/admins/permission") == true) {%>
+                                    <li>
+                                        <a href="/admin/admins/permission/<%= data._id %>"><%= __('permission') %></a>
+                                    </li>
+                                <% } %>
+                                <% if(locals.SocketHelper.hasAccess(locals.req, "/admin/admins/change/password") == true) {%>
+                                    <li>
+                                        <a href="/admin/admins/change/password/<%= data._id %>"><%= __('change_password') %></a>
+                                    </li>
+                                <% } %>
+                                <% if(locals.SocketHelper.hasAccess(locals.req, "/admin/admins/delete") == true) {%>
+                                    <li>
+                                        <a  class="delete" href="/admin/admins/delete/<%= data._id %>"><%= __('delete') %></a>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="body">
+                    <div class="row clearfix">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                                <li role="presentation" class="active"><a href="#account_info" data-toggle="tab"><%= __('account_info')%></a></li>
+                                <li role="presentation"><a href="#active_session" data-toggle="tab"><%= __('active_session')%></a></li>
+                                <li role="presentation"><a href="#module_access" data-toggle="tab"><%= __('module_access')%></a></li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane animated flipInX active" id="account_info">
+                                    <b>Home Content</b>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit mediocritatem an. Pri ut tation electram moderatius.
+                                        Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent
+                                        aliquid pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere
+                                        gubergren sadipscing mel.
+                                    </p>
+                                </div>
+                                <div role="tabpanel" class="tab-pane animated flipInX" id="active_session">
+                                    <b>Profile Content</b>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit mediocritatem an. Pri ut tation electram moderatius.
+                                        Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent
+                                        aliquid pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere
+                                        gubergren sadipscing mel.
+                                    </p>
+                                </div>
+                                <div role="tabpanel" class="tab-pane animated flipInX" id="module_access">
+                                    <b>Message Content</b>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit mediocritatem an. Pri ut tation electram moderatius.
+                                        Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent
+                                        aliquid pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere
+                                        gubergren sadipscing mel.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(function () {
+    $(document).on('click', '.delete', function(e) {
+        e.preventDefault();
+        let href = $(this).attr('href');
+        swal({
+            title: "<%= __('are_you_sure') %>?",
+            text: "<%= __('delete_confirmation') %>!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "<%=  __('deletion_confirm_button') %>!",
+            closeOnConfirm: false
+        }, function () {
+            $.post( href, function( data ) {
+                swal("<%=  __('deleted') %>!", "<%=  __('deletion_successful') %>.", "success");
+                window.location.replace("/admin/admins");
+            });
+        });
+    })
+});
+</script>

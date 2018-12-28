@@ -143,5 +143,11 @@
 	"account_permission_updated_successfully": "Account permission updated successfully",
 	"role_permission": "Role Permission",
 	"all_logs": "All logs",
-	"you_do_not_have_permission_to_access_this_module": "You do not have permission to access this module, please refer to your system administrator."
+	"you_do_not_have_permission_to_access_this_module": "You do not have permission to access this module, please refer to your system administrator.",
+	"view": "View",
+	"view_details": "View Details",
+	"account_id": "Account ID",
+	"account_info": "Account Info",
+	"active_session": "Active Session",
+	"module_access": "Module Access"
 }
