@@ -129,10 +129,17 @@ require('./startup/validation')();
 require('./startup/prod')(app);
 
 /**
+ * The 500 Route (ALWAYS Keep this as the last route)
+ */
+app.use(function(error, req, res, next) {
+    res.render('500', { header: false, layout: "layout", title: "500" });
+});
+
+/**
  * The 404 Route (ALWAYS Keep this as the last route)
  */
 app.all('*', function (req, res) {
-    res.render('404', { header: false, layout: "layout", title: i18n.__('404_page') });
+    res.render('404', { header: false, layout: "layout", title: "400" });
 });
 
 const server = appServer.listen(port, function () {

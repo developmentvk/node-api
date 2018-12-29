@@ -132,7 +132,6 @@
 	"request_failed": "Request failed",
 	"admin_account_updated_successfully": "Admin account updated successfully",
 	"admin_account_created_successfully": "Admin account created successfully",
-	"404_page": "404 Page",
 	"logged_out_duplicate_session_successfully": "Logged out successfully, due to someone loggedin with same account.",
 	"delete": "Delete",
 	"update": "Update",
@@ -149,5 +148,8 @@
 	"account_id": "Account ID",
 	"account_info": "Account Info",
 	"active_session": "Active Session",
-	"module_access": "Module Access"
+	"module_access": "Module Access",
+	"this_page_does_not_exist": "This page doesn't exist",
+	"go_to_home_page": "GO TO HOMEPAGE",
+	"internal_server_error" : "Internal Server Error"
 }
