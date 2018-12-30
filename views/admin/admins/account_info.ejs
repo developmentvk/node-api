@@ -1,0 +1,172 @@
+<div class="container-fluid">
+    <div class="block-header">
+        <ol class="breadcrumb breadcrumb-bg-teal">
+            <li><a href="javascript:void(0);"><i class="material-icons">home</i> <%= __('home'); %></a></li>
+            <li class="active"><i class="material-icons">remove_red_eye</i> <%= __('account_info'); %></li>
+        </ol>
+    </div>
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <% if(error.length > 0) { %>
+                <div class="alert alert-danger">
+                    <%= error %>
+                </div>
+            <% } %>
+            <% if(success.length > 0) { %>
+            <div class="alert alert-success">
+                <%= success %>
+            </div>
+            <% } %>
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        <%= data.name %>
+                        <small><%= __('account_id') %> : <%= data._id %></small>
+                    </h2>
+                    <ul class="header-dropdown m-r--5">
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="/admin/update/account"><%= __('update') %></a>
+                                </li>
+                                <li>
+                                    <a href="/admin/change/password"><%= __('change_password') %></a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="body">
+                    <div class="row clearfix">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#account_info" data-toggle="tab"><%= __('account_info')%></a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#active_session" data-toggle="tab"  data-table="js-access-log-table"><%= __('active_session')%></a>
+                                </li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane animated flipInX active" id="account_info">
+                                    <ul class="list-group">
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('account_id') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <%= data._id %>
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('name') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <%= data.name %>
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('email') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <%= data.email %>
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('mobile') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <%= data.mobile ? `+${data.dial_code}${data.mobile}` : '--' %>
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('account_access') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <%= data.role_id ? (getLocale() == 'en' ? data.role_id.en_name : data.role_id.name) : '--'; %>
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('image') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <% if(data.image) {%>
+                                                <div id="aniimated-thumbnials">
+                                                    <div class="col-lg-3 col-md-4 col-sm-6 m-t-0 m-l-0 m-r-0 m-b-0">
+                                                        <a href="<%= locals.SocketHelper.buildImageLink(data.image) %>" data-sub-html="<%= data.name %>">
+                                                            <img class="img-responsive thumbnail" src="<%= locals.SocketHelper.buildImageLink(data.image) %>">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <% } else { %>
+                                                --
+                                                <% } %>
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('status') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <%= data.decoded_status %>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div role="tabpanel" class="tab-pane animated flipInX" id="active_session">
+                                <%  if(adminLoginLogs != null) { %>    
+                                    <div class="card" id="active_session_box">
+                                        <div class="header bg-light-green">
+                                            <h2>
+                                                <%= __('ip_address') %> : <%= adminLoginLogs.ip_address %>
+                                                <small> <%= __('login_time') %> :  <%= adminLoginLogs.login_at %></small>
+                                                <small> <%= __('session_id') %> :  <%= adminLoginLogs.session_id %></small>
+                                            </h2>
+                                        </div>
+                                        <div class="body">
+                                            <h4><%= __('browser') %></h4>
+                                            <% let browser = JSON.parse(adminLoginLogs.browser); %>
+                                            <div class="clearfix"></div>
+                                            <%= __('name') %> : <%= browser.name %> 
+                                            <div class="clearfix"></div>
+                                            <%= __('version') %> : <%= browser.version %> 
+                                            <div class="clearfix"></div>
+                                            <%= __('versionNumber') %> : <%= browser.versionNumber %> 
+                                            <div class="clearfix"></div>
+                                            <%= __('mobile') %> : <%= browser.mobile %> 
+                                            <div class="clearfix"></div>
+                                            <%= __('os') %> : <%= browser.os %> 
+                                        </div>
+                                    </div>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(function () {
+    <% if(data.image) {%>
+        $('#aniimated-thumbnials').lightGallery({
+            thumbnail: true,
+            selector: 'a'
+        });
+    <% } %>
+});
+</script>

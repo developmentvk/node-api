@@ -94,6 +94,19 @@ function validateUpdate(user) {
 	return Joi.validate(user, schema);
 }
 
+function validateUpdateAccount(user) {
+	const schema = {
+		name: Joi.string().min(5).max(255).required(),
+		email: Joi.string().min(5).max(255).required().email(),
+		dial_code: Joi.number().min(0).allow('').optional(),
+		mobile: Joi.number().min(0).allow('').optional(),
+		file: Joi.string().allow('').optional(),
+		image: Joi.string().allow('').optional(),
+	};
+
+	return Joi.validate(user, schema);
+}
+
 function validateLogin(user) {
 	const schema = {
 		username: Joi.string().min(5).max(255).required().email(),
@@ -121,9 +134,21 @@ function validateUpdatePassword(user) {
 	return Joi.validate(user, schema);
 }
 
+function validateUpdateAccountPassword(user) {
+	const schema = {
+		old_password: Joi.string().min(5).max(255).required(),
+		password: Joi.string().min(5).max(255).required(),
+		confirm: Joi.string().valid(Joi.ref('password')).required().options({ language: { any: { allowOnly: 'must match password' } } })
+	};
+
+	return Joi.validate(user, schema);
+}
+
 exports.Admin = Admin;
 exports.validate = validate;
 exports.validateUpdate = validateUpdate;
 exports.validateLogin = validateLogin;
 exports.validateForgotPassword = validateForgotPassword;
 exports.validateUpdatePassword = validateUpdatePassword;
+exports.validateUpdateAccount = validateUpdateAccount;
+exports.validateUpdateAccountPassword = validateUpdateAccountPassword;

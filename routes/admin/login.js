@@ -39,18 +39,18 @@ router.post('/login', async (req, res) => {
     const { error } = validateLogin(req.body);
     if (error) {
         req.flash('error', error.details[0].message);
-        // return res.redirect('/admin/login');
+        return res.redirect('/admin/login');
     }
 
     let admin = await Admin.findOne({ email: req.body.username });
     if (!admin) {
         req.flash('error', [i18n.__('invalid_combination')]);
-        // return res.redirect('/admin/login');
+        return res.redirect('/admin/login');
     }
     const validPassword = await bcrypt.compare(req.body.password, admin.password);
     if (!validPassword) {
         req.flash('error', [i18n.__('invalid_combination')]);
-        // return res.redirect('/admin/login');
+        return res.redirect('/admin/login');
     }
 
     let adminLoginLogsExists = await AdminLoginLogs.find({
@@ -90,7 +90,7 @@ router.post('/login', async (req, res) => {
         req.session.cookie.expires = false;
     }
     
-    await navigationMenuListing(req);
+    await navigationMenuListing(req, true);
 
     return res.redirect('/admin/dashboard');
 });
@@ -174,7 +174,7 @@ router.post('/create-password/:remember_token/:id', adminAuth, async (req, res) 
     sendEmail(admin.email, 'create-password', options, i18n.__('password_changed_subject'));
 
     req.flash('success', [i18n.__('password_changed')]);
-    // return res.redirect('/admin/login');
+    return res.redirect('/admin/login');
 });
 
 

@@ -2,9 +2,8 @@
     <div class="block-header">
         <ol class="breadcrumb breadcrumb-bg-teal">
             <li><a href="javascript:void(0);"><i class="material-icons">home</i> <%= __('home'); %></a></li>
-            <li><a href="/admin/admins"><i class="material-icons">view_list</i> <%= __('all_admins'); %></a></li>
-            <li><a href="/admin/admins/view/<%= params.id %>"><i class="material-icons">remove_red_eye</i> <%= __('view_details'); %></a></li>
-            <li class="active"><i class="material-icons">add_circle</i> <%= __('update_admin'); %></li>
+            <li><a href="/admin/account-info"><i class="material-icons">remove_red_eye</i> <%= __('account_info'); %></a></li>
+            <li class="active"><i class="material-icons">add_circle</i> <%= __('update_account'); %></li>
         </ol>
     </div>
     <div class="row clearfix">
@@ -76,27 +75,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            <div class="row clearfix">
-                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                    <label for="role_id"><%= __('account_access'); %><span class="required">*</span></label>
-                                </div>
-                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                    <div class="form-group">
-                                        <select id="role_id" name="role_id"  class="form-control show-tick" autofocus required>
-                                            <option value=""><%= __('select_role'); %></option>
-                                            <% if(usersRoles.length > 0) {%>
-                                                <% 
-                                                _.forEach(usersRoles, function(value, index) {
-                                                    let selected = (admins.role_id && (value._id == admins.role_id.toString())) ? "selected" : "";
-                                                %>
-                                                    <option value="<%= value._id %>" <%= selected %> ><%= getLocale() == 'en' ? value.en_name : value.name %></option>
-                                                <% }) %>
-                                            <% } %>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
 
                             <div class="row clearfix">
                                 <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
@@ -108,23 +86,6 @@
                                             <input type="file" id="image" name="file" class="form-control" placeholder="<%= __('image'); %>" autofocus>
                                             <input type="hidden" name="image" />
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row clearfix">
-                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                    <label for="status"><%= __('status'); %></label>
-                                </div>
-                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                    <div class="form-group">
-                                        <%  
-                                            _.forEach(__('account_status_array'), function(value, index) { 
-                                                let selected = index == admins.status ?  'checked="checked"' : ''; 
-                                        %>
-                                            <input type="radio" <%= selected %> name="status" id="status_<%= value %>" class="with-gap radio-col-purple" value="<%= index %>">
-                                            <label for="status_<%= value %>"><%= value %></label>
-                                        <% }) %>
                                     </div>
                                 </div>
                             </div>
@@ -148,11 +109,6 @@
 <script>
 $(function () {
     $('#update_record').validate({
-        rules: {
-            'confirm': {
-                equalTo: '[name="password"]'
-            }
-        },
         highlight: function (input) {
             $(input).parents('.form-line').addClass('error');
         },

@@ -159,12 +159,16 @@ async function getUsersPermissionIDs(accessAdminId, accessRoleId) {
     return output;
 }
 
-async function navigationMenuListing(req, saveSession = true, admin_id = false, role_id = false) {
+async function navigationMenuListing(req, saveSession = true, accessAdminId = null, accessRoleId = null) {
     let excludeRoleId = config.get('excludeRoleId');
     let navigationMasters = [];
-    let accessAdminId = admin_id || req.session.admin._id;
-    let accessRoleId = role_id || req.session.admin.role_id;
-    if (excludeRoleId.toString() === accessRoleId.toString()) {
+    if(saveSession == true)
+    {
+        accessAdminId = req.session.admin._id;
+        accessRoleId = req.session.admin.role_id;
+    } 
+    
+    if (excludeRoleId == accessRoleId) {
         navigationMasters = await NavigationMasters.find({
             status: 1
         }).sort({ display_order: 'asc' }).select(['-createdAt', '-updatedAt', '-status', '-show_in_permission', '-child_permission', '-display_order']).exec();
