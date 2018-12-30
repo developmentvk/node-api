@@ -210,6 +210,18 @@
     <script src="/backend/js/admin.js"></script>
     <script src="/backend/js/pages/index.js"></script>
     <script src="/backend/js/socket.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('.nav-tabs').on('click', 'li a', function(e){
+                var table = $(this).data('table');
+                $(this).data('table','');
+                if(table)
+                {
+                    $('.'+table).DataTable().draw();
+                }
+            });
+        });
+    </script>
 
 </body>
 

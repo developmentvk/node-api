@@ -15,12 +15,14 @@ const router = express.Router();
 router.get('/login', adminAuth, async (req, res) => {
     if (req.query.logout === 'true') {
         req.flash('success', [i18n.__('logged_out_successfully')]);
-        return res.redirect('/admin/login');
     }
 
     if (req.query.logout === 'duplicate') {
         req.flash('success', [i18n.__('logged_out_duplicate_session_successfully')]);
-        return res.redirect('/admin/login');
+    }
+
+    if (req.query.logout === 'terminated') {
+        req.flash('success', [i18n.__('logged_out_session_terminated_successfully')]);
     }
 
     let error = req.flash('error');
@@ -37,40 +39,44 @@ router.post('/login', async (req, res) => {
     const { error } = validateLogin(req.body);
     if (error) {
         req.flash('error', error.details[0].message);
-        return res.redirect('/admin/login');
+        // return res.redirect('/admin/login');
     }
 
     let admin = await Admin.findOne({ email: req.body.username });
     if (!admin) {
         req.flash('error', [i18n.__('invalid_combination')]);
-        return res.redirect('/admin/login');
+        // return res.redirect('/admin/login');
     }
     const validPassword = await bcrypt.compare(req.body.password, admin.password);
     if (!validPassword) {
         req.flash('error', [i18n.__('invalid_combination')]);
-        return res.redirect('/admin/login');
+        // return res.redirect('/admin/login');
     }
 
-    let adminLoginLogsExists = await AdminLoginLogs.findOne({
+    let adminLoginLogsExists = await AdminLoginLogs.find({
         admin_id: admin._id,
         isActive: true
-    });
-    if (adminLoginLogsExists) {
-        await Sessions.remove({ "session.admin.login_id": adminLoginLogsExists._id });
-        await AdminLoginLogs.findByIdAndUpdate(adminLoginLogsExists._id, {
-            logout_at: new Date(),
-            isActive: false
-        }, { new: true });
+    }).exec();
+    if (adminLoginLogsExists.length > 0) {
+        _.forEach(adminLoginLogsExists, async function(value) {
+            await Sessions.deleteOne({ "session.admin.login_id": value._id });
+
+            await AdminLoginLogs.findByIdAndUpdate(value._id, {
+                logout_at: new Date(),
+                isActive: false
+            }, { new: true });
+        })
 
         req.app.io.emit("logoutSessionEvent", {
-            'admin_id': admin._id
+            admin_id : admin._id,
+            action : 'duplicate'
         });
     }
 
     const adminLoginLogs = await new AdminLoginLogs({
         admin_id: admin._id,
         browser: JSON.stringify(browser(req.headers['user-agent'])),
-        session_id: req.sessionID
+        session_id: req.sessionID,
     }).save();
 
     admin = JSON.parse(JSON.stringify(admin));
@@ -168,7 +174,7 @@ router.post('/create-password/:remember_token/:id', adminAuth, async (req, res) 
     sendEmail(admin.email, 'create-password', options, i18n.__('password_changed_subject'));
 
     req.flash('success', [i18n.__('password_changed')]);
-    return res.redirect('/admin/login');
+    // return res.redirect('/admin/login');
 });
 
 

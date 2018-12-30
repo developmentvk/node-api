@@ -116,9 +116,9 @@ async function getGroupNavigation() {
     return navigationMasters;
 }
 
-async function getRolePermission(role_id) {
+async function getRolePermission(accessRoleId) {
     let rolesPermissions = await RolesPermissions.find({
-        role_id: role_id
+        role_id: accessRoleId
     }).select(['navigation_id']).exec();
     if (rolesPermissions.length > 0) {
         rolesPermissions = JSON.parse(JSON.stringify(rolesPermissions));
@@ -126,9 +126,9 @@ async function getRolePermission(role_id) {
     return rolesPermissions;
 }
 
-async function getUsersPermission(admin_id) {
+async function getUsersPermission(accessAdminId) {
     let usersPermissions = await UsersPermissions.find({
-        admin_id: admin_id
+        admin_id: accessAdminId
     }).select(['navigation_id']).exec();
     if (usersPermissions.length > 0) {
         usersPermissions = JSON.parse(JSON.stringify(usersPermissions));
@@ -136,16 +136,16 @@ async function getUsersPermission(admin_id) {
     return usersPermissions;
 }
 
-async function getUsersPermissionIDs(req) {
+async function getUsersPermissionIDs(accessAdminId, accessRoleId) {
     let output = new Array();
     let usersPermissions = await UsersPermissions.find({
-        admin_id: req.session.admin._id
+        admin_id: accessAdminId
     }).select(['navigation_id']).select(["navigation_id", '-_id']).exec();
     if (usersPermissions.length > 1) {
         output = await _.map(usersPermissions, _.property('navigation_id'));
     } else {
         let rolesPermissions = await RolesPermissions.find({
-            role_id: req.session.admin.role_id
+            role_id: accessRoleId
         }).select(["navigation_id", '-_id']).exec();
         if (rolesPermissions.length > 0) {
             output = await _.map(rolesPermissions, _.property('navigation_id'));
@@ -154,21 +154,25 @@ async function getUsersPermissionIDs(req) {
     return output;
 }
 
-async function navigationMenuListing(req) {
+async function navigationMenuListing(req, saveSession = true, admin_id = false, role_id = false) {
     let excludeRoleId = config.get('excludeRoleId');
     let navigationMasters = [];
-    if (excludeRoleId === req.session.admin.role_id) {
+    let accessAdminId = admin_id || req.session.admin._id;
+    let accessRoleId = role_id || req.session.admin.role_id;
+    if (excludeRoleId.toString() === accessRoleId.toString()) {
         navigationMasters = await NavigationMasters.find({
             status: 1
         }).sort({ display_order: 'asc' }).select(['-createdAt', '-updatedAt', '-status', '-show_in_permission', '-child_permission', '-display_order']).exec();
     } else {
-        const allowedNavIds = await getUsersPermissionIDs(req);
+        const allowedNavIds = await getUsersPermissionIDs(accessAdminId, accessRoleId);
         navigationMasters = await NavigationMasters.find({
             status: 1,
             _id: { $in: allowedNavIds }
         }).sort({ display_order: 'asc' }).select(['-createdAt', '-updatedAt', '-status', '-show_in_permission', '-child_permission', '-display_order']).exec();
     }
-    req.session.navigationPermissions = navigationMasters;
+    if (saveSession == true) {
+        req.session.navigationPermissions = navigationMasters;
+    }
     if (navigationMasters.length > 0) {
         navigationMasters = JSON.parse(JSON.stringify(navigationMasters));
         navigationMasters = arrayToTree(navigationMasters, {
@@ -176,9 +180,13 @@ async function navigationMenuListing(req) {
             customID: '_id'
         });
     }
-    req.session.admin.navigations = navigationMasters;
-    req.session.save();
-    return navigationMasters;
+    if (saveSession == true) {
+        req.session.admin.navigations = navigationMasters;
+        req.session.save();
+    } else {
+        return navigationMasters;
+    }
+
 }
 
 function hasAccess(req, actionPath, exclude = false) {

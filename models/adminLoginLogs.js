@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 const ip = require('ip');
+const dataTables = require('mongoose-datatables');
 
 
 const tableSchema = new mongoose.Schema({
@@ -40,6 +41,7 @@ const tableSchema = new mongoose.Schema({
         timestamps: true
     }
 );
+tableSchema.plugin(dataTables);
 const AdminLoginLogs = mongoose.model('AdminLoginLogs', tableSchema);
 
 exports.AdminLoginLogs = AdminLoginLogs;

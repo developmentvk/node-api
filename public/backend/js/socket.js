@@ -18,7 +18,7 @@ socket.on('connect', function () {
     socket.on('logoutSessionEvent', function (data) {
         if(data.admin_id == session_id)
         {
-            window.location.replace(`${site_url}/admin/login?logout=duplicate`);
+            window.location.replace(`${site_url}/admin/login?logout=${data.action}`);
         }
     });
 

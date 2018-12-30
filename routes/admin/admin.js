@@ -6,9 +6,12 @@ const { Admin, validate, validateUpdate } = require('../../models/admin');
 const { UsersRoles } = require('../../models/usersRoles');
 const { Countries } = require('../../models/countries');
 const { UsersPermissions } = require('../../models/usersPermissions');
-const { successMessage, errorMessage, getGroupNavigation, getUsersPermission } = require('../../helpers/SocketHelper');
+const { AdminLoginLogs } = require('../../models/adminLoginLogs');
+const { Sessions } = require('../../models/sessions');
+const { successMessage, errorMessage, getGroupNavigation, getUsersPermission, navigationMenuListing } = require('../../helpers/SocketHelper');
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
+const EventEmitter = require('events')
 const router = express.Router();
 
 router.get('/admins', [adminSession, rbac], async (req, res) => {
@@ -22,7 +25,7 @@ router.get('/admins', [adminSession, rbac], async (req, res) => {
     });
 });
 
-router.post('/admins/listings',[adminSession, rbac], async (req, res) => {
+router.post('/admins/listings', [adminSession, rbac], async (req, res) => {
     Admin.dataTables({
         limit: req.body.length,
         skip: req.body.start,
@@ -36,7 +39,7 @@ router.post('/admins/listings',[adminSession, rbac], async (req, res) => {
             path: 'role_id',
             select: ['name', 'en_name']
         }),
-        formatter: function(modifiedRecords) {
+        formatter: function (modifiedRecords) {
             return modifiedRecords;
         }
     }).then(function (table) {
@@ -54,21 +57,90 @@ router.get('/admins/view/:id', [adminSession, rbac], async (req, res) => {
     let success = req.flash('success');
     const admins = await Admin.findOne({
         _id: req.params.id
+    }).populate({
+        path: 'role_id',
+        select: ['name', 'en_name']
     });
     if (!admins) {
         req.flash('error', [i18n.__('record_not_found')]);
         return res.redirect('/admin/admins');
     }
+    admins.decoded_status = i18n.__('account_status_array')[admins.status];
+    let role_id = admins.role_id != null ? admins.role_id._id : null;
+    const navigations = await navigationMenuListing(req, false, admins._id, role_id);
+
+    const adminLoginLogs = await AdminLoginLogs.findOne({
+        admin_id: admins._id,
+        isActive: true
+    });
+
     res.render('admin/admins/view', {
         layout: "admin/include/layout",
         title: i18n.__('view_details'),
         error: error,
         success: success,
-        data : admins
+        data: admins,
+        navigations: navigations,
+        adminLoginLogs : adminLoginLogs
     });
 });
 
-router.get('/admins/create',[adminSession, rbac], async (req, res) => {
+
+router.post('/admins/end-session/:id', [adminSession], async (req, res) => {
+    let adminLoginLogsExists = await AdminLoginLogs.find({
+        admin_id: req.params.id,
+        isActive: true
+    }).exec();
+    if (adminLoginLogsExists.length > 0) {
+        _.forEach(adminLoginLogsExists, async function(value) {
+            await Sessions.deleteOne({ "session.admin.login_id": value._id });
+            await AdminLoginLogs.findByIdAndUpdate(value._id, {
+                logout_at: new Date(),
+                isActive: false
+            }, { new: true });
+
+            req.app.io.emit("logoutSessionEvent", {
+                admin_id : value.admin_id,
+                action : 'terminated'
+            });
+        })
+    }
+
+    return successMessage(res, 'success', 200);
+});
+
+
+router.post('/admins/access-log/listings/:admin_id', [adminSession], async (req, res) => {
+    AdminLoginLogs.dataTables({
+        limit: req.body.length,
+        skip: req.body.start,
+        order: req.body.order,
+        columns: req.body.columns,
+        find: {
+            admin_id : req.params.admin_id,
+            isActive: false
+        },
+        search: {
+            value: req.body.search.value,
+            fields: ['ip_address', 'browser', 'session_id']
+        }
+    }).then(function (table) {
+        res.json({
+            data: table.data,
+            recordsFiltered: table.total,
+            recordsTotal: table.total
+        });
+    });
+});
+
+router.post('/admins/access-log/delete/:id', [adminSession, rbac], async (req, res) => {
+    const adminLoginLogs = await AdminLoginLogs.findByIdAndRemove(req.params.id);
+    if (!adminLoginLogs) return errorMessage(res, 'no_record_found');
+    return successMessage(res, 'success', 200, adminLoginLogs);
+});
+
+
+router.get('/admins/create', [adminSession, rbac], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
     const usersRoles = await UsersRoles.find();
@@ -84,7 +156,7 @@ router.get('/admins/create',[adminSession, rbac], async (req, res) => {
     });
 });
 
-router.post('/admins/create',[adminSession, rbac], async (req, res) => {
+router.post('/admins/create', [adminSession, rbac], async (req, res) => {
     const { error } = validate(req.body);
     if (error) {
         req.flash('error', error.details[0].message);
@@ -112,7 +184,7 @@ router.post('/admins/create',[adminSession, rbac], async (req, res) => {
 });
 
 
-router.get('/admins/update/:id',[adminSession, rbac], async (req, res) => {
+router.get('/admins/update/:id', [adminSession, rbac], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
     const admins = await Admin.findOne({
@@ -137,15 +209,15 @@ router.get('/admins/update/:id',[adminSession, rbac], async (req, res) => {
     });
 });
 
-router.post('/admins/update/:id',[adminSession, rbac], async (req, res) => {
+router.post('/admins/update/:id', [adminSession, rbac], async (req, res) => {
     const { error } = validateUpdate(req.body);
     if (error) {
         req.flash('error', error.details[0].message);
         res.redirect(`/admin/admins/update/${req.params.id}`);
     }
-    let admin = await Admin.findOne({ 
-        _id : { $ne : req.params.id },
-        email: req.body.email 
+    let admin = await Admin.findOne({
+        _id: { $ne: req.params.id },
+        email: req.body.email
     });
     if (admin) {
         req.flash('error', [i18n.__('admin_account_already_registered')]);
@@ -166,14 +238,14 @@ router.post('/admins/update/:id',[adminSession, rbac], async (req, res) => {
 });
 
 
-router.post('/admins/delete/:id',[adminSession, rbac], async (req, res) => {
+router.post('/admins/delete/:id', [adminSession, rbac], async (req, res) => {
     const admin = await Admin.findByIdAndRemove(req.params.id);
     if (!admin) return errorMessage(res, 'no_record_found');
     return successMessage(res, 'success', 200, admin);
 });
 
 
-router.get('/admins/permission/:id',[adminSession, rbac], async (req, res) => {
+router.get('/admins/permission/:id', [adminSession, rbac], async (req, res) => {
     if (!req.params.id) {
         req.flash('error', [i18n.__('record_not_found')]);
         return res.redirect('/admin/admins');
@@ -193,7 +265,7 @@ router.get('/admins/permission/:id',[adminSession, rbac], async (req, res) => {
     });
 });
 
-router.post('/admins/permission/:id',[adminSession, rbac], async (req, res) => {
+router.post('/admins/permission/:id', [adminSession, rbac], async (req, res) => {
     if (!req.params.id) {
         req.flash('error', [i18n.__('record_not_found')]);
         return res.redirect(`/admin/admins/permission/${req.params.id}`);

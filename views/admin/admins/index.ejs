@@ -97,7 +97,8 @@ $(function () {
                 return row.role_id ? (locale == 'en' ? row.role_id.en_name : row.role_id.name) : '';
             }},
             {data: 'status', name:'status', mRender: function(data, type, row) {
-                return row.status ?  "<%= __('active') %>" : "<%= __('inactive') %>";
+                let account_status_array = JSON.parse(JSON.stringify("<%= __('account_status_array') %>")).split(',');
+                return account_status_array[row.status];
             }},
             
         ]
