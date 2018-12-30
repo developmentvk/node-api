@@ -114,6 +114,7 @@ router.get('/change/password', [adminSession], async (req, res) => {
     });
 });
 
+
 router.post('/change/password', [adminSession], async (req, res) => {
     const { error } = validateUpdateAccountPassword(req.body);
     if (error) {
@@ -136,6 +137,12 @@ router.post('/change/password', [adminSession], async (req, res) => {
 
     req.flash('success', [i18n.__('password_updated_successfully')]);
     return res.redirect(`/admin/change/password`);
+});
+
+router.post('/admins/set-locale',  async (req, res) => {
+    let locale = req.body.locale == 'en' ? 'ar' : 'en';
+    req.session.locale = locale;
+    return successMessage(res, 'success', 200);
 });
 
 router.get('/admins/change/password/:id', [adminSession, rbac], async (req, res) => {

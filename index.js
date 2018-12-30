@@ -85,6 +85,15 @@ io.use(ios(session(sess)));
 app.use((req, res, next) => {
     res.locals.req = req;
     app.locals.req = req;
+    let locale = 'en';
+    if(req.session.hasOwnProperty('locale'))
+    {
+        locale = req.session.locale;
+    }
+    i18n.setLocale(req, locale);
+    i18n.setLocale(res, locale);
+    i18n.setLocale(res.locals, locale);
+    
     if (req.cookies.session && req.session.adminAuthenticated !== true) {
         res.clearCookie('session');
         delete req.session.admin;
