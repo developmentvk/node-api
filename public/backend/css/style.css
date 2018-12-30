@@ -3567,6 +3567,102 @@ section.content {
   padding: 20px;
 }
 
+.card .body .col-xs-1, .card .body .col-sm-1, .card .body .col-md-1, .card .body .col-lg-1 {
+  margin-bottom: 20px;
+}
+
+.card .body .col-xs-2, .card .body .col-sm-2, .card .body .col-md-2, .card .body .col-lg-2 {
+  margin-bottom: 20px;
+}
+
+.card .body .col-xs-3, .card .body .col-sm-3, .card .body .col-md-3, .card .body .col-lg-3 {
+  margin-bottom: 20px;
+}
+
+.card .body .col-xs-4, .card .body .col-sm-4, .card .body .col-md-4, .card .body .col-lg-4 {
+  margin-bottom: 20px;
+}
+
+.card .body .col-xs-5, .card .body .col-sm-5, .card .body .col-md-5, .card .body .col-lg-5 {
+  margin-bottom: 20px;
+}
+
+.card .body .col-xs-6, .card .body .col-sm-6, .card .body .col-md-6, .card .body .col-lg-6 {
+  margin-bottom: 20px;
+}
+
+.card .body .col-xs-7, .card .body .col-sm-7, .card .body .col-md-7, .card .body .col-lg-7 {
+  margin-bottom: 20px;
+}
+
+.card .body .col-xs-8, .card .body .col-sm-8, .card .body .col-md-8, .card .body .col-lg-8 {
+  margin-bottom: 20px;
+}
+
+.card .body .col-xs-9, .card .body .col-sm-9, .card .body .col-md-9, .card .body .col-lg-9 {
+  margin-bottom: 20px;
+}
+
+.card .body .col-xs-10, .card .body .col-sm-10, .card .body .col-md-10, .card .body .col-lg-10 {
+  margin-bottom: 20px;
+}
+
+.card .body .col-xs-11, .card .body .col-sm-11, .card .body .col-md-11, .card .body .col-lg-11 {
+  margin-bottom: 20px;
+}
+
+.card .body .col-xs-12, .card .body .col-sm-12, .card .body .col-md-12, .card .body .col-lg-12 {
+  margin-bottom: 20px;
+}
+
+.card .body span.col-xs-1, .card .body span.col-sm-1, .card .body span.col-md-1, .card .body span.col-lg-1 {
+  margin-bottom: 0px;
+}
+
+.card .body span.col-xs-2, .card .body span.col-sm-2, .card .body span.col-md-2, .card .body span.col-lg-2 {
+  margin-bottom: 0px;
+}
+
+.card .body span.col-xs-3, .card .body span.col-sm-3, .card .body span.col-md-3, .card .body span.col-lg-3 {
+  margin-bottom: 0px;
+}
+
+.card .body span.col-xs-4, .card .body span.col-sm-4, .card .body span.col-md-4, .card .body span.col-lg-4 {
+  margin-bottom: 0px;
+}
+
+.card .body span.col-xs-5, .card .body span.col-sm-5, .card .body span.col-md-5, .card .body span.col-lg-5 {
+  margin-bottom: 0px;
+}
+
+.card .body span.col-xs-6, .card .body span.col-sm-6, .card .body span.col-md-6, .card .body span.col-lg-6 {
+  margin-bottom: 0px;
+}
+
+.card .body span.col-xs-7, .card .body span.col-sm-7, .card .body span.col-md-7, .card .body span.col-lg-7 {
+  margin-bottom: 0px;
+}
+
+.card .body span.col-xs-8, .card .body span.col-sm-8, .card .body span.col-md-8, .card .body span.col-lg-8 {
+  margin-bottom: 0px;
+}
+
+.card .body span.col-xs-9, .card .body span.col-sm-9, .card .body span.col-md-9, .card .body span.col-lg-9 {
+  margin-bottom: 0px;
+}
+
+.card .body span.col-xs-10, .card .body span.col-sm-10, .card .body span.col-md-10, .card .body span.col-lg-10 {
+  margin-bottom: 0px;
+}
+
+.card .body span.col-xs-11, .card .body span.col-sm-11, .card .body span.col-md-11, .card .body span.col-lg-11 {
+  margin-bottom: 0px;
+}
+
+.card .body span.col-xs-12, .card .body span.col-sm-12, .card .body span.col-md-12, .card .body span.col-lg-12 {
+  margin-bottom: 0px;
+}
+
 /* Infobox ===================================== */
 
 .info-box {
