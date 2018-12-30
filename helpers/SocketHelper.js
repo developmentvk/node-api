@@ -69,6 +69,11 @@ function sendEmail(to, template, data, subject) {
     });
 }
 
+function buildImageLink(file)
+{
+    return `/uploads/images/${file}`;
+}
+
 function uploadFile(req, res, fileName, fileLocation, callback) {
     let uploadedFilename = '';
     let upload = multer({
@@ -204,3 +209,4 @@ exports.getRolePermission = getRolePermission;
 exports.getUsersPermission = getUsersPermission;
 exports.navigationMenuListing = navigationMenuListing;
 exports.hasAccess = hasAccess;
+exports.buildImageLink = buildImageLink;

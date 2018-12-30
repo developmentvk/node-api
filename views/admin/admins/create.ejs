@@ -119,6 +119,20 @@
 
                             <div class="row clearfix">
                                 <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="image"><%= __('image'); %></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="file" id="image" name="file" class="form-control" placeholder="<%= __('image'); %>" autofocus>
+                                            <input type="hidden" name="image" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
                                     <label for="status"><%= __('status'); %></label>
                                 </div>
                                 <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
@@ -169,5 +183,25 @@ $(function () {
             $(element).parents('.form-group').append(error);
         }
     });
+    $('[name=file]').on('change',(function(e) {
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            url: '/admin/admins/upload',
+            data:new FormData($('#new_record')[0]),
+            cache:false,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            type: 'POST',
+            success:function(data){
+                $('[name=image]').val(data.data.file)
+            },
+            error: function(data){
+                console.log("error");
+                console.log(data);
+            }
+        });
+    }));
 });
 </script>

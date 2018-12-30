@@ -32,7 +32,6 @@
                             <thead>
                                 <tr>
                                     <th><%= __('action') %></th>
-                                    <th><%= __('image') %></th>
                                     <th><%= __('name') %></th>
                                     <th><%= __('email') %></th>
                                     <th><%= __('mobile') %></th>
@@ -82,7 +81,6 @@ $(function () {
                 }
                 return action ? action : '--';
             }},
-            {data: 'image', name: 'image'},
             {data: 'name', name: 'name'},
             {data: 'email', name : 'email'},
             {data: 'mobile', name : 'mobile', mRender: function(data, type, row) {

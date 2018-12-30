@@ -8,7 +8,7 @@ const { Countries } = require('../../models/countries');
 const { UsersPermissions } = require('../../models/usersPermissions');
 const { AdminLoginLogs } = require('../../models/adminLoginLogs');
 const { Sessions } = require('../../models/sessions');
-const { successMessage, errorMessage, getGroupNavigation, getUsersPermission, navigationMenuListing } = require('../../helpers/SocketHelper');
+const { uploadFile,successMessage, errorMessage, getGroupNavigation, getUsersPermission, navigationMenuListing } = require('../../helpers/SocketHelper');
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const EventEmitter = require('events')
@@ -156,6 +156,13 @@ router.get('/admins/create', [adminSession, rbac], async (req, res) => {
     });
 });
 
+router.post('/admins/upload', [adminSession], async (req, res) => {
+    await uploadFile(req, res, 'file', 'images', function(err, file) {
+        if(err) return errorMessage(res, err, true);
+        return successMessage(res, 'success', 200, {'file' : file});
+    });
+});
+
 router.post('/admins/create', [adminSession, rbac], async (req, res) => {
     const { error } = validate(req.body);
     if (error) {
@@ -169,16 +176,16 @@ router.post('/admins/create', [adminSession, rbac], async (req, res) => {
         res.redirect(`/admin/admins/create`);
     }
 
-    admin = new Admin(_.pick(req.body, ['name', 'email', 'dial_code', 'mobile', 'role_id', 'password', 'status']));
+    let fields = ['name', 'email', 'dial_code', 'mobile', 'role_id', 'password', 'status'];
+    if(req.body.image)
+    {
+        fields.push('image');
+    }
+    admin = new Admin(_.pick(req.body, fields));
     const salt = await bcrypt.genSalt(10);
     admin.password = await bcrypt.hash(admin.password, salt);
     await admin.save();
-
-    // await uploadFile(req, res, 'image', 'images', function(err, message) {
-    //     console.log(err);
-    //     console.log(message);
-    // });
-
+    
     req.flash('success', [i18n.__('admin_account_created_successfully')]);
     return res.redirect('/admin/admins/create');
 });
@@ -223,15 +230,21 @@ router.post('/admins/update/:id', [adminSession, rbac], async (req, res) => {
         req.flash('error', [i18n.__('admin_account_already_registered')]);
         res.redirect(`/admin/admins/create`);
     }
-
-    await Admin.findByIdAndUpdate(req.params.id, {
+    let fields = {
         name: req.body.name,
         email: req.body.email,
         dial_code: req.body.dial_code,
         mobile: req.body.mobile,
         role_id: req.body.role_id,
         status: req.body.status
-    }, { new: true });
+    };
+    console.log(req.body.image);
+    if(req.body.image)
+    {
+        fields.image = req.body.image;
+        console.log(fields);
+    }
+    await Admin.findByIdAndUpdate(req.params.id, fields, { new: true });
 
     req.flash('success', [i18n.__('admin_account_updated_successfully')]);
     return res.redirect(`/admin/admins/update/${req.params.id}`);

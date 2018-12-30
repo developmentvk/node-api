@@ -68,6 +68,8 @@ function validate(user) {
 		email: Joi.string().min(5).max(255).required().email(),
 		dial_code: Joi.number().min(0).allow('').optional(),
 		mobile: Joi.number().min(0).allow('').optional(),
+		image: Joi.string().allow('').optional(),
+		file: Joi.string().allow('').optional(),
 		role_id: Joi.objectId().required(),
 		password: Joi.string().min(5).max(255).required(),
 		confirm: Joi.string().valid(Joi.ref('password')).required().options({ language: { any: { allowOnly: 'must match password' } } }),
@@ -83,7 +85,9 @@ function validateUpdate(user) {
 		email: Joi.string().min(5).max(255).required().email(),
 		dial_code: Joi.number().min(0).allow('').optional(),
 		mobile: Joi.number().min(0).allow('').optional(),
+		file: Joi.string().allow('').optional(),
 		role_id: Joi.objectId().required(),
+		image: Joi.string().allow('').optional(),
 		status: Joi.any().valid('0', '1', '2', '3').required()
 	};
 

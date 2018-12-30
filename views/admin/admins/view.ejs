@@ -117,6 +117,24 @@
                                         </li>
                                         <li class="list-group-item clearfix">
                                             <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('image') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <% if(data.image) {%>
+                                                <div id="aniimated-thumbnials">
+                                                    <div class="col-lg-3 col-md-4 col-sm-6 m-t-0 m-l-0 m-r-0 m-b-0">
+                                                        <a href="<%= locals.SocketHelper.buildImageLink(data.image) %>" data-sub-html="<%= data.name %>">
+                                                            <img class="img-responsive thumbnail" src="<%= locals.SocketHelper.buildImageLink(data.image) %>">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <% } else { %>
+                                                --
+                                                <% } %>
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                                                 <%= __('status') %>
                                             </span>
                                             <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
@@ -219,6 +237,12 @@
 
 <script>
 $(function () {
+    <% if(data.image) {%>
+        $('#aniimated-thumbnials').lightGallery({
+            thumbnail: true,
+            selector: 'a'
+        });
+    <% } %>
     $('.js-access-log-table').DataTable({
         dom: 'Blfrtip',
         responsive: true,
