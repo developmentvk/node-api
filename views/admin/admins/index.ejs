@@ -80,10 +80,6 @@ $(function () {
                 {
                     action += `<a href="/admin/admins/view/${row._id}" class="btn bg-teal btn-xs waves-effect"><%= __('view') %></a>`;
                 }
-                if('<%= locals.SocketHelper.hasAccess(locals.req, "/admin/admins/permission") %>' === "true")
-                {
-                    action += `<a href="/admin/admins/permission/${row._id}" class="btn bg-purple btn-xs waves-effect"><%= __('permission') %></a>`;
-                }
                 return action ? action : '--';
             }},
             {data: 'image', name: 'image'},
