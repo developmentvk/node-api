@@ -68,6 +68,7 @@ const sess = {
     },
     resave: true, //don't save session if unmodified
     saveUninitialized: true, // don't create session until something stored
+    rolling: true,
     store: store
 };
 
