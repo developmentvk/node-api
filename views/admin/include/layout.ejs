@@ -90,6 +90,10 @@
 
     <!-- Validation Plugin Js -->
     <script src="/backend/plugins/jquery-validation/jquery.validate.js"></script>
+    <% if(getLocale() == 'ar') { %>
+        <script src="/backend/plugins/jquery-validation/localization/messages_ar.js"></script>
+        <script src="/backend/plugins/jquery-datatable/localization/messages_ar.js"></script>
+    <% } %>
     <script src="/backend/js/main.js"></script>
     <script src="/js/socket.io.js"></script>
     <script>

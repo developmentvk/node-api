@@ -90,6 +90,7 @@ app.use((req, res, next) => {
     {
         locale = req.session.locale;
     }
+    i18n.setLocale(locale);
     i18n.setLocale(req, locale);
     i18n.setLocale(res, locale);
     i18n.setLocale(res.locals, locale);
