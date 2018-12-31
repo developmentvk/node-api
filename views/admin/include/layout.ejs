@@ -250,12 +250,22 @@
                     confirmButtonColor: "#DD6B55",
                     confirmButtonText: "<%=  __('locale_confirm_button') %>!",
                     cancelButtonText: "<%=  __('cancel') %>",
-                    closeOnConfirm: false
-                }, function () {
-                    $.post( "/admin/admins/set-locale",{ locale : default_locale}, function( data ) {
-                        swal("<%=  __('updated') %>!", "<%=  __('locale_successful') %>.", "success");
-                        window.location.reload();
-                    });
+                    closeOnConfirm: false,
+                    closeOnCancel: true
+                }, function (isConfirm) {
+                    if (isConfirm) {
+                        $.post( "/admin/admins/set-locale",{ locale : default_locale}, function( data ) {
+                            swal("<%=  __('updated') %>!", "<%=  __('locale_successful') %>.", "success");
+                            window.location.reload();
+                        });
+                    } else {
+                        if($('input[name=default_locale]').prop('checked'))
+                        {
+                            $('[name=default_locale]').prop('checked',false);
+                        } else {
+                            $('[name=default_locale]').prop('checked',true);
+                        }
+                    }
                 });
 
             })

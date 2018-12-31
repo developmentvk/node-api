@@ -2917,7 +2917,7 @@
 /* General ===================================== */
 
 body {
-  background-color: #e9e9e9;
+  background-color: #ddd0d0;
   -moz-transition: all 0.5s;
   -o-transition: all 0.5s;
   -webkit-transition: all 0.5s;
@@ -10319,11 +10319,12 @@ table.fixedHeader-locked {
   }
 }
 
-
 /* Tables ====================================== */
-table{
-  width:100% !important;
+
+table {
+  width: 100% !important;
 }
+
 .table tbody tr td, .table tbody tr th {
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
@@ -10343,6 +10344,7 @@ table{
   background-color: #00b0e4;
   color: #fff;
 }
+
 .table thead th {
   white-space: nowrap;
 }
@@ -10355,6 +10357,7 @@ table{
 .table tbody tr td a {
   margin-right: 5px;
 }
+
 .table tbody tr.warning td, .table tbody tr.warning th {
   background-color: #ff9600;
   color: #fff;
@@ -10381,7 +10384,6 @@ table{
   border: 1px solid #eee;
 }
 
-
 table.table-bordered.dataTable thead tr:first-child {
   background: #009688;
   font-size: 11px;
@@ -10406,10 +10408,12 @@ table.table-bordered.dataTable tbody tr td {
   width: 100%;
   margin: 0 auto;
 }
+
 .dataTables_length {
   float: left;
   margin-left: 20px;
 }
+
 .dataTables_length .bootstrap-select.form-control:not([class*="col-"]) {
   width: 50%;
 }
