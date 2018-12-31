@@ -85,11 +85,15 @@ io.use(ios(session(sess)));
 app.use((req, res, next) => {
     res.locals.req = req;
     app.locals.req = req;
-    let locale = 'en';
+    let locale = 'ar';
     if(req.session.hasOwnProperty('locale'))
     {
         locale = req.session.locale;
+    } else if(req.cookies.hasOwnProperty('locale')) {
+        locale = req.cookies.locale;
+        req.session.locale = locale;
     }
+    
     i18n.setLocale(locale);
     i18n.setLocale(req, locale);
     i18n.setLocale(res, locale);

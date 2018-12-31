@@ -142,6 +142,7 @@ router.post('/change/password', [adminSession], async (req, res) => {
 router.post('/admins/set-locale',  async (req, res) => {
     let locale = req.body.locale == 'en' ? 'ar' : 'en';
     req.session.locale = locale;
+    res.cookie('locale', locale);
     return successMessage(res, 'success', 200);
 });
 
