@@ -18,6 +18,9 @@
     <!-- Waves Effect Css -->
     <link href="/backend/plugins/node-waves/waves.css" rel="stylesheet" />
 
+    <!-- Sweetalert Css -->
+    <link href="/backend/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    
     <!-- Animation Css -->
     <link href="/backend/plugins/animate-css/animate.css" rel="stylesheet" />
 
@@ -32,6 +35,9 @@
 
     <!-- Waves Effect Plugin Js -->
     <script src="/backend/plugins/node-waves/waves.js"></script>
+
+    <!-- SweetAlert Plugin Js -->
+    <script src="/backend/plugins/sweetalert/sweetalert.min.js"></script>
 
     <!-- Validation Plugin Js -->
     <script src="/backend/plugins/jquery-validation/jquery.validate.js"></script>
@@ -50,6 +56,11 @@
             <a href="/"><%= __('company'); %></a>
             <small><%= __('admin_panel'); %></small>
         </div>
+        <div class="align-center m-b-15">
+            <div class="switch">
+                <label><%= __('arabic') %><input name="default_locale" value="<%= getLocale() %>" type="checkbox" <%= getLocale() == 'en' ? 'checked' : '' %>><span class="lever"></span><%= __('english') %></label>
+            </div>
+        </div>
         <div class="card">
             <div class="body">
                 <%- body %>
@@ -59,6 +70,40 @@
 
     <!-- Custom Js -->
     <script src="/backend/js/admin.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $(document).on('change', '[name=default_locale]', function(e) {
+                e.preventDefault();
+                let default_locale = $(this).val();
+                swal({
+                    title: "<%= __('are_you_sure') %>?",
+                    text: "<%= __('locale_change_confirmation') %>!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "<%=  __('locale_confirm_button') %>!",
+                    cancelButtonText: "<%=  __('cancel') %>",
+                    closeOnConfirm: false,
+                    closeOnCancel: true
+                }, function (isConfirm) {
+                    if (isConfirm) {
+                        $.post( "/admin/admins/set-locale",{ locale : default_locale}, function( data ) {
+                            swal("<%=  __('updated') %>!", "<%=  __('locale_successful') %>.", "success");
+                            window.location.reload();
+                        });
+                    } else {
+                        if($('input[name=default_locale]').prop('checked'))
+                        {
+                            $('[name=default_locale]').prop('checked',false);
+                        } else {
+                            $('[name=default_locale]').prop('checked',true);
+                        }
+                    }
+                });
+
+            })
+        });
+    </script>
 </body>
 
 </html>
