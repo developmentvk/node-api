@@ -12,7 +12,7 @@ const express = require('express'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
     MongoStore = require('connect-mongo')(session)
-    ios = require('socket.io-express-session'),
+ios = require('socket.io-express-session'),
     moment = require('moment-timezone').tz.setDefault("Asia/Calcutta"),
     numUsers = 0,
     port = process.env.PORT || 3000;
@@ -85,20 +85,19 @@ io.use(ios(session(sess)));
 app.use((req, res, next) => {
     res.locals.req = req;
     app.locals.req = req;
-    let locale = 'ar';
-    if(req.session.hasOwnProperty('locale'))
-    {
+    let locale = 'en';
+    if (req.session.hasOwnProperty('locale')) {
         locale = req.session.locale;
-    } else if(req.cookies.hasOwnProperty('locale')) {
+    } else if (req.cookies.hasOwnProperty('locale')) {
         locale = req.cookies.locale;
         req.session.locale = locale;
     }
-    
+
     i18n.setLocale(locale);
     i18n.setLocale(req, locale);
     i18n.setLocale(res, locale);
     i18n.setLocale(res.locals, locale);
-    
+
     if (req.cookies.session && req.session.adminAuthenticated !== true) {
         res.clearCookie('session');
         delete req.session.admin;
@@ -129,7 +128,7 @@ io.on("connection", function (socket) {
     socket.on('disconnect', () => {
         // winston.info('Socket dis-connected with SID: ' + socket.handshake.sessionID);
     });
-    
+
 });
 app.use(require('./middleware/storeRequestLogs'));
 
@@ -145,7 +144,7 @@ require('./startup/prod')(app);
 /**
  * The 500 Route (ALWAYS Keep this as the last route)
  */
-app.use(function(error, req, res, next) {
+app.use(function (error, req, res, next) {
     res.render('500', { header: false, layout: "layout", title: "500" });
 });
 
