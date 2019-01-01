@@ -84,7 +84,6 @@ $(function () {
             $(".layout").hide();
             $(".chat_on").show(300);
         });
-
     });
 
 });

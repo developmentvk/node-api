@@ -481,3 +481,40 @@
     padding-right: 12px;
     color: #333333;
 }
+
+.contact-form-page input.form-control {
+    height: 20px;
+    border-radius: 0;
+    outline: none;
+    padding: 5px 10px;
+}
+
+.contact-form-page textarea.form-control {
+    border-radius: 0;
+}
+
+
+.contact-form-page .submit-buttom {
+    padding: 10px 40px;
+    text-align: center;
+    display: block;
+    border-radius: 0;
+    background: #007BB5;
+    border: none;
+    border-bottom: 5px solid #005B85;
+    text-shadow: none;
+    box-shadow: none;
+    font-size: 16px;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.contact-form-page .form-group label {
+    font-size: 14px;
+    color: #000;
+}
+
+.contact-form-page .form-control {
+    width: 83%;
+}
