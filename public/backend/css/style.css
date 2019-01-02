@@ -10417,3 +10417,103 @@ table.table-bordered.dataTable tbody tr td {
 .dataTables_length .bootstrap-select.form-control:not([class*="col-"]) {
   width: 50%;
 }
+
+
+
+.maintenance-page {
+    background: url(../images/maintenance-bg.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover
+}
+
+.maintenance-page .background-layer {
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAG0lEQVQYV2NkYGD4z8DAwMgABXAGNgGwSgwVAFbmAgXQdISfAAAAAElFTkSuQmCC) rgba(0, 0, 0, .1) repeat;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+    position: fixed
+}
+
+.maintenance-page .container-fluid {
+    position: relative;
+    z-index: 100
+}
+
+.maintenance-page h1 {
+    text-align: center;
+    font-weight: 700;
+    font-size: 42px;
+    margin-top: 100px;
+    color: #fff;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, .18)
+}
+
+.maintenance-page .countdown {
+    margin-top: 72px;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.maintenance-page .countdown div {
+    font-size: 72px;
+    font-weight: 500;
+    text-align: center;
+    color: #fff;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, .24)
+}
+
+.maintenance-page .countdown div.text {
+    font-weight: 400;
+    font-size: 14px;
+    margin-top: -5px
+}
+
+.maintenance-page .info {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 18px;
+    color: #fff;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, .24)
+}
+
+.maintenance-page .subscribe-form {
+    margin-top: 100px;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.maintenance-page .subscribe-form input, .maintenance-page .subscribe-form button {
+    border: 1px solid #fff;
+    -webkit-border-radius: 0!important;
+    -moz-border-radius: 0!important;
+    -ms-border-radius: 0!important;
+    border-radius: 0!important
+}
+
+.maintenance-page .subscribe-form input[type=email] {
+    opacity: .8
+}
+
+.maintenance-page ul.social-icons {
+    list-style: none;
+    margin: 25px 0 0;
+    padding: 0;
+    width: 100%;
+    text-align: center
+}
+
+.maintenance-page ul.social-icons li {
+    display: inline-block;
+    margin-right: 10px
+}
+
+.maintenance-page ul.social-icons li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 24px;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, .24)
+}

@@ -177,5 +177,12 @@
 	"locale_confirm_button": "نعم ، قم بتغييرها",
 	"locale_successful": "تحديث اللغة الناجحة",
 	"cancel": "إلغاء",
-	"updated": "محدث"
+	"updated": "محدث",
+	"our_website_is_under_construction": "Our website is under construction",
+	"days": "Days",
+	"hrs": "Hrs",
+	"min": "Min",
+	"sec": "Sec",
+	"subscribe_email_to_be_notified": "Subscribe email to be notified",
+	"subscribe": "Subscribe"
 }

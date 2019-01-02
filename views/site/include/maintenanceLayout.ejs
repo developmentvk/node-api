@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="<%= getLocale(); %>">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <title>
+        <%= __('company'); %>
+    </title>
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="site/img/apple-touch-icon.png">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link href="/backend/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <link href="/backend/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Custom Css -->
+    <link href="/backend/css/style.css" rel="stylesheet">
+</head>
+
+<body class="maintenance-page" cz-shortcut-listen="true">
+    <div class="background-layer"></div>
+    <div class="container-fluid">
+        <%- body %>
+    </div>
+
+    <!-- Jquery Core Js -->
+    <script src="/backend/plugins/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core Js -->
+    <script src="/backend/plugins/bootstrap/js/bootstrap.js"></script>
+
+    <script src="/js/jquery.countdown.js"></script>
+
+    <script src="/js/maintenance.js"></script>
+</body>
+
+</html>
