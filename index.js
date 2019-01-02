@@ -87,9 +87,9 @@ app.use((req, res, next) => {
     res.locals.req = req;
     app.locals.req = req;
     let locale = 'en';
-    if (req.session.hasOwnProperty('locale')) {
+    if (req.session.locale) {
         locale = req.session.locale;
-    } else if (req.cookies.hasOwnProperty('locale')) {
+    } else if (req.cookies.locale) {
         locale = req.cookies.locale;
         req.session.locale = locale;
     }
