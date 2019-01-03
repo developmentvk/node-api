@@ -328,6 +328,10 @@
     right: 45px;
 }
 
+#small_chat .input_button-attachment {
+    right: 75px;
+}
+
 #small_chat .input_button {
     position: absolute;
     bottom: 15px;
@@ -352,7 +356,19 @@
     transition: all .1s ease-in-out;
 }
 
+#small_chat .input-emoji .input_button-attachment .icon, #small_chat .input_button:hover .icon {
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+    -webkit-transition: all .1s ease-in-out;
+    transition: all .1s ease-in-out;
+}
+
 #small_chat .input-emoji .input_button-emoji .icon path, #small_chat .input_button:hover .icon path {
+    fill: #2c2c46;
+}
+
+#small_chat .input-emoji .input_button-attachment .icon path, #small_chat .input_button:hover .icon path {
     fill: #2c2c46;
 }
 
