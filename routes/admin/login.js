@@ -87,7 +87,7 @@ router.post('/login', async (req, res) => {
     if (req.body.rememberme) {
         req.session.cookie.maxAge = (24 * 30) * 60 * 60 * 1000 // 30 days;
     } else {
-        req.session.cookie.expires = false;
+        req.session.cookie.maxAge = (24 * 7) * 60 * 60 * 1000 // 7 days;
     }
     
     await navigationMenuListing(req, true);
