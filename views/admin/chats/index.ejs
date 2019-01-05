@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="block-header">
         <ol class="breadcrumb breadcrumb-bg-teal">
-            <li><a href="javascript:void(0);"><i class="material-icons">home</i> <%= __('home'); %></a></li>
+            <li><a href="/admin/dashboard"><i class="material-icons">home</i> <%= __('home'); %></a></li>
             <li class="active"><i class="material-icons">view_list</i> <%= __('active_chats'); %></li>
         </ol>
     </div>
@@ -14,7 +14,7 @@
                             <div class="inbox_people">
                                 <div class="heading_search">
                                     <div class="recent_heading">
-                                        <h4>Recent</h4>
+                                        <h4>Connected Customers</h4>
                                     </div>
                                 </div>
                                 <div class="inbox_chat">
@@ -133,7 +133,12 @@
                                 <div class="type_msg">
                                     <div class="input_msg_write">
                                         <input type="text" class="write_msg" placeholder="Type a message" />
-                                        <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                                        <button class="msg_emoji_btn" type="button">
+                                            <i class="fa fa-smile-o" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="msg_send_btn" type="button">
+                                            <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>

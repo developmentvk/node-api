@@ -8434,7 +8434,6 @@ table.table-bordered.dataTable tbody tr td {
 
 .chat_container .recent_heading {
   float: left;
-  width: 40%;
 }
 
 .chat_container .search_bar {
@@ -8516,7 +8515,7 @@ table.table-bordered.dataTable tbody tr td {
 }
 
 .chat_container .inbox_chat {
-  height: 400px;
+  height: 405px;
   overflow-y: scroll;
 }
 
@@ -8592,7 +8591,7 @@ table.table-bordered.dataTable tbody tr td {
   color: #4c4c4c;
   font-size: 15px;
   min-height: 48px;
-  width: 100%;
+  width: 85%;
 }
 
 .chat_container .type_msg {
@@ -8614,12 +8613,26 @@ table.table-bordered.dataTable tbody tr td {
   width: 33px;
 }
 
+.chat_container  .msg_emoji_btn {
+  background: #009688 none repeat scroll 0 0;
+  border: medium none;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  font-size: 22px;
+  height: 33px;
+  position: absolute;
+  right: 40px;
+  top: 11px;
+  width: 33px;
+}
+
 .chat_container .messaging {
   padding: 0 0 50px 0;
 }
 
 .chat_container .msg_history {
-  height: 380px;
+  height: 370px;
   overflow-y: auto;
 }
 
