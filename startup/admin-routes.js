@@ -6,6 +6,7 @@ const navigation = require('../routes/admin/navigation');
 const role = require('../routes/admin/role');
 const admin = require('../routes/admin/admin');
 const countries = require('../routes/admin/countries');
+const chat = require('../routes/admin/chat');
 const error = require('../middleware/error');
 
 module.exports = function (app) {
@@ -16,5 +17,6 @@ module.exports = function (app) {
   app.use('/admin', role);
   app.use('/admin', admin);
   app.use('/admin', countries);
+  app.use('/admin', chat);
   app.use(error);
 }

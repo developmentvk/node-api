@@ -153,7 +153,7 @@ app.use(function (error, req, res, next) {
  * The 404 Route (ALWAYS Keep this as the last route)
  */
 app.all('*', function (req, res) {
-    res.render('404', { header: false, layout: "layout", title: "400" });
+    res.render('404', { header: false, layout: "layout", title: "404" });
 });
 
 const server = appServer.listen(port, function () {

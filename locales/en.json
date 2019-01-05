@@ -184,5 +184,7 @@
 	"min": "Min",
 	"sec": "Sec",
 	"subscribe_email_to_be_notified": "Subscribe email to be notified",
-	"subscribe": "Subscribe"
+	"subscribe": "Subscribe",
+	"chats": "Chats",
+	"active_chats": "Active Chats"
 }
