@@ -8686,3 +8686,8 @@ table.table-bordered.dataTable tbody tr td {
 .card .body span.col-xs-12, .card .body span.col-sm-12, .card .body span.col-md-12, .card .body span.col-lg-12 {
   margin-bottom: 0px;
 }
+li.dropdown.open ul.dropdown-menu {
+  border-left-width: 15px;
+  /* background-color: #009688; */
+  border-left-style: solid;
+}
