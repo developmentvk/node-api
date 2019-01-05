@@ -67,15 +67,15 @@ $(function () {
         columns: [
             { mRender: function(data, type, row) {
                 let action = '';
-                if('<%= locals.SocketHelper.hasAccess(locals.req, "/admin/admins/delete") %>' === "true")
+                if('<%= locals.MyHelper.hasAccess(locals.req, "/admin/admins/delete") %>' === "true")
                 {
                     action += `<a href="/admin/admins/delete/${row._id}" class="delete btn btn-danger waves-effect btn-xs"><%= __('delete') %></a>`;
                 }
-                if('<%= locals.SocketHelper.hasAccess(locals.req, "/admin/admins/update") %>' === "true")
+                if('<%= locals.MyHelper.hasAccess(locals.req, "/admin/admins/update") %>' === "true")
                 {
                     action += `<a href="/admin/admins/update/${row._id}" class="btn bg-light-green btn-xs waves-effect"><%= __('update') %></a>`;
                 }
-                if('<%= locals.SocketHelper.hasAccess(locals.req, "/admin/admins/view") %>' === "true")
+                if('<%= locals.MyHelper.hasAccess(locals.req, "/admin/admins/view") %>' === "true")
                 {
                     action += `<a href="/admin/admins/view/${row._id}" class="btn bg-teal btn-xs waves-effect"><%= __('view') %></a>`;
                 }

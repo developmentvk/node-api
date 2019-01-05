@@ -26,7 +26,7 @@ const appServer = http.createServer(app, function (req, res) {
 
 const io = app.io = socketIO(appServer);
 app.locals._ = _;
-app.locals.SocketHelper = require('./helpers/SocketHelper');
+app.locals.MyHelper = require('./helpers/MyHelper');
 
 i18n.configure({
     locales: ['en', 'ar'],

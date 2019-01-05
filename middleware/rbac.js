@@ -1,4 +1,4 @@
-const { hasAccess } = require('../helpers/SocketHelper');
+const { hasAccess } = require('../helpers/MyHelper');
 const i18n = require("i18n");
 const _ = require('lodash');
 const mongoose = require('mongoose');

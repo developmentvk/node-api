@@ -3,7 +3,7 @@ const adminSession = require('../../middleware/adminSession');
 const rbac = require('../../middleware/rbac');
 const i18n = require("i18n");
 const { NavigationMasters, validate } = require('../../models/navigationMasters');
-const { successMessage, errorMessage } = require('../../helpers/SocketHelper');
+const { successMessage, errorMessage } = require('../../helpers/MyHelper');
 const _ = require('lodash');
 const router = express.Router();
 

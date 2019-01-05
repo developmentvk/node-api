@@ -1,4 +1,4 @@
-const { errorMessage } = require('../helpers/SocketHelper');
+const { errorMessage } = require('../helpers/MyHelper');
 module.exports = (validator) => {
   return (req, res, next) => {
     const { error } = validator(req.body);

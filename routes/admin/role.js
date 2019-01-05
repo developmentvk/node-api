@@ -4,7 +4,7 @@ const rbac = require('../../middleware/rbac');
 const i18n = require("i18n");
 const { UsersRoles, validate } = require('../../models/usersRoles');
 const { RolesPermissions } = require('../../models/rolesPermissions');
-const { successMessage, errorMessage, getGroupNavigation, getRolePermission } = require('../../helpers/SocketHelper');
+const { successMessage, errorMessage, getGroupNavigation, getRolePermission } = require('../../helpers/MyHelper');
 const _ = require('lodash');
 const router = express.Router();
 

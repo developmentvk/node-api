@@ -69,8 +69,7 @@ function sendEmail(to, template, data, subject) {
     });
 }
 
-function buildImageLink(file)
-{
+function buildImageLink(file) {
     return `/uploads/images/${file}`;
 }
 
@@ -162,12 +161,11 @@ async function getUsersPermissionIDs(accessAdminId, accessRoleId) {
 async function navigationMenuListing(req, saveSession = true, accessAdminId = null, accessRoleId = null) {
     let excludeRoleId = config.get('excludeRoleId');
     let navigationMasters = [];
-    if(saveSession == true)
-    {
+    if (saveSession == true) {
         accessAdminId = req.session.admin._id;
         accessRoleId = req.session.admin.role_id;
-    } 
-    
+    }
+
     if (excludeRoleId == accessRoleId) {
         navigationMasters = await NavigationMasters.find({
             status: 1
@@ -204,13 +202,15 @@ function hasAccess(req, actionPath, exclude = false) {
     if (result !== undefined) { return true; } else { return false; }
 }
 
-exports.successMessage = successMessage;
-exports.errorMessage = errorMessage;
-exports.sendEmail = sendEmail;
-exports.uploadFile = uploadFile;
-exports.getGroupNavigation = getGroupNavigation;
-exports.getRolePermission = getRolePermission;
-exports.getUsersPermission = getUsersPermission;
-exports.navigationMenuListing = navigationMenuListing;
-exports.hasAccess = hasAccess;
-exports.buildImageLink = buildImageLink;
+module.exports = {
+    successMessage,
+    errorMessage,
+    sendEmail,
+    uploadFile,
+    getGroupNavigation,
+    getRolePermission,
+    getUsersPermission,
+    navigationMenuListing,
+    hasAccess,
+    buildImageLink,
+};

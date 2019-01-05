@@ -31,22 +31,22 @@
                             </a>
                             <ul class="dropdown-menu pull-right">
                                 
-                                <% if(locals.SocketHelper.hasAccess(locals.req, "/admin/admins/update") == true) {%>
+                                <% if(locals.MyHelper.hasAccess(locals.req, "/admin/admins/update") == true) {%>
                                     <li>
                                         <a href="/admin/admins/update/<%= data._id %>"><%= __('update') %></a>
                                     </li>
                                 <% } %>
-                                <% if(locals.SocketHelper.hasAccess(locals.req, "/admin/admins/permission") == true) {%>
+                                <% if(locals.MyHelper.hasAccess(locals.req, "/admin/admins/permission") == true) {%>
                                     <li>
                                         <a href="/admin/admins/permission/<%= data._id %>"><%= __('permission') %></a>
                                     </li>
                                 <% } %>
-                                <% if(locals.SocketHelper.hasAccess(locals.req, "/admin/admins/change/password") == true) {%>
+                                <% if(locals.MyHelper.hasAccess(locals.req, "/admin/admins/change/password") == true) {%>
                                     <li>
                                         <a href="/admin/admins/change/password/<%= data._id %>"><%= __('change_password') %></a>
                                     </li>
                                 <% } %>
-                                <% if(locals.SocketHelper.hasAccess(locals.req, "/admin/admins/delete") == true) {%>
+                                <% if(locals.MyHelper.hasAccess(locals.req, "/admin/admins/delete") == true) {%>
                                     <li>
                                         <a  class="delete" href="/admin/admins/delete/<%= data._id %>"><%= __('delete') %></a>
                                     </li>
@@ -123,8 +123,8 @@
                                                 <% if(data.image) {%>
                                                 <div id="aniimated-thumbnials">
                                                     <div class="col-lg-3 col-md-4 col-sm-6 m-t-0 m-l-0 m-r-0 m-b-0">
-                                                        <a href="<%= locals.SocketHelper.buildImageLink(data.image) %>" data-sub-html="<%= data.name %>">
-                                                            <img class="img-responsive thumbnail" src="<%= locals.SocketHelper.buildImageLink(data.image) %>">
+                                                        <a href="<%= locals.MyHelper.buildImageLink(data.image) %>" data-sub-html="<%= data.name %>">
+                                                            <img class="img-responsive thumbnail" src="<%= locals.MyHelper.buildImageLink(data.image) %>">
                                                         </a>
                                                     </div>
                                                 </div>
@@ -262,7 +262,7 @@ $(function () {
         columns: [
             { mRender: function(data, type, row) {
                 let action = '';
-                if('<%= locals.SocketHelper.hasAccess(locals.req, "/admin/admins/access-log/delete") %>' === "true")
+                if('<%= locals.MyHelper.hasAccess(locals.req, "/admin/admins/access-log/delete") %>' === "true")
                 {
                     action += `<a table="js-access-log-table" href="/admin/admins/access-log/delete/${row._id}" class="delete btn btn-danger waves-effect btn-xs"><%= __('delete') %></a>`;
                 }
