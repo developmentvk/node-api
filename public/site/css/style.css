@@ -309,7 +309,7 @@
 }
 
 #small_chat .input_field {
-    width: 100%;
+    width: 75%;
     resize: none;
     border: none;
     outline: none;
@@ -329,12 +329,12 @@
 }
 
 #small_chat .input_button-attachment {
-    right: 75px;
+    right: 15px;
 }
 
 #small_chat .input_button {
     position: absolute;
-    bottom: 15px;
+    bottom: 20px;
     width: 25px;
     height: 25px;
     padding: 0;
@@ -414,6 +414,7 @@
 
 .messages_list .answer .name {
     font-size: 14px;
+    color: #333333;
     line-height: 36px;
 }
 
@@ -459,8 +460,8 @@
 }
 
 .messages_list .answer .time {
-    font-size: 16px;
-    line-height: 36px;
+    font-size: 12px;
+    line-height: 25px;
     position: relative;
     padding-bottom: 1px;
 }
@@ -509,9 +510,8 @@
     border-radius: 0;
 }
 
-
 .contact-form-page .submit-buttom {
-    padding: 10px 40px;
+    padding: 5px 30px;
     text-align: center;
     display: block;
     border-radius: 0;
@@ -520,7 +520,6 @@
     border-bottom: 5px solid #005B85;
     text-shadow: none;
     box-shadow: none;
-    font-size: 16px;
     color: #ffffff;
     text-transform: uppercase;
     font-family: 'Roboto Condensed', sans-serif;
