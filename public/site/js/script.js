@@ -136,7 +136,7 @@ $(function () {
         function buildFooterButton() {
             return `<div class="input input-blank">
                 <textarea class="input_field" name="input_chat_box"></textarea>
-                <button class="input_button input_button-attachment">
+                <button for="attachment_media" class="input_button input_button-attachment">
                     <div class="icon" style="width: 18px; height: 18px;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" ratio="1">
                             <circle cx="16.1" cy="6.1" r="1.1"></circle>
@@ -146,6 +146,7 @@ $(function () {
                         </svg>
                     </div>
                 </button>
+                <input id="attachment_media" name="attachment_media" type="file" style="display:none"/>
                 <button class="input_button input_button-send" style="display:none">
                     <div class="icon" style="width: 18px; height: 18px;">
                         <svg width="57px" height="54px" viewBox="1496 193 57 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="width: 18px; height: 18px;">
@@ -157,6 +158,10 @@ $(function () {
                 </button>
             </div>`;
         }
+        $(document).on('click', '.input_button-attachment', function(e) {
+            e.preventDefault();
+            $('[name=attachment_media]').click();
+        });
 
         function scrollToBottom() {
             var height = 0;
@@ -183,6 +188,7 @@ $(function () {
                 tonesStyle: "checkbox",
                 searchPosition: "top",
                 spellcheck: true,
+                search: false,
                 autocomplete: "on",
                 placeholder: "Type something here",
                 searchPlaceholder: "Search",
@@ -194,6 +200,7 @@ $(function () {
                      * @param {Event} event jQuery Event object
                      */
                     focus: function (editor, event) {
+                        visibleFooterButton();
                         // console.log('event:focus');
                     },
                     /**
@@ -201,6 +208,7 @@ $(function () {
                      * @param {Event} event jQuery Event object
                      */
                     blur: function (editor, event) {
+                        visibleFooterButton();
                         // console.log('event:blur');
                     },
                     /**
@@ -208,6 +216,7 @@ $(function () {
                      * @param {Event} event jQuery Event object
                      */
                     mousedown: function (editor, event) {
+                        visibleFooterButton();
                         // console.log('event:mousedown');
                     },
                     /**
@@ -215,6 +224,7 @@ $(function () {
                      * @param {Event} event jQuery Event object
                      */
                     mouseup: function (editor, event) {
+                        visibleFooterButton();
                         // console.log('event:mouseup');
                     },
                     /**
@@ -222,6 +232,7 @@ $(function () {
                      * @param {Event} event jQuery Event object
                      */
                     click: function (editor, event) {
+                        visibleFooterButton();
                         // console.log('event:click');
                     },
                     /**
@@ -257,6 +268,7 @@ $(function () {
                      * @param {Event} event jQuery Event object
                      */
                     paste: function (editor, event) {
+                        visibleFooterButton();
                         // console.log('event:paste');
                     },
                     /**
@@ -264,6 +276,7 @@ $(function () {
                      * @param {Event} event jQuery Event object
                      */
                     change: function (editor, event) {
+                        visibleFooterButton();
                         // console.log('event:change');
                     },
                     /**
@@ -271,6 +284,7 @@ $(function () {
                      * @param {Event} event jQuery Event object
                      */
                     filter_click: function (filter, event) {
+                        visibleFooterButton();
                         // console.log('event:filter.click, filter=' + filter.data("filter"));
                     },
                     /**
@@ -278,6 +292,7 @@ $(function () {
                      * @param {Event} event jQuery Event object
                      */
                     emojibtn_click: function (button, event) {
+                        visibleFooterButton();
                         // console.log('event:emojibtn.click, emoji=' + button.children().data("name"));
                     },
                     /**
@@ -285,6 +300,7 @@ $(function () {
                      * @param {Event} event jQuery Event object
                      */
                     arrowLeft_click: function (button, event) {
+                        visibleFooterButton();
                         // console.log('event:arrowLeft.click');
                     },
                     /**
@@ -292,6 +308,7 @@ $(function () {
                      * @param {Event} event jQuery Event object
                      */
                     arrowRight_click: function (button, event) {
+                        visibleFooterButton();
                         // console.log('event:arrowRight.click');
                     }
                 }
@@ -299,4 +316,5 @@ $(function () {
         }
     });
 
+    
 });
