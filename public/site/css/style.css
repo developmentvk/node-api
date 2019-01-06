@@ -78,7 +78,7 @@
     position: fixed;
     bottom: 20px;
     min-width: 50px;
-    max-width: 300px;
+    max-width: 325px;
     max-height: 30px;
     display: -webkit-box;
     display: -webkit-flex;
@@ -110,8 +110,8 @@
 
 #small_chat .layout-open {
     overflow: hidden;
-    min-width: 300px;
-    max-width: 300px;
+    min-width: 325px;
+    max-width: 325px;
     height: 500px;
     max-height: 500px;
     border-radius: 10px;
@@ -174,7 +174,7 @@
     position: relative;
     height: 100%;
     width: 100%;
-    min-width: 300px;
+    min-width: 325px;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -webkit-flex-direction: column;
@@ -304,24 +304,29 @@
     border-top: 1px solid #e6ebea;
 }
 
-#small_chat .input-blank .input_field {
-    max-height: 20px;
+#small_chat .input_field {
+    resize: none;
+    border-top: 1px solid #e6ebea;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    outline: none;
 }
 
 #small_chat .input_field {
-    width: 75%;
+    width: 95%;
     resize: none;
-    border: none;
     outline: none;
+    border: none !important;
     padding: 0;
     padding-right: 0px;
     padding-left: 0px;
-    padding-left: 20px;
-    padding-right: 75px;
+    padding-left: 10px;
+    padding-right: 45px;
     background-color: transparent;
     font-size: 16px;
     line-height: 20px;
-    min-height: 20px !important;
+    min-height: 40px !important;
 }
 
 #small_chat .input_button-emoji {
@@ -329,12 +334,12 @@
 }
 
 #small_chat .input_button-attachment {
-    right: 15px;
+    right: 10px;
 }
 
 #small_chat .input_button {
     position: absolute;
-    bottom: 20px;
+    bottom: 30px;
     width: 25px;
     height: 25px;
     padding: 0;
@@ -345,10 +350,10 @@
 }
 
 #small_chat .input_button-send {
-    right: 15px;
+    right: 10px;
 }
 
-#small_chat .input-emoji .input_button-emoji .icon, #small_chat .input_button:hover .icon {
+#small_chat .input-emoji .input_button-emoji .icon, #small_chat .input_button:hover .icon, #small_chat .emojionearea-button:hover {
     -webkit-transform: scale(1.1);
     -ms-transform: scale(1.1);
     transform: scale(1.1);
@@ -356,7 +361,7 @@
     transition: all .1s ease-in-out;
 }
 
-#small_chat .input-emoji .input_button-attachment .icon, #small_chat .input_button:hover .icon {
+#small_chat .input-emoji .input_button-attachment .icon, #small_chat .input_button:hover .icon, #small_chat .emojionearea-button:hover {
     -webkit-transform: scale(1.1);
     -ms-transform: scale(1.1);
     transform: scale(1.1);
@@ -364,12 +369,35 @@
     transition: all .1s ease-in-out;
 }
 
-#small_chat .input-emoji .input_button-emoji .icon path, #small_chat .input_button:hover .icon path {
+#small_chat .input-emoji .input_button-emoji .icon path, #small_chat .input_button:hover .icon path, #small_chat .emojionearea-button:hover {
     fill: #2c2c46;
 }
 
-#small_chat .input-emoji .input_button-attachment .icon path, #small_chat .input_button:hover .icon path {
+#small_chat .input-emoji .input_button-attachment .icon path, #small_chat .input_button:hover .icon path, #small_chat .emojionearea-button:hover {
     fill: #2c2c46;
+}
+
+#small_chat .emojionearea .emojionearea-editor {
+    min-height: 0;
+    max-height: 2em;
+    overflow: hidden !important;
+    padding: 5px !important;
+    border: 1px solid #beced6;
+    border-radius: 20px;
+}
+
+#small_chat .emojionearea, #small_chat .emojionearea.form-control, #small_chat .emojionearea.focused {
+    border: none !important;
+    border-radius: none !important;
+    border-color: #fff;
+    outline: 0;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+#small_chat .emojionearea .emojionearea-button {
+    right: 20px;
 }
 
 /*****************CHAT BODY *******************/
