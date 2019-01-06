@@ -238,17 +238,20 @@ $(function () {
             reader.onload = function (e) {
                 let timestamp = moment(new Date()).format('hh:mm A');
                 let boxUniqueID = moment(new Date()).format('YYYYMMDDHHmm');
-
-                let html = `<div class="answer left">
-                    <div class="avatar">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User name">
-                        <div class="status online"></div>
-                    </div>
-                    <div class="name">Alexander Herthic</div>
-                    <div class="text ${boxUniqueID}"><p><img src="${e.target.result}" width="100%" height="150"/></p></div>
-                    <div class="time">${timestamp}</div>
-                </div>`;
-                $('.messenger_content').find('.messages_list').append(html);
+                if ($('.messages_list div.answer:last').hasClass('left') === true && $('.messages_list .answer.left').find(`.${boxUniqueID}`).length > 0) {
+                    $('.messenger_content .messages_list .answer.left').find(`.${boxUniqueID}`).append(`<p><img src="${e.target.result}" width="100%" height="150"/></p>`);
+                } else {
+                    let html = `<div class="answer left">
+                        <div class="avatar">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User name">
+                            <div class="status online"></div>
+                        </div>
+                        <div class="name">Alexander Herthic</div>
+                        <div class="text ${boxUniqueID}"><p><img src="${e.target.result}" width="100%" height="150"/></p></div>
+                        <div class="time">${timestamp}</div>
+                    </div>`;
+                    $('.messenger_content').find('.messages_list').append(html);
+                }
                 scrollToBottom();
             }
             reader.readAsDataURL(input.files[0]);
