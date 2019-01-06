@@ -36,7 +36,6 @@ i18n.configure({
     // query parameter to switch locale (ie. /home?locale=ar) - defaults to NULL
     queryParameter: 'locale',
 });
-
 app.use(i18n.init);
 
 app.set('view engine', 'ejs');

@@ -494,6 +494,10 @@
     padding-bottom: 1px;
 }
 
+.messages_list .answer p {
+    margin: 0px;
+}
+
 /*RIGHT*/
 
 .messages_list .answer.right {
@@ -560,4 +564,32 @@
 
 .contact-form-page .form-control {
     width: 83%;
+}
+
+.contact-form-page .input-group label.error {
+    font-size: 12px;
+    display: block;
+    margin-top: 5px;
+    font-weight: normal;
+    color: #F44336;
+}
+
+.contact-form-page .input-group .form-line.error:after {
+    border-bottom: 2px solid #F44336;
+}
+
+.contact-form-page .form-group label.error {
+    font-size: 12px;
+    display: block;
+    margin-top: 5px;
+    font-weight: normal;
+    color: #F44336;
+}
+
+.contact-form-page .form-group .form-line.error:after {
+    border-bottom: 2px solid #F44336;
+}
+
+.contact-form-page .form-group {
+    margin-bottom: 5px;
 }
