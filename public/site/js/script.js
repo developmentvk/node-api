@@ -1,4 +1,16 @@
 'use strict';
+(function ($) {
+
+    $.each($.validator.methods, function (key, value) {
+        $.validator.methods[key] = function () {           
+            if(arguments.length > 0) {
+                arguments[0] = $.trim(arguments[0]);
+            }
+
+            return value.apply(this, arguments);
+        };
+    });
+} (jQuery));
 
 $(function () {
 
@@ -103,7 +115,7 @@ $(function () {
             } else {
                 let html = `<div class="answer left">
                     <div class="avatar">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User name">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png">
                         <div class="status online"></div>
                     </div>
                     <div class="name">Alexander Herthic</div>
@@ -112,7 +124,7 @@ $(function () {
                 </div>`;
                 html += `<div class="answer right">
                     <div class="avatar">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="User name">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png">
                         <div class="status offline"></div>
                     </div>
                     <div class="name">Alexander Herthic</div>
@@ -202,22 +214,37 @@ $(function () {
             let mobile = $('#lcChatForm').find('[name=mobile]').val();
             let email = $('#lcChatForm').find('[name=email]').val();
             let message = $('#lcChatForm').find('[name=message]').val();
-
-            let timestamp = moment(new Date()).format('hh:mm A');
-
-            let boxUniqueID = moment(new Date()).format('YYYYMMDDHHmm');
-            let html = `<div class="answer left">
-                <div class="avatar">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User name">
-                    <div class="status online"></div>
-                </div>
-                <div class="name">${name}</div>
-                <div class="text ${boxUniqueID}"><p>${message}</p></div>
-                <div class="time">${timestamp}</div>
-            </div>`;
-            $('.messenger_content').find('.messages_list').html(html);
-            $('.messenger_content').find('.chat_footer').html(buildFooterButton());
-            drawEmoji();
+            let lc_id = $('#lcChatForm').find('[name=lc-id]').val();
+            socket.emit('gbc-new-customer', {
+                name: $.trim(name),
+                mobile: $.trim(mobile),
+                email: $.trim(email),
+                message : $.trim(message),
+                lc_id : $.trim(lc_id),
+                room : 'gbc-room'
+            }, function(status, result){
+                if(status == 200)
+                {
+                    console.log(result.data);
+                    let timestamp = moment(result.data.createdAt).format('hh:mm A');
+                    let boxUniqueID = moment(new Date()).format('YYYYMMDDHHmm');
+                    let html = `<div class="answer left">
+                        <div class="avatar">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png">
+                            <div class="status online"></div>
+                        </div>
+                        <div class="name">${name}</div>
+                        <div class="text ${boxUniqueID}">
+                            <p class="${result.data._id}">${result.message}</p>
+                            <p class="${result.data._id}">${result.data.message}</p>
+                        </div>
+                        <div class="time">${timestamp}</div>
+                    </div>`;
+                    $('.messenger_content').find('.messages_list').html(html);
+                    $('.messenger_content').find('.chat_footer').html(buildFooterButton());
+                    drawEmoji();
+                }
+            });
             return false;
         }
     });
@@ -243,7 +270,7 @@ $(function () {
                 } else {
                     let html = `<div class="answer left">
                         <div class="avatar">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User name">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png">
                             <div class="status online"></div>
                         </div>
                         <div class="name">Alexander Herthic</div>

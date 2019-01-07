@@ -186,5 +186,7 @@
 	"subscribe_email_to_be_notified": "Subscribe email to be notified",
 	"subscribe": "Subscribe",
 	"chats": "Chats",
-	"active_chats": "Active Chats"
+	"active_chats": "Active Chats",
+	"successful": "successful",
+	"chat_welcome_message" : "Welcome to Real-Time Chat {{name}} (#{{ticket_id}}). What brings you here today?"
 }

@@ -1,6 +1,18 @@
 if (typeof jQuery === "undefined") {
     throw new Error("jQuery plugins need to be before this file");
 }
+(function ($) {
+
+    $.each($.validator.methods, function (key, value) {
+        $.validator.methods[key] = function () {           
+            if(arguments.length > 0) {
+                arguments[0] = $.trim(arguments[0]);
+            }
+
+            return value.apply(this, arguments);
+        };
+    });
+} (jQuery));
 
 $.AdminBSB = {};
 $.AdminBSB.options = {

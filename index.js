@@ -10,14 +10,17 @@ const express = require('express'),
     cookieParser = require('cookie-parser'),
     flash = require('connect-flash'),
     bodyParser = require('body-parser'),
+    ios = require('socket.io-express-session'),
     mongoose = require('mongoose'),
-    MongoStore = require('connect-mongo')(session)
-ios = require('socket.io-express-session'),
-    moment = require('moment-timezone').tz.setDefault("Asia/Calcutta"),
-    numUsers = 0,
-    port = process.env.PORT || 3000;
+    MongoStore = require('connect-mongo')(session);
+const numUsers = 0;
+const port = process.env.PORT || 3000;
 
-// console.log(moment.tz.guess());
+const { SocketUsers } = require('./helpers/SocketUsers');
+const { SocketAdmins } = require('./helpers/SocketAdmins');
+const socketUsers = new SocketUsers();
+const socketAdmins = new SocketAdmins();
+
 //Socket.IO Connections
 const appServer = http.createServer(app, function (req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -106,32 +109,35 @@ app.use((req, res, next) => {
 });
 
 io.on("connection", function (socket) {
-    // winston.info('Socket connected with SID: ' + socket.handshake.sessionID);
     /**
      * Accept a login event with user's data
      */
-    socket.on("login", function (userdata) {
+    socket.on("login", function (userData) {
         ++numUsers;
-        winston.info(JSON.stringify(userdata));
-        socket.handshake.session.userdata = userdata;
+
+        console.log("Login:");
+        console.log(userData);
+
+        socket.handshake.session.userData = userData;
         socket.handshake.session.save();
     });
 
-    socket.on("logout", function (userdata) {
-        if (socket.handshake.session.userdata) {
+    socket.on("logout", function (userData) {
+        if (socket.handshake.session.userData) {
             --numUsers;
-            delete socket.handshake.session.userdata;
+
+            console.log("Logout:");
+            console.log(userData);
+
+            delete socket.handshake.session.userData;
             socket.handshake.session.save();
         }
     });
-
-    socket.on('disconnect', () => {
-        // winston.info('Socket dis-connected with SID: ' + socket.handshake.sessionID);
-    });
-
 });
+
 app.use(require('./middleware/storeRequestLogs'));
 
+require('./startup/global-room')(io, socketUsers, socketAdmins);
 require('./startup/logging')();
 require('./startup/api-routes')(app);
 require('./startup/admin-routes')(app);
