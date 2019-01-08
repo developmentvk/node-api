@@ -5,7 +5,7 @@ const { ChatHistories } = require('../models/chatHistory');
 const { ChatTickets } = require('../models/chatTickets');
 const { Customer } = require('../models/customers');
 
-module.exports = function (io, socketUsers, socketAdmins) {
+module.exports = function (io, socketUsers, socketAgents) {
     io.on('connection', (socket) => {
         socket.on('gbc-room', (global, callback) => {
             // Join global room
@@ -33,7 +33,6 @@ module.exports = function (io, socketUsers, socketAdmins) {
                 name: data.name,
                 mobile: data.mobile,
                 email: data.email,
-                message : data.message,
                 lc_id : data.lc_id,
                 room : data.room
             };
@@ -61,19 +60,24 @@ module.exports = function (io, socketUsers, socketAdmins) {
                 callback(404, i18n.__("customer_not_created"));
                 return;
             }
-            let admin_id = null;
-            let adminData = null;
-            let adminsData = socketAdmins.GetRoomList(dataArr.room);
-            if(adminsData.length > 0)
+            let agent_id = null;
+            let agent_name = i18n.__('support');
+            let agent_image = "/images/agent.png";
+            let agentSocketData = socketAgents.GetRoomList(dataArr.room);
+            if(agentSocketData.length > 0)
             {
-                adminData = adminsData[0];
-                admin_id = adminData.id;
+                agent_id = agentSocketData[0].id;
+                agent_name = getLocale() == 'ar' ? agentSocketData[0].name : agentSocketData[0].en_name;
+                if(agentSocketData[0].image)
+                {
+                    agent_image = `/uploads/images/${agentSocketData[0].image}`;
+                }
             }
             let chatTickets = new ChatTickets();
             chatTickets.ticket_id = chatTickets.generateTicketID();
             chatTickets.company_id = company._id;
             chatTickets.customer_id = customer._id;
-            chatTickets.admin_id = admin_id;
+            chatTickets.agent_id = agent_id;
             chatTickets.status = 1;
             chatTickets = await chatTickets.save();
             if(!chatTickets) {
@@ -81,31 +85,20 @@ module.exports = function (io, socketUsers, socketAdmins) {
                 return;
             }
 
-            const chatHistories = new ChatHistories({
-                company_id: company._id,
-                chat_ticket_id: chatTickets._id,
-                customer_id: customer._id,
-                admin_id: admin_id,
-                message: dataArr.message,
-                has_media: false, // 1.true, 0.false,
-                media_mimes: null,
-                read_by_customer: true,
-                read_by_admin: false,
-                send_by: 1, //// 1. Customer, 2. Admin
-            })
-            let chatHistoriesData = await chatHistories.save();
-
-            let message = i18n.__('chat_welcome_message', {
-                name : customer.name,
-                ticket_id : chatTickets.ticket_id
+            let welcome_message = i18n.__('chat_welcome_message', {
+                name : customer.name
             });
+
+            let message = i18n.__('chat_message');
             // Return message connection established successful
             callback(200, {
-                id : chatTickets._id,
-                ticket_id : chatTickets.ticket_id,
+                tid : chatTickets._id,
+                tid : agent_id,
+                cid : customer._id,
+                welcome_message : welcome_message,
                 message : message,
-                adminData : adminData,
-                data : chatHistoriesData
+                an : agent_name,
+                aim : agent_image,
             });
         });
 

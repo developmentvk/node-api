@@ -589,7 +589,3 @@
 .contact-form-page .form-group .form-line.error:after {
     border-bottom: 2px solid #F44336;
 }
-
-.contact-form-page .form-group {
-    margin-bottom: 5px;
-}

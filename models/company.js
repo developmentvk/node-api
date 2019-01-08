@@ -16,6 +16,10 @@ const tableSchema = new mongoose.Schema({
 	status: {
 		type: Number,
 		default: 1 //0.Inactive, 1.Active
+	},
+	total_agents: {
+		type: Number,
+		default: 0
 	}
 }, {
 		timestamps: true

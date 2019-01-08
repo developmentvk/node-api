@@ -107,31 +107,22 @@ $(function () {
         e.preventDefault();
         let message_value = $.trim($("[name=input_chat_box]")[0].emojioneArea.getText());
         if (message_value.length > 0) {
+            let dataArr = retrieve_form_data();
 
             let timestamp = moment(new Date()).format('hh:mm A');
             let boxUniqueID = moment(new Date()).format('YYYYMMDDHHmm');
-            if ($('.messages_list div.answer:last').hasClass('left') === true && $('.messages_list .answer.left').find(`.${boxUniqueID}`).length > 0) {
-                $('.messenger_content .messages_list .answer.left').find(`.${boxUniqueID}`).append(`<p>${message_value}</p>`);
+            if ($('.messages_list div.answer:last').hasClass('right') === true && $('.messages_list .answer.right').find(`.${boxUniqueID}`).length > 0) {
+                $('.messenger_content .messages_list .answer.right').find(`.${boxUniqueID}`).append(`<p>${message_value}</p>`);
             } else {
-                let html = `<div class="answer left">
+                let html = `<div class="answer right">
                     <div class="avatar">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png">
+                        <img src="/images/user.png">
                         <div class="status online"></div>
                     </div>
-                    <div class="name">Alexander Herthic</div>
+                    <div class="name">${dataArr.cn}</div>
                     <div class="text ${boxUniqueID}"><p>${message_value}</p></div>
                     <div class="time">${timestamp}</div>
                 </div>`;
-                html += `<div class="answer right">
-                    <div class="avatar">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png">
-                        <div class="status offline"></div>
-                    </div>
-                    <div class="name">Alexander Herthic</div>
-                    <div class="text"><p>${message_value}</p></div>
-                    <div class="time">${timestamp}</div>
-                </div>`;
-
                 $('.messenger_content').find('.messages_list').append(html);
             }
             $("[name=input_chat_box]")[0].emojioneArea.hidePicker();
@@ -209,40 +200,57 @@ $(function () {
             $(element).parents('.input-group').append(error);
             $(element).parents('.form-group').append(error);
         },
-        submitHandler: function (form) {
+        submitHandler: function () {
             let name = $('#lcChatForm').find('[name=name]').val();
             let mobile = $('#lcChatForm').find('[name=mobile]').val();
             let email = $('#lcChatForm').find('[name=email]').val();
-            let message = $('#lcChatForm').find('[name=message]').val();
-            let lc_id = $('#lcChatForm').find('[name=lc-id]').val();
+            let lc_id = $('.messenger_content').find('[name=lc-id]').val();
+            $('#lc-chat-register-button').attr('disabled', true);
             socket.emit('gbc-new-customer', {
                 name: $.trim(name),
                 mobile: $.trim(mobile),
                 email: $.trim(email),
-                message : $.trim(message),
                 lc_id : $.trim(lc_id),
                 room : 'gbc-room'
             }, function(status, result){
+                $('#lc-chat-register-button').attr('disabled', false);
                 if(status == 200)
                 {
-                    console.log(result.data);
-                    let timestamp = moment(result.data.createdAt).format('hh:mm A');
+                    $('[name=lc-tid]').val(result.tid);
+                    $('[name=lc-aid]').val(result.aid);
+                    $('[name=lc-cid]').val(result.cid);
+                    $('[name=lc-an]').val(result.an);
+                    $('[name=lc-aim]').val(result.aim);
+                    $('[name=lc-cn]').val(name);
+                    let timestamp = moment(new Date()).format('hh:mm A');
                     let boxUniqueID = moment(new Date()).format('YYYYMMDDHHmm');
                     let html = `<div class="answer left">
                         <div class="avatar">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png">
+                            <img src="${result.aim}">
                             <div class="status online"></div>
                         </div>
-                        <div class="name">${name}</div>
+                        <div class="name">${result.an}</div>
                         <div class="text ${boxUniqueID}">
-                            <p class="${result.data._id}">${result.message}</p>
-                            <p class="${result.data._id}">${result.data.message}</p>
+                            <p class="">${result.welcome_message}</p>
+                        </div>
+                        <div class="time">${timestamp}</div>
+                    </div>`;
+                    html += `<div class="answer left">
+                        <div class="avatar">
+                            <img src="${result.aim}">
+                            <div class="status online"></div>
+                        </div>
+                        <div class="name">${result.an}</div>
+                        <div class="text ${boxUniqueID}">
+                            <p class="">${result.message}</p>
                         </div>
                         <div class="time">${timestamp}</div>
                     </div>`;
                     $('.messenger_content').find('.messages_list').html(html);
                     $('.messenger_content').find('.chat_footer').html(buildFooterButton());
                     drawEmoji();
+                } else {
+                    $('#lc-chat-register-button').before(`<label class="error" style="display:block;color:red">${result}</label>`)
                 }
             });
             return false;
@@ -259,21 +267,34 @@ $(function () {
 
     });
 
+    function retrieve_form_data()
+    {
+        return {id : $('.messenger_content').find('[name=lc-id]').val(),
+        tid : $('.messenger_content').find('[name=lc-tid]').val(),
+        aid : $('.messenger_content').find('[name=lc-aid]').val(),
+        cid : $('.messenger_content').find('[name=lc-cid]').val(),
+        cn : $('.messenger_content').find('[name=lc-cn]').val(),
+        an : $('.messenger_content').find('[name=lc-an]').val(),
+        aim : $('.messenger_content').find('[name=lc-aim]').val() };
+    }
+
     function send_attachment(input) {
+        let dataArr = retrieve_form_data();
+
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function (e) {
                 let timestamp = moment(new Date()).format('hh:mm A');
                 let boxUniqueID = moment(new Date()).format('YYYYMMDDHHmm');
-                if ($('.messages_list div.answer:last').hasClass('left') === true && $('.messages_list .answer.left').find(`.${boxUniqueID}`).length > 0) {
-                    $('.messenger_content .messages_list .answer.left').find(`.${boxUniqueID}`).append(`<p><img src="${e.target.result}" width="100%" height="150"/></p>`);
+                if ($('.messages_list div.answer:last').hasClass('right') === true && $('.messages_list .answer.right').find(`.${boxUniqueID}`).length > 0) {
+                    $('.messenger_content .messages_list .answer.right').find(`.${boxUniqueID}`).append(`<p><img src="${e.target.result}" width="100%" height="150"/></p>`);
                 } else {
-                    let html = `<div class="answer left">
+                    let html = `<div class="answer right">
                         <div class="avatar">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png">
+                            <img src="/images/user.png">
                             <div class="status online"></div>
                         </div>
-                        <div class="name">Alexander Herthic</div>
+                        <div class="name">${dataArr.cn}</div>
                         <div class="text ${boxUniqueID}"><p><img src="${e.target.result}" width="100%" height="150"/></p></div>
                         <div class="time">${timestamp}</div>
                     </div>`;

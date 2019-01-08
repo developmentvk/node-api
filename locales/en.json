@@ -188,5 +188,11 @@
 	"chats": "Chats",
 	"active_chats": "Active Chats",
 	"successful": "successful",
-	"chat_welcome_message" : "Welcome to Real-Time Chat {{name}} (#{{ticket_id}}). What brings you here today?"
+	"chat_welcome_message": "Welcome to Real-Time Chat {{name}}.",
+	"chat_message": "What brings you here today?",
+	"connected": "Connected",
+	"unregistered_company": "Unregistered company",
+	"customer_not_created": "Customer not created",
+	"ticket_not_generated": "Ticket not generated",
+	"support": "Support"
 }

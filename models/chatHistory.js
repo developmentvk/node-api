@@ -17,9 +17,9 @@ const tableSchema = new mongoose.Schema({
 		ref: 'Customers',
 		default: null
 	},
-	admin_id: {
+	agent_id: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Admins',
+		ref: 'Agents',
 		default: null
 	},
 	message: {
