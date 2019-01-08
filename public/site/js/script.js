@@ -117,7 +117,7 @@ $(function () {
                 let html = `<div class="answer right">
                     <div class="avatar">
                         <img src="/images/user.png">
-                        <div class="status online"></div>
+                        <div class="status offline"></div>
                     </div>
                     <div class="name">${dataArr.cn}</div>
                     <div class="text ${boxUniqueID}"><p>${message_value}</p></div>
@@ -227,7 +227,7 @@ $(function () {
                     let html = `<div class="answer left">
                         <div class="avatar">
                             <img src="${result.aim}">
-                            <div class="status online"></div>
+                            <div class="status offline"></div>
                         </div>
                         <div class="name">${result.an}</div>
                         <div class="text ${boxUniqueID}">
@@ -238,7 +238,7 @@ $(function () {
                     html += `<div class="answer left">
                         <div class="avatar">
                             <img src="${result.aim}">
-                            <div class="status online"></div>
+                            <div class="status offline"></div>
                         </div>
                         <div class="name">${result.an}</div>
                         <div class="text ${boxUniqueID}">
@@ -292,7 +292,7 @@ $(function () {
                     let html = `<div class="answer right">
                         <div class="avatar">
                             <img src="/images/user.png">
-                            <div class="status online"></div>
+                            <div class="status offline"></div>
                         </div>
                         <div class="name">${dataArr.cn}</div>
                         <div class="text ${boxUniqueID}"><p><img src="${e.target.result}" width="100%" height="150"/></p></div>

@@ -184,5 +184,15 @@
 	"min": "دقيقة",
 	"sec": "ثانية",
 	"subscribe_email_to_be_notified": "الاشتراك البريد الإلكتروني ليتم إعلامك",
-	"subscribe": "الاشتراك"
+	"subscribe": "الاشتراك",
+	"chats": "Chats",
+	"active_chats": "Active Chats",
+	"successful": "Successful",
+	"chat_welcome_message": "Welcome to Real-Time Chat {{name}}.",
+	"chat_message": "What brings you here today?",
+	"connected": "Connected",
+	"unregistered_company": "Unregistered company",
+	"customer_not_created": "Customer not created",
+	"ticket_not_generated": "Ticket not generated",
+	"support": "Support"
 }
