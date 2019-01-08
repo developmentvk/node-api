@@ -88,6 +88,12 @@
     <!-- SweetAlert Plugin Js -->
     <script src="/backend/plugins/sweetalert/sweetalert.min.js"></script>
 
+    <!-- Moment Plugin Js -->
+    <script src="/backend/plugins/moment/min/moment.min.js"></script>
+    <script src="/backend/plugins/moment/min/moment-with-locales.min.js"></script>
+    <script src="/backend/plugins/moment-timezone/builds/moment-timezone.min.js"></script>
+    <script src="/backend/plugins/moment-timezone/builds/moment-timezone-with-data.min.js"></script>
+
     <!-- Wait Me Plugin Js -->
     <script src="/backend/plugins/waitme/waitMe.js"></script>
 
@@ -101,9 +107,11 @@
     <script src="/backend/js/main.js"></script>
     <script src="/js/socket.io.js"></script>
     <script>
-        let session_id = "<%= locals.admin._id %>";
+        let session_id = "<%= admin._id %>";
         let site_url = document.location.origin;
         let current_pathname = document.location.pathname;
+        moment.tz.setDefault("<%= config.get('timezone') %>");
+        moment.locale("<%= getLocale() %>");
     </script>
     
 </head>
@@ -344,13 +352,13 @@
             <!-- User Info -->
             <div class="user-info">
                 <div class="image">
-                    <img src="<%= locals.admin.image ? '/uploads/images/'+locals.admin.image : '/backend/images/user.png' %>" width="48" height="48" alt="<%= locals.admin.name %>" />
+                    <img src="<%= admin.image ? '/uploads/images/'+admin.image : '/backend/images/user.png' %>" width="48" height="48" alt="<%= admin.name %>" />
                 </div>
                 <div class="info-container">
                 
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= locals.admin.name %></div>
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= admin.name %></div>
                     <div class="email">
-                        <span><%= __('account_id') %></span>: <strong><%= locals.admin._id %></strong>
+                        <span><%= __('account_id') %></span>: <strong><%= admin._id %></strong>
                     </div>
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
@@ -374,7 +382,7 @@
                     &copy; <%= (new Date()).getFullYear(); %> <a href="/admin/dashboard"><%= __('company'); %> - <%= __('admin_panel'); %></a>.
                 </div>
                 <div class="version">
-                    <b><%= __('version'); %>: </b> <%= locals.admin.version %>
+                    <b><%= __('version'); %>: </b> <%= admin.version %>
                 </div>
             </div>
             <!-- #Footer -->

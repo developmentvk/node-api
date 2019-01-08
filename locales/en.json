@@ -194,5 +194,6 @@
 	"unregistered_company": "Unregistered company",
 	"customer_not_created": "Customer not created",
 	"ticket_not_generated": "Ticket not generated",
-	"support": "Support"
+	"support": "Support",
+	"registered_on": "Registered On"
 }

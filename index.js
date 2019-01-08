@@ -12,7 +12,14 @@ const express = require('express'),
     bodyParser = require('body-parser'),
     ios = require('socket.io-express-session'),
     mongoose = require('mongoose'),
-    MongoStore = require('connect-mongo')(session);
+    MongoStore = require('connect-mongo')(session),
+    moment = require('moment'),
+    momentTimezone = require('moment-timezone'),
+    config = require('config');
+
+moment.locale(i18n.getLocale());
+momentTimezone().tz(config.get('timezone')).format();
+
 const numUsers = 0;
 const port = process.env.PORT || 3000;
 
@@ -29,6 +36,8 @@ const appServer = http.createServer(app, function (req, res) {
 
 const io = app.io = socketIO(appServer);
 app.locals._ = _;
+app.locals.config = config;
+app.locals.moment = moment;
 app.locals.MyHelper = require('./helpers/MyHelper');
 
 i18n.configure({

@@ -141,6 +141,14 @@
                                                 <%= data.decoded_status %>
                                             </span>
                                         </li>
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('registered_on') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <%= moment(data.createdAt).format('DD/MM/YYYY hh:mm A') %>
+                                            </span>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div role="tabpanel" class="tab-pane animated flipInX" id="active_session">
@@ -149,7 +157,7 @@
                                         <div class="header bg-light-green">
                                             <h2>
                                                 <%= __('ip_address') %> : <%= adminLoginLogs.ip_address %>
-                                                <small> <%= __('login_time') %> :  <%= adminLoginLogs.login_at %></small>
+                                                <small> <%= __('login_time') %> :  <%= moment(adminLoginLogs.login_at).format('DD/MM/YYYY hh:mm A') %></small>
                                                 <small> <%= __('session_id') %> :  <%= adminLoginLogs.session_id %></small>
                                             </h2>
                                         </div>
