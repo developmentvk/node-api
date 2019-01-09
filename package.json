@@ -40,6 +40,7 @@
     "express-ejs-layouts": "^2.5.0",
     "express-formidable": "^1.2.0",
     "express-session": "^1.15.6",
+    "express-validator": "^5.3.1",
     "fawn": "^2.1.5",
     "filesize": "^3.6.1",
     "flash": "^1.1.0",

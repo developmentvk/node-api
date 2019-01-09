@@ -309,5 +309,30 @@
 	"customer_not_created": "Customer not created",
 	"ticket_not_generated": "Ticket not generated",
 	"support": "Support",
-	"registered_on": "Registered On"
+	"registered_on": "Registered On",
+	"create_company": "Create Company",
+	"all_companies": "All Companies",
+	"update_company": "Update Company",
+	"company_updated_successfully": "Company updated successfully",
+	"website_url": "website_url",
+	"chat_purpose_array": [
+		"Sales",
+		"Support"
+	],
+	"chat_purpose": "chat_purpose",
+	"industry": "industry",
+	"all_industries": "all_industries",
+	"create_industry": "create_industry",
+	"industry_saved_successfully": "industry_saved_successfully",
+	"update_industry": "update_industry",
+	"all_industry": "all_industry",
+	"industry_updated_successfully": "industry_updated_successfully",
+	"number_of_employees_array": [
+		"1-9 employees",
+		"10-49 employees",
+		"50-99 employees",
+		"100-499 employees",
+		"500-999 employees",
+		"1000+ employees"
+	]
 }
