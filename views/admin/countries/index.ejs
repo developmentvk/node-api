@@ -10,6 +10,7 @@
             <div class="card">
                 <div class="header">
                     <h2><%= __('all_countries'); %></h2>
+                    <% if(MyHelper.hasAccess(req, "/admin/countries/create") == true) { %>
                     <ul class="header-dropdown m-r--5">
                         <li class="dropdown">
                             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" country="button" aria-haspopup="true" aria-expanded="false">
@@ -25,6 +26,7 @@
                             </ul>
                         </li>
                     </ul>
+                    <% } %>
                 </div>
                 <div class="body">
                     <div class="table-responsive">
@@ -68,11 +70,11 @@ $(function () {
         columns: [
             { mRender: function(data, type, row) {
                 let action = '';
-                if('<%= locals.MyHelper.hasAccess(locals.req, "/admin/countries/delete") %>' === "true")
+                if('<%= MyHelper.hasAccess(req, "/admin/countries/delete") %>' === "true")
                 {
                     action += `<a href="/admin/countries/delete/${row._id}" class="delete btn btn-danger waves-effect btn-xs"><%= __('delete') %></a>`;
                 }
-                if('<%= locals.MyHelper.hasAccess(locals.req, "/admin/countries/update") %>' === "true")
+                if('<%= MyHelper.hasAccess(req, "/admin/countries/update") %>' === "true")
                 {
                     action += `<a href="/admin/countries/update/${row._id}" class="btn bg-light-green btn-xs waves-effect"><%= __('update') %></a>`;
                 }

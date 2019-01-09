@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const i18n = require('i18n');
 const mongoose = require('mongoose');
 const dataTables = require('mongoose-datatables');
 
@@ -64,16 +65,56 @@ const Admin = mongoose.model('Admins', tableSchema);
 
 function validate(user) {
 	const schema = {
-		name: Joi.string().min(5).max(255).required(),
-		email: Joi.string().min(5).max(255).required().email(),
-		dial_code: Joi.number().min(0).allow('').optional(),
-		mobile: Joi.number().min(0).allow('').optional(),
-		image: Joi.string().allow('').optional(),
-		file: Joi.string().allow('').optional(),
-		role_id: Joi.objectId().required(),
-		password: Joi.string().min(5).max(255).required(),
-		confirm: Joi.string().valid(Joi.ref('password')).required().options({ language: { any: { allowOnly: 'must match password' } } }),
-		status: Joi.any().valid('0', '1', '2', '3').required()
+		name: Joi.string().min(5).max(255).required().label(i18n.__('name')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		email: Joi.string().min(5).max(255).required().email().label(i18n.__('email')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		dial_code: Joi.number().min(0).allow('').optional().label(i18n.__('dial_code')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		mobile: Joi.number().min(0).allow('').optional().label(i18n.__('mobile')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		image: Joi.string().allow('').optional().label(i18n.__('image')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		file: Joi.string().allow('').optional().label(i18n.__('file')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		role_id: Joi.objectId().required().label(i18n.__('role')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		password: Joi.string().min(5).max(255).required().label(i18n.__('password')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		confirm: Joi.string().valid(Joi.ref('password')).required().options({ language: { any: { allowOnly: 'must match password' } } }).label(i18n.__('confirm_password')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		status: Joi.any().valid('0', '1', '2', '3').required().label(i18n.__('status')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		})
 	};
 
 	return Joi.validate(user, schema);
@@ -81,14 +122,46 @@ function validate(user) {
 
 function validateUpdate(user) {
 	const schema = {
-		name: Joi.string().min(5).max(255).required(),
-		email: Joi.string().min(5).max(255).required().email(),
-		dial_code: Joi.number().min(0).allow('').optional(),
-		mobile: Joi.number().min(0).allow('').optional(),
-		file: Joi.string().allow('').optional(),
-		role_id: Joi.objectId().required(),
-		image: Joi.string().allow('').optional(),
-		status: Joi.any().valid('0', '1', '2', '3').required()
+		name: Joi.string().min(5).max(255).required().label(i18n.__('name')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		email: Joi.string().min(5).max(255).required().email().label(i18n.__('email')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		dial_code: Joi.number().min(0).allow('').optional().label(i18n.__('dial_code')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		mobile: Joi.number().min(0).allow('').optional().label(i18n.__('mobile')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		file: Joi.string().allow('').optional().label(i18n.__('file')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		role_id: Joi.objectId().required().label(i18n.__('role')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		image: Joi.string().allow('').optional().label(i18n.__('image')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		status: Joi.any().valid('0', '1', '2', '3').required().label(i18n.__('status')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		})
 	};
 
 	return Joi.validate(user, schema);
@@ -96,12 +169,36 @@ function validateUpdate(user) {
 
 function validateUpdateAccount(user) {
 	const schema = {
-		name: Joi.string().min(5).max(255).required(),
-		email: Joi.string().min(5).max(255).required().email(),
-		dial_code: Joi.number().min(0).allow('').optional(),
-		mobile: Joi.number().min(0).allow('').optional(),
-		file: Joi.string().allow('').optional(),
-		image: Joi.string().allow('').optional(),
+		name: Joi.string().min(5).max(255).required().label(i18n.__('name')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		email: Joi.string().min(5).max(255).required().email().label(i18n.__('email')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		dial_code: Joi.number().min(0).allow('').optional().label(i18n.__('dial_code')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		mobile: Joi.number().min(0).allow('').optional().label(i18n.__('mobile')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		file: Joi.string().allow('').optional().label(i18n.__('file')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		image: Joi.string().allow('').optional().label(i18n.__('image')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		})
 	};
 
 	return Joi.validate(user, schema);
@@ -109,9 +206,21 @@ function validateUpdateAccount(user) {
 
 function validateLogin(user) {
 	const schema = {
-		username: Joi.string().min(5).max(255).required().email(),
-		password: Joi.string().min(5).max(255).required(),
-		rememberme: Joi.allow('').optional()
+		username: Joi.string().min(5).max(255).required().email().label(i18n.__('username')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		password: Joi.string().min(5).max(255).required().label(i18n.__('password')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		rememberme: Joi.allow('').optional().label(i18n.__('remember_me')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		})
 	};
 
 	return Joi.validate(user, schema);
@@ -119,7 +228,11 @@ function validateLogin(user) {
 
 function validateForgotPassword(user) {
 	const schema = {
-		email: Joi.string().min(5).max(255).required().email(),
+		email: Joi.string().min(5).max(255).required().email().label(i18n.__('email')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
 	};
 
 	return Joi.validate(user, schema);
@@ -127,8 +240,16 @@ function validateForgotPassword(user) {
 
 function validateUpdatePassword(user) {
 	const schema = {
-		password: Joi.string().min(5).max(255).required(),
-		confirm: Joi.string().valid(Joi.ref('password')).required().options({ language: { any: { allowOnly: 'must match password' } } })
+		password: Joi.string().min(5).max(255).required().label(i18n.__('password')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		confirm: Joi.string().valid(Joi.ref('password')).required().options({ language: { any: { allowOnly: 'must match password' } } }).label(i18n.__('confirm_password')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		})
 	};
 
 	return Joi.validate(user, schema);
@@ -136,9 +257,21 @@ function validateUpdatePassword(user) {
 
 function validateUpdateAccountPassword(user) {
 	const schema = {
-		old_password: Joi.string().min(5).max(255).required(),
-		password: Joi.string().min(5).max(255).required(),
-		confirm: Joi.string().valid(Joi.ref('password')).required().options({ language: { any: { allowOnly: 'must match password' } } })
+		old_password: Joi.string().min(5).max(255).required().label(i18n.__('old_password')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		password: Joi.string().min(5).max(255).required().label(i18n.__('password')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		confirm: Joi.string().valid(Joi.ref('password')).required().options({ language: { any: { allowOnly: 'must match password' } } }).label(i18n.__('confirm_password')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		})
 	};
 
 	return Joi.validate(user, schema);

@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const i18n = require('i18n');
 const mongoose = require('mongoose');
 const dataTables = require('mongoose-datatables');
 
@@ -54,15 +55,51 @@ const NavigationMasters = mongoose.model('NavigationMasters', tableSchema);
 
 function validate(table) {
 	const schema = {
-		name: Joi.string().max(255).required(),
-		en_name: Joi.string().max(255).required(),
-		icon: Joi.allow('').optional(),
-		parent_id: Joi.objectId().allow('').optional(),
-		action_path: Joi.allow('').optional(),
-		status: Joi.any().valid('0', '1').required(),
-		show_in_menu: Joi.any().valid('0', '1').required(),
-		show_in_permission: Joi.any().valid('0', '1').required(),
-		display_order: Joi.number().min(0).required()
+		name: Joi.string().max(255).required().label(i18n.__('name')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		en_name: Joi.string().max(255).required().label(i18n.__('en_name')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		icon: Joi.allow('').optional().label(i18n.__('icon')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		parent_id: Joi.objectId().allow('').optional().label(i18n.__('parent')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		action_path: Joi.allow('').optional().label(i18n.__('action_path')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		status: Joi.any().valid('0', '1').required().label(i18n.__('status')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		show_in_menu: Joi.any().valid('0', '1').required().label(i18n.__('show_in_menu')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		show_in_permission: Joi.any().valid('0', '1').required().label(i18n.__('show_in_permission')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		display_order: Joi.number().min(0).required().label(i18n.__('display_order')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		})
 	};
 
 	return Joi.validate(table, schema);

@@ -1,11 +1,11 @@
 <div class="menu">
     <ul class="list">
         <li class="header"><%= __('main_navigation'); %></li>
-        <% if(locals.admin.hasOwnProperty('navigations')) { %>
-            <% if(locals.admin.navigations.length > 0) { %>
-                <% _.forEach(locals.admin.navigations, function(value) {%>
+        <% if(admin.hasOwnProperty('navigations')) { %>
+            <% if(admin.navigations.length > 0) { %>
+                <% _.forEach(admin.navigations, function(value) {%>
                 <% if(value.show_in_menu == 1) {%>
-                    <li class="<%= locals.current_pathname == value.action_path ? 'active' : '' %>">
+                    <li class="<%= current_pathname == value.action_path ? 'active' : '' %>">
                         <% if(value.hasOwnProperty('children')) { %>
                         <a href="javascript:void(0);" class="menu-toggle">
                         <% } else {%>
@@ -19,7 +19,7 @@
                             <ul class="ml-menu">
                                 <% _.forEach(value.children, function(row) {%>
                                     <% if(row.show_in_menu == 1) {%>
-                                        <li class="<%= locals.current_pathname == row.action_path ? 'active' : '' %>"><a href="<%= row.action_path %>"><%= getLocale() == 'en' ? row.en_name : row.name %></a></li>
+                                        <li class="<%= current_pathname == row.action_path ? 'active' : '' %>"><a href="<%= row.action_path %>"><%= getLocale() == 'en' ? row.en_name : row.name %></a></li>
                                     <%} %>
                                 <% }) %>
                             </ul>

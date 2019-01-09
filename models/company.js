@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const i18n = require('i18n');
 const mongoose = require('mongoose');
 const dataTables = require('mongoose-datatables');
 
@@ -30,9 +31,21 @@ const company = mongoose.model('Companies', tableSchema);
 
 function validate(table) {
 	const schema = {
-		name: Joi.string().max(255).required(),
-		en_name: Joi.string().max(255).required(),
-		status: Joi.any().valid('0', '1').required(),
+		name: Joi.string().max(255).required().label(i18n.__('name')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		en_name: Joi.string().max(255).required().label(i18n.__('en_name')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		status: Joi.any().valid('0', '1').required().label(i18n.__('status')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
 	};
 
 	return Joi.validate(table, schema);

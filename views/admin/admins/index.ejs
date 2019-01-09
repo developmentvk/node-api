@@ -10,6 +10,7 @@
             <div class="card">
                 <div class="header">
                     <h2><%= __('all_admins'); %></h2>
+                    <% if(MyHelper.hasAccess(req, "/admin/admins/create") == true) { %>
                     <ul class="header-dropdown m-r--5">
                         <li class="dropdown">
                             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -25,6 +26,7 @@
                             </ul>
                         </li>
                     </ul>
+                    <% } %>
                 </div>
                 <div class="body">
                     <div class="table-responsive">
@@ -67,15 +69,15 @@ $(function () {
         columns: [
             { mRender: function(data, type, row) {
                 let action = '';
-                if('<%= locals.MyHelper.hasAccess(locals.req, "/admin/admins/delete") %>' === "true")
+                if('<%= MyHelper.hasAccess(req, "/admin/admins/delete") %>' === "true")
                 {
                     action += `<a href="/admin/admins/delete/${row._id}" class="delete btn btn-danger waves-effect btn-xs"><%= __('delete') %></a>`;
                 }
-                if('<%= locals.MyHelper.hasAccess(locals.req, "/admin/admins/update") %>' === "true")
+                if('<%= MyHelper.hasAccess(req, "/admin/admins/update") %>' === "true")
                 {
                     action += `<a href="/admin/admins/update/${row._id}" class="btn bg-light-green btn-xs waves-effect"><%= __('update') %></a>`;
                 }
-                if('<%= locals.MyHelper.hasAccess(locals.req, "/admin/admins/view") %>' === "true")
+                if('<%= MyHelper.hasAccess(req, "/admin/admins/view") %>' === "true")
                 {
                     action += `<a href="/admin/admins/view/${row._id}" class="btn bg-teal btn-xs waves-effect"><%= __('view') %></a>`;
                 }

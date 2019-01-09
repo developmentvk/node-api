@@ -86,7 +86,8 @@ module.exports = function (io, socketUsers, socketAgents) {
             }
 
             let welcome_message = i18n.__('chat_welcome_message', {
-                name : customer.name
+                name : customer.name,
+                agent_name : agent_name
             });
 
             let message = i18n.__('chat_message');

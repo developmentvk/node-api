@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const i18n = require('i18n');
 const mongoose = require('mongoose');
 const dataTables = require('mongoose-datatables');
 
@@ -36,11 +37,31 @@ const Countries = mongoose.model('Countries', tableSchema);
 
 function validate(table) {
 	const schema = {
-		name: Joi.string().max(255).required(),
-		en_name: Joi.string().max(255).required(),
-		iso_code: Joi.string().max(5).required(),
-		dial_code: Joi.string().max(5).required(),
-		status: Joi.any().valid('0', '1').required(),
+		name: Joi.string().max(255).required().label(i18n.__('name')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		en_name: Joi.string().max(255).required().label(i18n.__('en_name')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		iso_code: Joi.string().max(5).required().label(i18n.__('iso_code')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		dial_code: Joi.string().max(5).required().label(i18n.__('dial_code')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		status: Joi.any().valid('0', '1').required().label(i18n.__('status')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
 	};
 
 	return Joi.validate(table, schema);
