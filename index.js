@@ -17,8 +17,6 @@ const express = require('express'),
     momentTimezone = require('moment-timezone'),
     config = require('config');
 
-moment.locale(i18n.getLocale());
-momentTimezone().tz(config.get('timezone')).format();
 
 const numUsers = 0;
 const port = process.env.PORT || 3000;
@@ -109,6 +107,8 @@ app.use((req, res, next) => {
     i18n.setLocale(req, locale);
     i18n.setLocale(res, locale);
     i18n.setLocale(res.locals, locale);
+    moment.tz.setDefault(config.get('timezone'));
+    moment.locale(locale);
 
     if (req.cookies.session && req.session.adminAuthenticated !== true) {
         res.clearCookie('session');
