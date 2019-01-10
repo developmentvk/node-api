@@ -314,19 +314,18 @@
 	"all_companies": "All Companies",
 	"update_company": "Update Company",
 	"company_updated_successfully": "Company updated successfully",
-	"website_url": "website_url",
+	"website_url": "Website Url",
 	"chat_purpose_array": [
 		"Sales",
 		"Support"
 	],
-	"chat_purpose": "chat_purpose",
-	"industry": "industry",
-	"all_industries": "all_industries",
-	"create_industry": "create_industry",
-	"industry_saved_successfully": "industry_saved_successfully",
-	"update_industry": "update_industry",
-	"all_industry": "all_industry",
-	"industry_updated_successfully": "industry_updated_successfully",
+	"chat_purpose": "Chat Purpose",
+	"industry": "Industry",
+	"all_industries": "All Industries",
+	"create_industry": "Create Industry",
+	"industry_saved_successfully": "Industry saved successfully",
+	"update_industry": "Update Industry",
+	"industry_updated_successfully": "Industry updated successfully",
 	"number_of_employees_array": [
 		"1-9 employees",
 		"10-49 employees",
@@ -334,5 +333,16 @@
 		"100-499 employees",
 		"500-999 employees",
 		"1000+ employees"
-	]
+	],
+	"audience_array": [
+		"B2B",
+		"B2C",
+		"Internal Use"
+	],
+	"select_industry": "Select Industry",
+	"number_of_employees": "No. of employees",
+	"select_number_of_employees": "Select Number of Employees",
+	"audience": "Audience",
+	"select_audience": "Select Audience",
+	"logo": "Logo"
 }

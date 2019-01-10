@@ -301,7 +301,7 @@ router.get('/admins/create', [adminSession, rbac], async (req, res) => {
     });
 });
 
-router.post('/admins/upload', [adminSession], async (req, res) => {
+router.post('/admins/upload', async (req, res) => {
     await uploadFile(req, res, 'file', 'images', function(err, file) {
         if(err) return errorMessage(res, err, true);
         return successMessage(res, 'success', 200, {'file' : file});

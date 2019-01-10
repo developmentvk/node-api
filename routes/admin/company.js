@@ -5,6 +5,8 @@ const i18n = require("i18n");
 const { Company, validate } = require('../../models/company');
 const { successMessage, errorMessage } = require('../../helpers/MyHelper');
 const { matchedData } = require('express-validator/filter');
+const { Industry } = require('../../models/industry');
+const { Countries } = require('../../models/countries');
 const router = express.Router();
 
 router.get('/company', [adminSession, rbac], async (req, res) => {
@@ -42,9 +44,14 @@ router.post('/company/listings', [adminSession, rbac], async (req, res) => {
 router.get('/company/create', [adminSession, rbac], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
+    const industry = await Industry.find({status : 1});
+    const countries = await Countries.find();
+
     res.render('admin/company/create', {
         layout: "admin/include/layout",
         title: i18n.__('create_company'),
+        industry : industry,
+        countries : countries,
         error: error,
         success: success
     });
