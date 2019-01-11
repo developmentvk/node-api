@@ -2,11 +2,12 @@ const express = require('express');
 const adminSession = require('../../middleware/adminSession');
 const rbac = require('../../middleware/rbac');
 const i18n = require("i18n");
-const { Company, validate } = require('../../models/company');
+const { Company, validate, validateUpdate } = require('../../models/company');
 const { successMessage, errorMessage } = require('../../helpers/MyHelper');
-const { matchedData } = require('express-validator/filter');
 const { Industry } = require('../../models/industry');
 const { Countries } = require('../../models/countries');
+const _ = require('lodash');
+const bcrypt = require('bcrypt');
 const router = express.Router();
 
 router.get('/company', [adminSession, rbac], async (req, res) => {
@@ -63,12 +64,22 @@ router.post('/company/create', [adminSession, rbac], async (req, res) => {
         req.flash('error', error.details[0].message);
         return res.redirect(`/admin/company/create`);
     }
-    const company = new Company({
-        name: req.body.name,
-        en_name: req.body.en_name,
-        status: req.body.status
-    })
+    let company = await Company.findOne({ email: req.body.email });
+    if (company) {
+        req.flash('error', [i18n.__('company_account_already_registered')]);
+        return res.redirect(`/admin/company/create`);
+    }
+
+    let fields = ['name', 'en_name', 'website_url', 'dial_code', 'mobile', 'email', 'password', 'industry_id', 'number_of_employees', 'logo', 'audience', 'chat_purpose', 'status'];
+    if(req.body.logo)
+    {
+        fields.push('logo');
+    }
+    company = new Company(_.pick(req.body, fields));
+    const salt = await bcrypt.genSalt(10);
+    company.password = await bcrypt.hash(company.password, salt);
     await company.save();
+
     req.flash('success', [i18n.__('company_saved_successfully')]);
     return res.redirect('/admin/company/create');
 });
@@ -83,27 +94,55 @@ router.get('/company/update/:id', [adminSession, rbac], async (req, res) => {
         req.flash('error', [i18n.__('record_not_found')]);
         return res.redirect('/admin/company');
     }
+    company.audience = _.toArray(company.audience);
+    company.chat_purpose = _.toArray(company.chat_purpose);
+
+    const industry = await Industry.find({status : 1});
+    const countries = await Countries.find();
     res.render('admin/company/update', {
         layout: "admin/include/layout",
         title: i18n.__('update_company'),
         error: error,
         success: success,
-        company: company
+        company: company,
+        industry : industry,
+        countries : countries
     });
 });
 
 router.post('/company/update/:id', [adminSession, rbac], async (req, res) => {
-    const { error } = validate(req.body);
+    const { error } = validateUpdate(req.body);
     if (error) {
         req.flash('error', error.details[0].message);
         res.redirect(`/admin/company/update/${req.params.id}`);
     }
 
-    await Company.findByIdAndUpdate(req.params.id, {
+    let company = await Company.findOne({
+        _id: { $ne: req.params.id },
+        email: req.body.email
+    });
+    if (company) {
+        req.flash('error', [i18n.__('company_account_already_registered')]);
+        res.redirect(`/admin/company/update/${req.params.id}`);
+    }
+    let fields = {
         name: req.body.name,
         en_name: req.body.en_name,
-        status: req.body.status,
-    }, { new: true });
+        website_url: req.body.website_url,
+        dial_code: req.body.dial_code,
+        mobile: req.body.mobile,
+        email: req.body.email,
+        industry_id: req.body.industry_id,
+        number_of_employees: req.body.number_of_employees,
+        audience: req.body.audience,
+        chat_purpose: req.body.chat_purpose,
+        status: req.body.status
+    };
+    if(req.body.logo)
+    {
+        fields.logo = req.body.logo;
+    }
+    await Company.findByIdAndUpdate(req.params.id, fields, { new: true });
 
     req.flash('success', [i18n.__('company_updated_successfully')]);
     return res.redirect(`/admin/company/update/${req.params.id}`);

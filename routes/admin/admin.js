@@ -372,7 +372,7 @@ router.post('/admins/update/:id', [adminSession, rbac], async (req, res) => {
     });
     if (admin) {
         req.flash('error', [i18n.__('admin_account_already_registered')]);
-        return res.redirect(`/admin/admins/create`);
+        return res.redirect(`/admin/admins/update/${req.params.id}`);
     }
     let fields = {
         name: req.body.name,

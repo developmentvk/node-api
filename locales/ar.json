@@ -344,5 +344,8 @@
 	"select_number_of_employees": "Select Number of Employees",
 	"audience": "Audience",
 	"select_audience": "Select Audience",
-	"logo": "Logo"
+	"logo": "Logo",
+	"file": "File",
+	"company_saved_successfully": "Company saved successfully",
+	"company_account_already_registered" : "Company email already taken"
 }
