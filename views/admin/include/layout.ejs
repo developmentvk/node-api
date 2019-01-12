@@ -97,6 +97,11 @@
     <!-- Wait Me Plugin Js -->
     <script src="/backend/plugins/waitme/waitMe.js"></script>
 
+    <!-- Bootstrap Notify Plugin Js -->
+    <script src="/backend/plugins/bootstrap-notify/bootstrap-notify.js"></script>
+    <script src="/backend/js/pages/ui/notifications.js"></script>
+
+
     <!-- Validation Plugin Js -->
     <script src="/backend/plugins/jquery-validation/jquery.validate.js"></script>
     <% if(getLocale() == 'ar') { %>
@@ -104,7 +109,6 @@
         <script src="/backend/plugins/jquery-datatable/localization/messages_ar.js"></script>
     <% } %>
     <script src="/js/jquery.nicescroll.min.js"></script>
-    <script src="/backend/js/main.js"></script>
     <script src="/js/socket.io.js"></script>
     <script>
         let session_id = "<%= admin._id %>";
@@ -440,7 +444,7 @@
             })
         });
     </script>
-
+    <%- include('../error'); %>
 </body>
 
 </html>

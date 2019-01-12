@@ -181,9 +181,9 @@ $(function () {
                 console.log(data);
                 $('[name=image]').val(data.data.file)
             },
-            error: function(data){
-                console.log("file uploading failed");
-                console.log(data);
+            error: function(jqXHR, exception){
+                let message = formatErrorMessage(jqXHR, exception);
+                showNotification("alert-danger", message, "top", "center", "", "");
             }
         });
     }));

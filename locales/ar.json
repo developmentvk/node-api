@@ -347,5 +347,17 @@
 	"logo": "شعار",
 	"file": "ملف",
 	"company_saved_successfully": "تم حفظ الشركة بنجاح",
-	"company_account_already_registered" : "البريد الإلكتروني للشركة اتخذت بالفعل"
+	"company_account_already_registered" : "البريد الإلكتروني للشركة اتخذت بالفعل",
+	"not_connected" : "Not connected",
+	"please_verify_your_network_connection" : "Please verify your network connection",
+	"server_understood_the_request_but_request_content_was_invalid" : "Server understood the request, but request content was invalid",
+	"forbidden_resource_can_not_be_accessed" : "Forbidden resource can't be accessed",
+	"requested_page_not_found" : "Requested page not found",
+	"session_expired_please_reload_the_page_and_try_again" : "Session expired, please reload the page and try again",
+	"service_unavailable" : "Service unavailable",
+	"error" : "Error",
+	"parsing_json_request_failed" : "Parsing JSON Request failed",
+	"request_time_out" : "Request Time out",
+	"request_was_aborted_by_the_server" : "Request was aborted by the server",
+	"uncaught_error" : "Uncaught Error"
 }

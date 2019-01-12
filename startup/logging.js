@@ -27,9 +27,10 @@ const errorStackTracerFormat = winston.format(info => {
 const transport = new (winston.transports.DailyRotateFile)({
     filename: logfile,
     datePattern: 'YYYY-MM-DD-HH',
+    frequency:"daily",
     // zippedArchive: true,
-    // maxSize: '20m',
-    // maxFiles: '14d'
+    maxSize: '20m',
+    maxFiles: '14d'
   });
 
 module.exports = function () {

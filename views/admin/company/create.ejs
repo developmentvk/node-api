@@ -164,10 +164,19 @@
                                     <label for="logo"><%= __('logo'); %></label>
                                 </div>
                                 <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                            <input type="file" id="logo" name="file" class="form-control" placeholder="<%= __('logo'); %>" autofocus>
-                                            <input type="hidden" name="logo" />
+                                    <div class="col-sm-1 hide image-box">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <img src="#" width="54" height="54">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-11">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="file" id="logo" name="file" class="form-control" placeholder="<%= __('logo'); %>" autofocus>
+                                                <input type="hidden" name="logo" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -263,11 +272,13 @@ $(function () {
             dataType: 'json',
             type: 'POST',
             success:function(data){
-                $('[name=logo]').val(data.data.file)
+                $('[name=logo]').val(data.data.file);
+                $('.image-box').find('img').attr('src', `/uploads/images/${data.data.file}`)
+                $('.image-box').removeClass('hide');
             },
-            error: function(data){
-                console.log("error");
-                console.log(data);
+            error: function(jqXHR, exception){
+                let message = formatErrorMessage(jqXHR, exception);
+                showNotification("alert-danger", message, "top", "center", "", "");
             }
         });
     }));
