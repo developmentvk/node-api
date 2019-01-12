@@ -1,0 +1,438 @@
+<div class="container-fluid">
+    <div class="block-header">
+        <ol class="breadcrumb breadcrumb-bg-teal">
+            <li><a href="/admin/dashboard"><i class="material-icons">home</i> <%= __('home'); %></a></li>
+            <li><a href="/admin/company"><i class="material-icons">view_list</i> <%= __('all_companies'); %></a></li>
+            <li class="active"><i class="material-icons">remove_red_eye</i> <%= __('view_details'); %></li>
+        </ol>
+    </div>
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <% if(error.length > 0) { %>
+                <div class="alert alert-danger">
+                    <%= error %>
+                </div>
+            <% } %>
+            <% if(success.length > 0) { %>
+            <div class="alert alert-success">
+                <%= success %>
+            </div>
+            <% } %>
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        <%= getLocale() == 'en' ? data.en_name : data.name %>
+                        <small><%= __('account_id') %> : <%= data._id %></small>
+                    </h2>
+                    <ul class="header-dropdown m-r--5">
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                
+                                <% if(MyHelper.hasAccess(req, "/admin/company/update") == true) {%>
+                                    <li>
+                                        <a href="/admin/company/update/<%= data._id %>"><%= __('update') %></a>
+                                    </li>
+                                <% } %>
+                                <% if(MyHelper.hasAccess(req, "/admin/company/change/password") == true) {%>
+                                    <li>
+                                        <a href="/admin/company/change/password/<%= data._id %>"><%= __('change_password') %></a>
+                                    </li>
+                                <% } %>
+                                <% if(MyHelper.hasAccess(req, "/admin/company/delete") == true) {%>
+                                    <li>
+                                        <a  class="delete" href="/admin/company/delete/<%= data._id %>"><%= __('delete') %></a>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="body">
+                    <div class="row clearfix">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#account_info" data-toggle="tab"><%= __('account_info')%></a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#active_session" data-toggle="tab"  data-table="js-access-log-table"><%= __('active_session')%></a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#all_agents" data-toggle="tab" data-table="js-all-agents-table"><%= __('all_agents')%></a>
+                                </li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane animated flipInX active" id="account_info">
+                                    <ul class="list-group">
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('account_id') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <%= data._id %>
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('name') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <%= data.name %>
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('en_name') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <%= data.en_name %>
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('website_url') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <% if(data.website_url) { %>
+                                                <a href="<%= data.website_url %>" target="_blank"><%= data.website_url %></a>
+                                                <% } else { %>
+                                                --
+                                                <% } %>
+                                            </span>
+                                        </li>
+                                        
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('mobile') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <%= data.mobile ? `+${data.dial_code}${data.mobile}` : '--' %>
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('email') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <%= data.email %>
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('industry') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <%= data.industry_id ? (getLocale() == 'en' ? data.industry_id.en_name : data.industry_id.name) : '--'; %>
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('number_of_employees') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <%= data.decoded_number_of_employees %>
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('logo') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <% if(data.logo) {%>
+                                                <div id="aniimated-thumbnials">
+                                                    <div class="col-lg-3 col-md-4 col-sm-6 m-t-0 m-l-0 m-r-0 m-b-0">
+                                                        <a href="<%= MyHelper.buildImageLink(data.logo) %>" data-sub-html="<%= data.logo %>">
+                                                            <img class="img-responsive thumbnail" src="<%= MyHelper.buildImageLink(data.logo) %>">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <% } else { %>
+                                                --
+                                                <% } %>
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('audience') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <%= data.decoded_audience %>
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('chat_purpose') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <%= data.decoded_chat_purpose %>
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('status') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <%= data.decoded_status %>
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('registered_on') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <%= moment(data.createdAt).format('DD/MM/YYYY hh:mm A') %>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div role="tabpanel" class="tab-pane animated flipInX" id="active_session">
+                                    <%  if(companyLoginLogs != null) { %>    
+                                    <div class="card" id="active_session_box">
+                                        <div class="header bg-light-green">
+                                            <h2>
+                                                <%= __('ip_address') %> : <%= companyLoginLogs.ip_address %>
+                                                <small> <%= __('login_time') %> :  <%= moment(companyLoginLogs.login_at).format('DD/MM/YYYY hh:mm A') %></small>
+                                                <small> <%= __('session_id') %> :  <%= companyLoginLogs.session_id %></small>
+                                            </h2>
+                                        </div>
+                                        <div class="body">
+                                            <h4><%= __('browser') %></h4>
+                                            <% let browser = JSON.parse(companyLoginLogs.browser); %>
+                                            <div class="clearfix"></div>
+                                            <%= __('name') %> : <%= browser.name %> 
+                                            <div class="clearfix"></div>
+                                            <%= __('version') %> : <%= browser.version %> 
+                                            <div class="clearfix"></div>
+                                            <%= __('versionNumber') %> : <%= browser.versionNumber %> 
+                                            <div class="clearfix"></div>
+                                            <%= __('mobile') %> : <%= browser.mobile %> 
+                                            <div class="clearfix"></div>
+                                            <%= __('os') %> : <%= browser.os %> 
+                                            <% if(admin._id != data._id) { %>
+                                            <div class="clearfix p-t-10"></div>
+                                            <button href="/admin/company/end-session/<%= companyLoginLogs.admin_id %>" class="btn btn-primary waves-effect end_session"><%= __('end_session') %></button>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                                    <div class="clearfix"></div>
+                                    <div class="card">
+                                        <div class="header">
+                                            <h2><%= __('all_access_logs'); %></h2>
+                                        </div>
+                                        <div class="body">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-striped table-hover dataTable js-access-log-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><%= __('action') %></th>
+                                                            <th><%= __('login_time') %></th>
+                                                            <th><%= __('logout_time') %></th>
+                                                            <th><%= __('ip_address') %></th>
+                                                            <th><%= __('session_id') %></th>
+                                                            <th><%= __('browser') %></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane animated flipInX" id="all_agents">
+
+                                    <div class="card">
+                                        <div class="header">
+                                            <h2><%= __('all_agents'); %></h2>
+
+                                            <% if(MyHelper.hasAccess(req, "/admin/company/agent/create") == true) { %>
+                                            <ul class="header-dropdown m-r--5">
+                                                <li class="dropdown">
+                                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="material-icons">more_vert</i>
+                                                    </a>
+                                                    <ul class="dropdown-menu pull-right">
+                                                        <li>
+                                                            <a href="/admin/company/agent/create/<%= data._id %>">
+                                                                <i class="material-icons">add_circle_outline</i> 
+                                                                <%= __('create_agent'); %>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                            <% } %>
+                                        </div>
+                                        <div class="body">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-striped table-hover dataTable js-all-agents-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><%= __('action') %></th>
+                                                            <th><%= __('name') %></th>
+                                                            <th><%= __('en_name') %></th>
+                                                            <th><%= __('email') %></th>
+                                                            <th><%= __('registered_on') %></th>
+                                                            <th><%= __('status') %></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(function () {
+    <% if(data.logo) {%>
+        $('#aniimated-thumbnials').lightGallery({
+            thumbnail: true,
+            selector: 'a'
+        });
+    <% } %>
+
+    $('.js-access-log-table').DataTable({
+        dom: 'Blfrtip',
+        responsive: true,
+        ajax: {
+            url: `/admin/company/access-log/listings/<%= data._id %>`,
+            type: 'POST'
+        },
+        serverSide: true,
+        scrollX: true,
+        scrollCollapse: true,
+        fixedColumns: true,
+        searchable : true,
+        deferLoading: 0, // autoload false
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
+        columns: [
+            { mRender: function(data, type, row) {
+                let action = '';
+                if('<%= MyHelper.hasAccess(req, "/admin/company/access-log/delete") %>' === "true")
+                {
+                    action += `<a table="js-access-log-table" href="/admin/company/access-log/delete/${row._id}" class="delete btn btn-danger waves-effect btn-xs"><%= __('delete') %></a>`;
+                }
+                return action ? action : '--';
+            }},
+            {data: 'login_at', name: 'login_at', mRender: function (data, type, row) {
+                return moment(data).format('DD/MM/YYYY hh:mm A');
+            }},
+            {data: 'logout_at', name: 'logout_at', mRender: function (data, type, row) {
+                return moment(data).format('DD/MM/YYYY hh:mm A');
+            }},
+            {data: 'ip_address', name: 'ip_address'},
+            {data: 'session_id', name: 'session_id'},
+            {data: 'browser', name : 'browser', mRender: function(data, type, row) {
+                return data;
+            }}
+        ]
+    });
+    $(document).on('click', '.delete', function(e) {
+        e.preventDefault();
+        let href = $(this).attr('href');
+        let table = $(this).attr('table');
+        swal({
+            title: "<%= __('are_you_sure') %>?",
+            text: "<%= __('delete_confirmation') %>!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "<%=  __('deletion_confirm_button') %>!",
+            cancelButtonText: "<%=  __('cancel') %>",
+            closeOnConfirm: false
+        }, function () {
+            $.post( href, function( data ) {
+                swal("<%=  __('deleted') %>!", "<%=  __('deletion_successful') %>.", "success");
+                if(table)
+                {
+                    $('.'+table).DataTable().ajax.reload( null, false ); // user paging is not reset on reload
+                }
+            });
+        });
+    });
+
+    <%  if(companyLoginLogs != null) { %> 
+    $(document).on('click', '.end_session', function(e) {
+        e.preventDefault();
+        let href = $(this).attr('href');
+        swal({
+            title: "<%= __('are_you_sure') %>?",
+            text: "<%= __('end_session_confirmation') %>!",
+            type: "info",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+        }, function () {
+            $.post( href, function( data ) {
+                $('#active_session_box').remove();
+                swal("<%=  __('ok') %>!", "<%=  __('session_end_successful') %>.", "success");
+            });
+        });
+    });
+    <% } %>
+
+    $('.js-all-agents-table').DataTable({
+        dom: 'Blfrtip',
+        responsive: true,
+        ajax: {
+            url: `/admin/company/agent/listings/<%= data._id %>`,
+            type: 'POST'
+        },
+        serverSide: true,
+        scrollX: true,
+        scrollCollapse: true,
+        fixedColumns: true,
+        searchable : true,
+        deferLoading: 0, // autoload false
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
+        columns: [
+            { mRender: function(data, type, row) {
+                let action = '';
+                if('<%= MyHelper.hasAccess(req, "/admin/company/agent/delete") %>' === "true")
+                {
+                    action += `<a table="js-all-agents-table" href="/admin/company/agent/delete/${row._id}" class="delete btn btn-danger waves-effect btn-xs"><%= __('delete') %></a>`;
+                }
+                if('<%= MyHelper.hasAccess(req, "/admin/company/agent/update") %>' === "true")
+                {
+                    action += `<a href="/admin/company/agent/update/${row._id}" class="btn bg-light-green btn-xs waves-effect"><%= __('update') %></a>`;
+                }
+
+                if('<%= MyHelper.hasAccess(req, "/admin/company/agent/view") %>' === "true")
+                {
+                    action += `<a href="/admin/company/agent/view/${row._id}" class="btn bg-teal btn-xs waves-effect"><%= __('view') %></a>`;
+                }
+                return action ? action : '--';
+            }},
+            {data: 'name', name: 'name'},
+            {data: 'en_name', name: 'en_name'},
+            {data: 'email', name: 'email'},
+            {data: 'createdAt', name: 'createdAt', mRender: function (data, type, row) {
+                return moment(data).format('DD/MM/YYYY hh:mm A');
+            }},
+            {data: 'status', name:'status', mRender: function(data, type, row) {
+                let account_status_array = JSON.parse(JSON.stringify("<%= __('account_status_array') %>")).split(',');
+                return account_status_array[row.status];
+            }},
+        ]
+    });
+});
+</script>

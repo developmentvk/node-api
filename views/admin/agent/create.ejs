@@ -3,7 +3,8 @@
         <ol class="breadcrumb breadcrumb-bg-teal">
             <li><a href="/admin/dashboard"><i class="material-icons">home</i> <%= __('home'); %></a></li>
             <li><a href="/admin/company"><i class="material-icons">view_list</i> <%= __('all_companies'); %></a></li>
-            <li class="active"><i class="material-icons">add_circle_outline</i> <%= __('create_company'); %></li>
+            <li><a href="/admin/company/view/<%= params.company_id %>"><i class="material-icons">remove_red_eye</i> <%= __('company_details'); %></a></li>
+            <li class="active"><i class="material-icons">add_circle_outline</i> <%= __('create_agent'); %></li>
         </ol>
     </div>
     <div class="row clearfix">
@@ -22,6 +23,7 @@
                 <div class="body">
                     <div class="row clearfix">
                         <form class="form-horizontal" id="new_record" method="POST">
+                            <input type="hidden" name="company_id" value="<%= params.company_id %>">
                             <div class="row clearfix">
                                 <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
                                     <label for="name"><%= __('name'); %> <span class="required">*</span></label>
@@ -43,19 +45,6 @@
                                     <div class="form-group">
                                         <div class="form-line">
                                             <input type="text" id="en_name" name="en_name" class="form-control" placeholder="<%= __('en_name'); %>" required autofocus>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row clearfix">
-                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                    <label for="website_url"><%= __('website_url'); %> <span class="required">*</span></label>
-                                </div>
-                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                            <input type="url" id="website_url" name="website_url" class="form-control" pattern="^(http[s]?:\/\/)?([-\w\d]+)(\.[-\w\d]+)*(\.([a-zA-Z]{2,5}|[\d]{1,3})){1,2}(\/([-~%\.\(\)\w\d]*\/*)*(#[-\w\d]+)?)?$" placeholder="<%= __('website_url'); %>" required autofocus>
                                         </div>
                                     </div>
                                 </div>
@@ -127,41 +116,7 @@
 
                             <div class="row clearfix">
                                 <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                    <label for="industry_id"><%= __('industry'); %><span class="required">*</span></label>
-                                </div>
-                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                    <div class="form-group">
-                                        <select id="industry_id" name="industry_id"  class="form-control show-tick" autofocus required>
-                                            <option value=""><%= __('select_industry'); %></option>
-                                            <% if(industry.length > 0) {%>
-                                                <% _.forEach(industry, function(value, index) {%>
-                                                    <option value="<%= value._id %>"><%= getLocale() == 'en' ? value.en_name : value.name %></option>
-                                                <% }) %>
-                                            <% } %>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row clearfix">
-                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                    <label for="number_of_employees"><%= __('number_of_employees'); %><span class="required">*</span></label>
-                                </div>
-                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                    <div class="form-group">
-                                        <select id="number_of_employees" name="number_of_employees"  class="form-control show-tick" autofocus required>
-                                            <option value=""><%= __('select_number_of_employees'); %></option>
-                                            <% _.forEach(__('number_of_employees_array'), function(value, index) {%>
-                                                <option value="<%= index %>"><%= value %></option>
-                                            <% }) %>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row clearfix">
-                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                    <label for="logo"><%= __('logo'); %></label>
+                                    <label for="image"><%= __('image'); %></label>
                                 </div>
                                 <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                     <div class="col-sm-1 hide image-box">
@@ -174,38 +129,10 @@
                                     <div class="col-sm-11">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="file" id="logo" name="file" class="form-control" placeholder="<%= __('logo'); %>" autofocus>
-                                                <input type="hidden" name="logo" />
+                                                <input type="file" id="image" name="file" class="form-control" placeholder="<%= __('logo'); %>" autofocus>
+                                                <input type="hidden" name="image" />
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row clearfix">
-                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                    <label for="audience"><%= __('audience'); %><span class="required">*</span></label>
-                                </div>
-                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                    <div class="form-group">
-                                        <%  _.forEach(__('audience_array'), function(value, index) { %>
-                                            <input type="checkbox" name="audience" id="audience<%= value %>" class="with-gap checkbox-col-purple" value="<%= index %>" required>
-                                            <label for="audience<%= value %>"><%= value %></label>
-                                        <% }) %>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row clearfix">
-                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                    <label for="chat_purpose"><%= __('chat_purpose'); %> <span class="required">*</span</label>
-                                </div>
-                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                    <div class="form-group">
-                                        <%  _.forEach(__('chat_purpose_array'), function(value, index) { %>
-                                            <input type="checkbox" name="chat_purpose" id="chat_purpose_<%= value %>" class="with-gap checkbox-col-purple" value="<%= index %>" required>
-                                            <label for="chat_purpose_<%= value %>"><%= value %></label>
-                                        <% }) %>
                                     </div>
                                 </div>
                             </div>
@@ -272,7 +199,7 @@ $(function () {
             dataType: 'json',
             type: 'POST',
             success:function(data){
-                $('[name=logo]').val(data.data.file);
+                $('[name=image]').val(data.data.file);
                 $('.image-box').find('img').attr('src', `/uploads/images/${data.data.file}`)
                 $('.image-box').removeClass('hide');
             },

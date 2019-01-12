@@ -132,7 +132,8 @@
 	"movie_not_in_stock": "Movie not in stock.",
 	"return_already_processed": "Return already processed.",
 	"user_already_registered": "User already registered.",
-	"company": "Real-Time Chat",
+	"company": "Company",
+	"app_name": "Real-Time Chat",
 	"admin_panel": "Admin Panel",
 	"sign_in_to_start_your_session": "Sign in to start your session",
 	"username": "Username",
@@ -360,6 +361,11 @@
 	"request_time_out": "Request Time out",
 	"request_was_aborted_by_the_server": "Request was aborted by the server",
 	"uncaught_error": "Uncaught Error",
-	"please_verify_your_network_connection.": "please_verify_your_network_connection.",
-	"requested_page_not_found.": "requested_page_not_found."
+	"all_agents": "All Agents",
+	"all_industry": "All Industry",
+	"company_agent_account_already_registered": "company_agent_account_already_registered",
+	"company_agent_saved_successfully": "company_agent_saved_successfully",
+	"company_agent_updated_successfully": "company_agent_updated_successfully",
+	"create_agent": "create_agent",
+	"company_details": "company_details"
 }

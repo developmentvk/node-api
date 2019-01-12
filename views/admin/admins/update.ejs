@@ -103,10 +103,19 @@
                                     <label for="image"><%= __('image'); %></label>
                                 </div>
                                 <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                            <input type="file" id="image" name="file" class="form-control" placeholder="<%= __('image'); %>" autofocus>
-                                            <input type="hidden" name="image" />
+                                    <div class="col-sm-1 <%= admins.image ? '' : 'hide'  %> image-box">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <img src="/uploads/images/<%= admins.image %>" width="54" height="54">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-11">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="file" id="image" name="file" class="form-control" placeholder="<%= __('logo'); %>" autofocus>
+                                                <input type="hidden" name="image" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -177,9 +186,9 @@ $(function () {
             dataType: 'json',
             type: 'POST',
             success:function(data){
-                console.log("file uploaded");
-                console.log(data);
-                $('[name=image]').val(data.data.file)
+                $('[name=image]').val(data.data.file);
+                $('.image-box').find('img').attr('src', `/uploads/images/${data.data.file}`)
+                $('.image-box').removeClass('hide');
             },
             error: function(jqXHR, exception){
                 let message = formatErrorMessage(jqXHR, exception);

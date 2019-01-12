@@ -239,6 +239,24 @@ function validateUpdate(table) {
 	return Joi.validate(table, schema);
 }
 
+function validateUpdatePassword(user) {
+	const schema = {
+		password: Joi.string().min(5).max(255).required().label(i18n.__('password')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		confirm: Joi.string().valid(Joi.ref('password')).required().options({ language: { any: { allowOnly: 'must match password' } } }).label(i18n.__('confirm_password')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		})
+	};
+
+	return Joi.validate(user, schema);
+}
+
 exports.Company = company;
 exports.validate = validate;
 exports.validateUpdate = validateUpdate;
+exports.validateUpdatePassword = validateUpdatePassword;

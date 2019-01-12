@@ -36,7 +36,6 @@
                                     <th><%= __('action') %></th>
                                     <th><%= __('name') %></th>
                                     <th><%= __('en_name') %></th>
-                                    <th><%= __('email') %></th>
                                     <th><%= __('registered_on') %></th>
                                     <th><%= __('status') %></th>
                                 </tr>
@@ -88,13 +87,11 @@ $(function () {
             }},
             {data: 'name', name: 'name'},
             {data: 'en_name', name: 'en_name'},
-            {data: 'email', name: 'email'},
             {data: 'createdAt', name: 'createdAt', mRender: function (data, type, row) {
                 return moment(data).format('DD/MM/YYYY hh:mm A');
             }},
             {data: 'status', name:'status', mRender: function(data, type, row) {
-                let account_status_array = JSON.parse(JSON.stringify("<%= __('account_status_array') %>")).split(',');
-                return account_status_array[row.status];
+                return row.status ?  "<%= __('active') %>" : "<%= __('inactive') %>";
             }},
             
         ]

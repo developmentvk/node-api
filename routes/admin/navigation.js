@@ -3,7 +3,7 @@ const adminSession = require('../../middleware/adminSession');
 const rbac = require('../../middleware/rbac');
 const i18n = require("i18n");
 const { NavigationMasters, validate } = require('../../models/navigationMasters');
-const { successMessage, errorMessage } = require('../../helpers/MyHelper');
+const { successMessage, errorMessage, navigationMenuListing } = require('../../helpers/MyHelper');
 const _ = require('lodash');
 const router = express.Router();
 
@@ -71,7 +71,7 @@ router.post('/navigations/create', [adminSession, rbac], async (req, res) => {
     })
     await navigationMasters.save();
 
-    req.app.io.emit("navigationUpdatedEvent");
+    await navigationMenuListing(req, true);
 
     req.flash('success', [i18n.__('navigation_menu_saved_successfully')]);
     return res.redirect('/admin/navigations/create');
@@ -121,7 +121,7 @@ router.post('/navigations/update/:id', [adminSession, rbac], async (req, res) =>
         show_in_permission: req.body.show_in_permission,
         display_order: req.body.display_order
     }, { new: true });
-    req.app.io.emit("navigationUpdatedEvent");
+    await navigationMenuListing(req, true);
     
     req.flash('success', [i18n.__('navigation_menu_updated_successfully')]);
     return res.redirect(`/admin/navigations/update/${req.params.id}`);
@@ -131,7 +131,7 @@ router.post('/navigations/update/:id', [adminSession, rbac], async (req, res) =>
 router.post('/navigations/delete/:id', [adminSession, rbac], async (req, res) => {
     const navigationMasters = await NavigationMasters.findByIdAndRemove(req.params.id);
     if (!navigationMasters) return errorMessage(res, 'no_record_found');
-    req.app.io.emit("navigationUpdatedEvent");
+    await navigationMenuListing(req, true);
     
 	return successMessage(res, 'success', 200, navigationMasters);
 });

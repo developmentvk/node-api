@@ -1,13 +1,13 @@
 <script>
 function formatErrorMessage(jqXHR, exception) {
     if (jqXHR.status === 0) {
-        return '<%= __("not_connected") %>.\n<%= __("please_verify_your_network_connection.") %>.';
+        return '<%= __("not_connected") %>.\n<%= __("please_verify_your_network_connection") %>.';
     } else if (jqXHR.status == 400) {
         return '<%= __("server_understood_the_request_but_request_content_was_invalid") %>.';
     } else if (jqXHR.status == 400) {
         return '<%= __("forbidden_resource_can_not_be_accessed") %>.';
     } else if (jqXHR.status == 404) {
-        return '<%= __("requested_page_not_found.") %>. [404]';
+        return '<%= __("requested_page_not_found") %>. [404]';
     } else if (jqXHR.status == 500) {
         return '<%= __("session_expired_please_reload_the_page_and_try_again") %>.';
     } else if (jqXHR.status == 503) {
