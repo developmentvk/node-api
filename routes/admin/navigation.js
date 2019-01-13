@@ -42,13 +42,13 @@ router.post('/navigations/listings', [adminSession, rbac], async (req, res) => {
 router.get('/navigations/create', [adminSession, rbac], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
-    const navigationMasters = await NavigationMasters.find({parent_id:null});
+    const navigationMasters = await NavigationMasters.find({ parent_id: null });
     res.render('admin/navigations/create', {
         layout: "admin/include/layout",
         title: i18n.__('create_navigation'),
         error: error,
         success: success,
-        navigationMasters : navigationMasters
+        navigationMasters: navigationMasters
     });
 });
 
@@ -82,7 +82,7 @@ router.get('/navigations/update/:id', [adminSession, rbac], async (req, res) => 
     let error = req.flash('error');
     let success = req.flash('success');
     const navigations = await NavigationMasters.findOne({
-        _id:req.params.id
+        _id: req.params.id
     });
     if (!navigations) {
         req.flash('error', [i18n.__('record_not_found')]);
@@ -90,7 +90,7 @@ router.get('/navigations/update/:id', [adminSession, rbac], async (req, res) => 
     }
 
     const navigationMasters = await NavigationMasters.find({
-        parent_id:null,
+        parent_id: null,
         _id: { $ne: req.params.id }
     });
     res.render('admin/navigations/update', {
@@ -98,8 +98,8 @@ router.get('/navigations/update/:id', [adminSession, rbac], async (req, res) => 
         title: i18n.__('update_navigation'),
         error: error,
         success: success,
-        navigations : navigations,
-        navigationMasters : navigationMasters
+        navigations: navigations,
+        navigationMasters: navigationMasters
     });
 });
 
@@ -122,7 +122,7 @@ router.post('/navigations/update/:id', [adminSession, rbac], async (req, res) =>
         display_order: req.body.display_order
     }, { new: true });
     await navigationMenuListing(req, true);
-    
+
     req.flash('success', [i18n.__('navigation_menu_updated_successfully')]);
     return res.redirect(`/admin/navigations/update/${req.params.id}`);
 });
@@ -132,7 +132,7 @@ router.post('/navigations/delete/:id', [adminSession, rbac], async (req, res) =>
     const navigationMasters = await NavigationMasters.findByIdAndRemove(req.params.id);
     if (!navigationMasters) return errorMessage(res, 'no_record_found');
     await navigationMenuListing(req, true);
-    
-	return successMessage(res, 'success', 200, navigationMasters);
+
+    return successMessage(res, 'success', 200, navigationMasters);
 });
 module.exports = router; 

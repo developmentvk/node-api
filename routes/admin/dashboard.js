@@ -19,9 +19,8 @@ router.get('/dashboard', [adminSession, rbac], async (req, res) => {
 
 router.get('/logout', [adminSession], async (req, res) => {
     if (req.session.adminAuthenticated === true && req.cookies.session) {
-        if(req.session.admin.login_id)
-        {
-            await AdminLoginLogs.findByIdAndUpdate(req.session.admin.login_id, { 
+        if (req.session.admin.login_id) {
+            await AdminLoginLogs.findByIdAndUpdate(req.session.admin.login_id, {
                 logout_at: new Date(),
                 isActive: false
             }, { new: true });

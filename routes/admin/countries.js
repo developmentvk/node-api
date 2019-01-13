@@ -72,7 +72,7 @@ router.get('/countries/update/:id', [adminSession, rbac], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
     const countries = await Countries.findOne({
-        _id:req.params.id
+        _id: req.params.id
     });
     if (!countries) {
         req.flash('error', [i18n.__('record_not_found')]);
@@ -83,7 +83,7 @@ router.get('/countries/update/:id', [adminSession, rbac], async (req, res) => {
         title: i18n.__('update_country'),
         error: error,
         success: success,
-        countries : countries
+        countries: countries
     });
 });
 
@@ -110,7 +110,7 @@ router.post('/countries/update/:id', [adminSession, rbac], async (req, res) => {
 
 router.post('/countries/delete/:id', [adminSession, rbac], async (req, res) => {
     const countries = await Countries.findByIdAndRemove(req.params.id);
-	if (!countries) return errorMessage(res, 'no_record_found');
-	return successMessage(res, 'success', 200, countries);
+    if (!countries) return errorMessage(res, 'no_record_found');
+    return successMessage(res, 'success', 200, countries);
 });
 module.exports = router; 

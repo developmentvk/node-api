@@ -47,14 +47,14 @@ router.post('/company/listings', [adminSession, rbac], async (req, res) => {
 router.get('/company/create', [adminSession, rbac], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
-    const industry = await Industry.find({status : 1});
+    const industry = await Industry.find({ status: 1 });
     const countries = await Countries.find();
 
     res.render('admin/company/create', {
         layout: "admin/include/layout",
         title: i18n.__('create_company'),
-        industry : industry,
-        countries : countries,
+        industry: industry,
+        countries: countries,
         error: error,
         success: success
     });
@@ -73,8 +73,7 @@ router.post('/company/create', [adminSession, rbac], async (req, res) => {
     }
 
     let fields = ['name', 'en_name', 'website_url', 'dial_code', 'mobile', 'email', 'password', 'industry_id', 'number_of_employees', 'logo', 'audience', 'chat_purpose', 'status'];
-    if(req.body.logo)
-    {
+    if (req.body.logo) {
         fields.push('logo');
     }
     company = new Company(_.pick(req.body, fields));
@@ -99,7 +98,7 @@ router.get('/company/update/:id', [adminSession, rbac], async (req, res) => {
     company.audience = _.toArray(company.audience);
     company.chat_purpose = _.toArray(company.chat_purpose);
 
-    const industry = await Industry.find({status : 1});
+    const industry = await Industry.find({ status: 1 });
     const countries = await Countries.find();
     res.render('admin/company/update', {
         layout: "admin/include/layout",
@@ -107,8 +106,8 @@ router.get('/company/update/:id', [adminSession, rbac], async (req, res) => {
         error: error,
         success: success,
         company: company,
-        industry : industry,
-        countries : countries
+        industry: industry,
+        countries: countries
     });
 });
 
@@ -140,8 +139,7 @@ router.post('/company/update/:id', [adminSession, rbac], async (req, res) => {
         chat_purpose: req.body.chat_purpose,
         status: req.body.status
     };
-    if(req.body.logo)
-    {
+    if (req.body.logo) {
         fields.logo = req.body.logo;
     }
     await Company.findByIdAndUpdate(req.params.id, fields, { new: true });
@@ -171,10 +169,9 @@ router.get('/company/view/:id', [adminSession, rbac], async (req, res) => {
     }
     let audienceArr = new Array();
     audience = _.toArray(company.audience);
-    if(audience.length > 0)
-    {
-        _.forEach(audience, function(value) {
-            if(value != ',') {
+    if (audience.length > 0) {
+        _.forEach(audience, function (value) {
+            if (value != ',') {
                 audienceArr.push(i18n.__('audience_array')[value]);
             }
         });
@@ -183,10 +180,9 @@ router.get('/company/view/:id', [adminSession, rbac], async (req, res) => {
 
     let chat_purposeArr = new Array();
     chat_purpose = _.toArray(company.chat_purpose);
-    if(chat_purpose.length > 0)
-    {
-        _.forEach(chat_purpose, function(value) {
-            if(value != ',') {
+    if (chat_purpose.length > 0) {
+        _.forEach(chat_purpose, function (value) {
+            if (value != ',') {
                 chat_purposeArr.push(i18n.__('chat_purpose_array')[value]);
             }
         })
@@ -207,7 +203,7 @@ router.get('/company/view/:id', [adminSession, rbac], async (req, res) => {
         error: error,
         success: success,
         data: company,
-        companyLoginLogs : companyLoginLogs
+        companyLoginLogs: companyLoginLogs
     });
 });
 
@@ -218,7 +214,7 @@ router.post('/company/end-session/:id', [adminSession], async (req, res) => {
         isActive: true
     }).exec();
     if (companyLoginLogsExists.length > 0) {
-        _.forEach(companyLoginLogsExists, async function(value) {
+        _.forEach(companyLoginLogsExists, async function (value) {
             await Sessions.deleteOne({ "session.company.login_id": value._id });
             await CompanyLoginLogs.findByIdAndUpdate(value._id, {
                 logout_at: new Date(),
@@ -226,8 +222,8 @@ router.post('/company/end-session/:id', [adminSession], async (req, res) => {
             }, { new: true });
 
             req.app.io.emit("logoutCompanySessionEvent", {
-                company_id : value.company_id,
-                action : 'terminated'
+                company_id: value.company_id,
+                action: 'terminated'
             });
         })
     }
@@ -242,7 +238,7 @@ router.post('/company/access-log/listings/:company_id', [adminSession], async (r
         order: req.body.order,
         columns: req.body.columns,
         find: {
-            company_id : req.params.company_id,
+            company_id: req.params.company_id,
             isActive: false
         },
         search: {
@@ -285,7 +281,7 @@ router.post('/company/change/password/:id', [adminSession, rbac], async (req, re
 
     const salt = await bcrypt.genSalt(10);
     const password = await bcrypt.hash(req.body.password, salt);
-    
+
     await Company.findByIdAndUpdate(req.params.id, { password: password }, { new: true });
 
     req.flash('success', [i18n.__('account_password_updated_successfully')]);

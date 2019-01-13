@@ -24,40 +24,39 @@ router.get('/logs/prepare', [adminSession, rbac], async (req, res) => {
         match: /.log$/,
         exclude: /^\./
     },
-    function (err, stream, filename, next) {
-        if (err) throw err;
-        var content = '';
-        stream.on('data', function (buffer) {
-            content += buffer.toString();
-        });
-        stream.on('end', function () {
-            // console.log('content:', content);
-            next();
-        });
-    },
-    async function (err, files) {
-        if (err) throw err;
-        let output = new Array();
-        await _.forEach(files, function(file) {
-            const stats = fs.statSync(file)
-            const fileSizeInBytes = stats.size;
-            let size = filesize(fileSizeInBytes, {bits: true});
-            let fileName = '';
-            if(_.includes(file,'\\'))
-            {
-                fileName = _.last(file.split("\\"));
-            } else {
-                fileName = _.last(file.split("/"));
-            }
-            output.push({
-                fileName : fileName,
-                size : size
+        function (err, stream, filename, next) {
+            if (err) throw err;
+            var content = '';
+            stream.on('data', function (buffer) {
+                content += buffer.toString();
+            });
+            stream.on('end', function () {
+                // console.log('content:', content);
+                next();
+            });
+        },
+        async function (err, files) {
+            if (err) throw err;
+            let output = new Array();
+            await _.forEach(files, function (file) {
+                const stats = fs.statSync(file)
+                const fileSizeInBytes = stats.size;
+                let size = filesize(fileSizeInBytes, { bits: true });
+                let fileName = '';
+                if (_.includes(file, '\\')) {
+                    fileName = _.last(file.split("\\"));
+                } else {
+                    fileName = _.last(file.split("/"));
+                }
+                output.push({
+                    fileName: fileName,
+                    size: size
+                })
             })
-        })
-        
-        req.app.io.emit("logFilePrepairedEvent", output);
-        // console.log('finished reading files:', output);
-    });
+
+            req.app.io.emit("logFilePrepairedEvent", output);
+            // console.log('finished reading files:', output);
+        });
 
     return successMessage(res, 'success', 200);
 });

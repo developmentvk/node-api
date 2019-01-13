@@ -2,13 +2,13 @@ const express = require('express');
 const adminSession = require('../../middleware/adminSession');
 const rbac = require('../../middleware/rbac');
 const i18n = require("i18n");
-const { Admin, validate, validateUpdate, validateUpdateAccount, validateUpdateAccountPassword,validateUpdatePassword } = require('../../models/admin');
+const { Admin, validate, validateUpdate, validateUpdateAccount, validateUpdateAccountPassword, validateUpdatePassword } = require('../../models/admin');
 const { UsersRoles } = require('../../models/usersRoles');
 const { Countries } = require('../../models/countries');
 const { UsersPermissions } = require('../../models/usersPermissions');
 const { AdminLoginLogs } = require('../../models/adminLoginLogs');
 const { Sessions } = require('../../models/sessions');
-const { uploadFile,successMessage, errorMessage, getGroupNavigation, getUsersPermission, navigationMenuListing } = require('../../helpers/MyHelper');
+const { uploadFile, successMessage, errorMessage, getGroupNavigation, getUsersPermission, navigationMenuListing } = require('../../helpers/MyHelper');
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const router = express.Router();
@@ -46,7 +46,7 @@ router.get('/account-info', [adminSession], async (req, res) => {
         error: error,
         success: success,
         data: admins,
-        adminLoginLogs : adminLoginLogs
+        adminLoginLogs: adminLoginLogs
     });
 });
 
@@ -92,8 +92,7 @@ router.post('/update/account', [adminSession], async (req, res) => {
         dial_code: req.body.dial_code,
         mobile: req.body.mobile,
     };
-    if(req.body.image)
-    {
+    if (req.body.image) {
         fields.image = req.body.image;
     }
     await Admin.findByIdAndUpdate(req.session.admin._id, fields, { new: true });
@@ -132,14 +131,14 @@ router.post('/change/password', [adminSession], async (req, res) => {
 
     const salt = await bcrypt.genSalt(10);
     const password = await bcrypt.hash(req.body.password, salt);
-    
+
     await Admin.findByIdAndUpdate(req.session.admin._id, { password: password }, { new: true });
 
     req.flash('success', [i18n.__('password_updated_successfully')]);
     return res.redirect(`/admin/change/password`);
 });
 
-router.post('/admins/set-locale',  async (req, res) => {
+router.post('/admins/set-locale', async (req, res) => {
     let locale = req.body.locale == 'en' ? 'ar' : 'en';
     req.session.locale = locale;
     res.cookie('locale', locale);
@@ -167,7 +166,7 @@ router.post('/admins/change/password/:id', [adminSession, rbac], async (req, res
 
     const salt = await bcrypt.genSalt(10);
     const password = await bcrypt.hash(req.body.password, salt);
-    
+
     await Admin.findByIdAndUpdate(req.params.id, { password: password }, { new: true });
 
     req.flash('success', [i18n.__('account_password_updated_successfully')]);
@@ -229,7 +228,7 @@ router.get('/admins/view/:id', [adminSession, rbac], async (req, res) => {
         success: success,
         data: admins,
         navigations: navigations,
-        adminLoginLogs : adminLoginLogs
+        adminLoginLogs: adminLoginLogs
     });
 });
 
@@ -239,7 +238,7 @@ router.post('/admins/end-session/:id', [adminSession], async (req, res) => {
         isActive: true
     }).exec();
     if (adminLoginLogsExists.length > 0) {
-        _.forEach(adminLoginLogsExists, async function(value) {
+        _.forEach(adminLoginLogsExists, async function (value) {
             await Sessions.deleteOne({ "session.admin.login_id": value._id });
             await AdminLoginLogs.findByIdAndUpdate(value._id, {
                 logout_at: new Date(),
@@ -247,8 +246,8 @@ router.post('/admins/end-session/:id', [adminSession], async (req, res) => {
             }, { new: true });
 
             req.app.io.emit("logoutSessionEvent", {
-                admin_id : value.admin_id,
-                action : 'terminated'
+                admin_id: value.admin_id,
+                action: 'terminated'
             });
         })
     }
@@ -263,7 +262,7 @@ router.post('/admins/access-log/listings/:admin_id', [adminSession], async (req,
         order: req.body.order,
         columns: req.body.columns,
         find: {
-            admin_id : req.params.admin_id,
+            admin_id: req.params.admin_id,
             isActive: false
         },
         search: {
@@ -302,9 +301,9 @@ router.get('/admins/create', [adminSession, rbac], async (req, res) => {
 });
 
 router.post('/admins/upload', async (req, res) => {
-    await uploadFile(req, res, 'file', 'images', function(err, file) {
-        if(err) return errorMessage(res, err, true);
-        return successMessage(res, 'success', 200, {'file' : file});
+    await uploadFile(req, res, 'file', 'images', function (err, file) {
+        if (err) return errorMessage(res, err, true);
+        return successMessage(res, 'success', 200, { 'file': file });
     });
 });
 
@@ -322,8 +321,7 @@ router.post('/admins/create', [adminSession, rbac], async (req, res) => {
     }
 
     let fields = ['name', 'email', 'dial_code', 'mobile', 'role_id', 'password', 'status'];
-    if(req.body.image)
-    {
+    if (req.body.image) {
         fields.push('image');
     }
     admin = new Admin(_.pick(req.body, fields));
@@ -382,8 +380,7 @@ router.post('/admins/update/:id', [adminSession, rbac], async (req, res) => {
         role_id: req.body.role_id,
         status: req.body.status
     };
-    if(req.body.image)
-    {
+    if (req.body.image) {
         fields.image = req.body.image;
     }
     await Admin.findByIdAndUpdate(req.params.id, fields, { new: true });

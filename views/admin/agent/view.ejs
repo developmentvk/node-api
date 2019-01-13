@@ -3,6 +3,7 @@
         <ol class="breadcrumb breadcrumb-bg-teal">
             <li><a href="/admin/dashboard"><i class="material-icons">home</i> <%= __('home'); %></a></li>
             <li><a href="/admin/company"><i class="material-icons">view_list</i> <%= __('all_companies'); %></a></li>
+            <li><a href="/admin/company/view/<%= data.company_id %>"><i class="material-icons">remove_red_eye</i> <%= __('company_details'); %></a></li>
             <li class="active"><i class="material-icons">remove_red_eye</i> <%= __('view_details'); %></li>
         </ol>
     </div>
@@ -31,19 +32,19 @@
                             </a>
                             <ul class="dropdown-menu pull-right">
                                 
-                                <% if(MyHelper.hasAccess(req, "/admin/company/update") == true) {%>
+                                <% if(MyHelper.hasAccess(req, "/admin/company/agent/update") == true) {%>
                                     <li>
-                                        <a href="/admin/company/update/<%= data._id %>"><%= __('update') %></a>
+                                        <a href="/admin/company/agent/update/<%= data._id %>"><%= __('update') %></a>
                                     </li>
                                 <% } %>
-                                <% if(MyHelper.hasAccess(req, "/admin/company/change/password") == true) {%>
+                                <% if(MyHelper.hasAccess(req, "/admin/company/agent/change/password") == true) {%>
                                     <li>
-                                        <a href="/admin/company/change/password/<%= data._id %>"><%= __('change_password') %></a>
+                                        <a href="/admin/company/agent/change/password/<%= data._id %>"><%= __('change_password') %></a>
                                     </li>
                                 <% } %>
-                                <% if(MyHelper.hasAccess(req, "/admin/company/delete") == true) {%>
+                                <% if(MyHelper.hasAccess(req, "/admin/company/agent/delete") == true) {%>
                                     <li>
-                                        <a  class="delete" href="/admin/company/delete/<%= data._id %>"><%= __('delete') %></a>
+                                        <a  class="delete" href="/admin/company/agent/delete/<%= data._id %>"><%= __('delete') %></a>
                                     </li>
                                 <% } %>
                             </ul>
@@ -60,9 +61,6 @@
                                 </li>
                                 <li role="presentation">
                                     <a href="#active_session" data-toggle="tab"  data-table="js-access-log-table"><%= __('active_session')%></a>
-                                </li>
-                                <li role="presentation">
-                                    <a href="#all_agents" data-toggle="tab" data-table="js-all-agents-table"><%= __('all_agents')%></a>
                                 </li>
                             </ul>
 
@@ -94,18 +92,6 @@
                                                 <%= data.en_name %>
                                             </span>
                                         </li>
-                                        <li class="list-group-item clearfix">
-                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                                <%= __('website_url') %>
-                                            </span>
-                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-                                                <% if(data.website_url) { %>
-                                                <a href="<%= data.website_url %>" target="_blank"><%= data.website_url %></a>
-                                                <% } else { %>
-                                                --
-                                                <% } %>
-                                            </span>
-                                        </li>
                                         
                                         <li class="list-group-item clearfix">
                                             <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
@@ -125,52 +111,20 @@
                                         </li>
                                         <li class="list-group-item clearfix">
                                             <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                                <%= __('industry') %>
+                                                <%= __('image') %>
                                             </span>
                                             <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-                                                <%= data.industry_id ? (getLocale() == 'en' ? data.industry_id.en_name : data.industry_id.name) : '--'; %>
-                                            </span>
-                                        </li>
-                                        <li class="list-group-item clearfix">
-                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                                <%= __('number_of_employees') %>
-                                            </span>
-                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-                                                <%= data.decoded_number_of_employees %>
-                                            </span>
-                                        </li>
-                                        <li class="list-group-item clearfix">
-                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                                <%= __('logo') %>
-                                            </span>
-                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-                                                <% if(data.logo) {%>
+                                                <% if(data.image) {%>
                                                 <div id="aniimated-thumbnials">
                                                     <div class="col-lg-3 col-md-4 col-sm-6 m-t-0 m-l-0 m-r-0 m-b-0">
-                                                        <a href="<%= MyHelper.buildImageLink(data.logo) %>" data-sub-html="<%= data.logo %>">
-                                                            <img class="img-responsive thumbnail" src="<%= MyHelper.buildImageLink(data.logo) %>">
+                                                        <a href="<%= MyHelper.buildImageLink(data.image) %>" data-sub-html="<%= data.image %>">
+                                                            <img class="img-responsive thumbnail" src="<%= MyHelper.buildImageLink(data.image) %>">
                                                         </a>
                                                     </div>
                                                 </div>
                                                 <% } else { %>
                                                 --
                                                 <% } %>
-                                            </span>
-                                        </li>
-                                        <li class="list-group-item clearfix">
-                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                                <%= __('audience') %>
-                                            </span>
-                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-                                                <%= data.decoded_audience %>
-                                            </span>
-                                        </li>
-                                        <li class="list-group-item clearfix">
-                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                                <%= __('chat_purpose') %>
-                                            </span>
-                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-                                                <%= data.decoded_chat_purpose %>
                                             </span>
                                         </li>
                                         <li class="list-group-item clearfix">
@@ -192,18 +146,18 @@
                                     </ul>
                                 </div>
                                 <div role="tabpanel" class="tab-pane animated flipInX" id="active_session">
-                                    <%  if(companyLoginLogs != null) { %>    
+                                    <%  if(agentLoginLogs != null) { %>    
                                     <div class="card" id="active_session_box">
                                         <div class="header bg-light-green">
                                             <h2>
-                                                <%= __('ip_address') %> : <%= companyLoginLogs.ip_address %>
-                                                <small> <%= __('login_time') %> :  <%= moment(companyLoginLogs.login_at).format('DD/MM/YYYY hh:mm A') %></small>
-                                                <small> <%= __('session_id') %> :  <%= companyLoginLogs.session_id %></small>
+                                                <%= __('ip_address') %> : <%= agentLoginLogs.ip_address %>
+                                                <small> <%= __('login_time') %> :  <%= moment(agentLoginLogs.login_at).format('DD/MM/YYYY hh:mm A') %></small>
+                                                <small> <%= __('session_id') %> :  <%= agentLoginLogs.session_id %></small>
                                             </h2>
                                         </div>
                                         <div class="body">
                                             <h4><%= __('browser') %></h4>
-                                            <% let browser = JSON.parse(companyLoginLogs.browser); %>
+                                            <% let browser = JSON.parse(agentLoginLogs.browser); %>
                                             <div class="clearfix"></div>
                                             <%= __('name') %> : <%= browser.name %> 
                                             <div class="clearfix"></div>
@@ -216,7 +170,7 @@
                                             <%= __('os') %> : <%= browser.os %> 
                                             <% if(admin._id != data._id) { %>
                                             <div class="clearfix p-t-10"></div>
-                                            <button href="/admin/company/end-session/<%= companyLoginLogs.admin_id %>" class="btn btn-primary waves-effect end_session"><%= __('end_session') %></button>
+                                            <button href="/admin/company/end-session/<%= agentLoginLogs.admin_id %>" class="btn btn-primary waves-effect end_session"><%= __('end_session') %></button>
                                             <% } %>
                                         </div>
                                     </div>
@@ -245,30 +199,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div role="tabpanel" class="tab-pane animated flipInX" id="all_agents">
-                                    <div class="card">
-                                        <div class="header">
-                                            <h2><%= __('all_agents'); %></h2>
-                                        </div>
-                                        <div class="body">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-striped table-hover dataTable js-all-agents-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th><%= __('action') %></th>
-                                                            <th><%= __('login_time') %></th>
-                                                            <th><%= __('logout_time') %></th>
-                                                            <th><%= __('ip_address') %></th>
-                                                            <th><%= __('session_id') %></th>
-                                                            <th><%= __('browser') %></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody></tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -280,7 +210,7 @@
 
 <script>
 $(function () {
-    <% if(data.logo) {%>
+    <% if(data.image) {%>
         $('#aniimated-thumbnials').lightGallery({
             thumbnail: true,
             selector: 'a'
@@ -349,7 +279,7 @@ $(function () {
         });
     });
 
-    <%  if(companyLoginLogs != null) { %> 
+    <%  if(agentLoginLogs != null) { %> 
     $(document).on('click', '.end_session', function(e) {
         e.preventDefault();
         let href = $(this).attr('href');
@@ -368,44 +298,5 @@ $(function () {
         });
     });
     <% } %>
-
-    $('.js-all-agents-table').DataTable({
-        dom: 'Blfrtip',
-        responsive: true,
-        ajax: {
-            url: `/admin/company/access-log/listings/<%= data._id %>`,
-            type: 'POST'
-        },
-        serverSide: true,
-        scrollX: true,
-        scrollCollapse: true,
-        fixedColumns: true,
-        searchable : true,
-        deferLoading: 0, // autoload false
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ],
-        columns: [
-            { mRender: function(data, type, row) {
-                let action = '';
-                if('<%= MyHelper.hasAccess(req, "/admin/company/access-log/delete") %>' === "true")
-                {
-                    action += `<a table="js-access-log-table" href="/admin/company/access-log/delete/${row._id}" class="delete btn btn-danger waves-effect btn-xs"><%= __('delete') %></a>`;
-                }
-                return action ? action : '--';
-            }},
-            {data: 'login_at', name: 'login_at', mRender: function (data, type, row) {
-                return moment(data).format('DD/MM/YYYY hh:mm A');
-            }},
-            {data: 'logout_at', name: 'logout_at', mRender: function (data, type, row) {
-                return moment(data).format('DD/MM/YYYY hh:mm A');
-            }},
-            {data: 'ip_address', name: 'ip_address'},
-            {data: 'session_id', name: 'session_id'},
-            {data: 'browser', name : 'browser', mRender: function(data, type, row) {
-                return data;
-            }}
-        ]
-    });
 });
 </script>

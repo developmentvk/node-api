@@ -58,7 +58,7 @@ router.post('/login', async (req, res) => {
         isActive: true
     }).exec();
     if (adminLoginLogsExists.length > 0) {
-        _.forEach(adminLoginLogsExists, async function(value) {
+        _.forEach(adminLoginLogsExists, async function (value) {
             await Sessions.deleteOne({ "session.admin.login_id": value._id });
 
             await AdminLoginLogs.findByIdAndUpdate(value._id, {
@@ -68,8 +68,8 @@ router.post('/login', async (req, res) => {
         })
 
         req.app.io.emit("logoutSessionEvent", {
-            admin_id : admin._id,
-            action : 'duplicate'
+            admin_id: admin._id,
+            action: 'duplicate'
         });
     }
 
@@ -89,7 +89,7 @@ router.post('/login', async (req, res) => {
     } else {
         req.session.cookie.maxAge = (24 * 7) * 60 * 60 * 1000 // 7 days;
     }
-    
+
     await navigationMenuListing(req, true);
 
     return res.redirect('/admin/dashboard');

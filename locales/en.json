@@ -363,9 +363,11 @@
 	"uncaught_error": "Uncaught Error",
 	"all_agents": "All Agents",
 	"all_industry": "All Industry",
-	"company_agent_account_already_registered": "company_agent_account_already_registered",
-	"company_agent_saved_successfully": "company_agent_saved_successfully",
-	"company_agent_updated_successfully": "company_agent_updated_successfully",
-	"create_agent": "create_agent",
-	"company_details": "company_details"
+	"company_agent_account_already_registered": "Company agent account already registered",
+	"company_agent_saved_successfully": "Company agent saved successfully",
+	"company_agent_updated_successfully": "Company agent updated successfully",
+	"create_agent": "Create Agent",
+	"company_details": "Company Details",
+	"update_agent": "Update Agent",
+	"agent_details": "Agent Details"
 }
