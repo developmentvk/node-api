@@ -5,7 +5,6 @@ const i18n = require("i18n");
 const { Agent, validate, validateUpdate, validateUpdatePassword } = require('../../models/agents');
 const { AgentLoginLogs } = require('../../models/agentLoginLogs');
 const { successMessage, errorMessage } = require('../../helpers/MyHelper');
-const { Industry } = require('../../models/industry');
 const { Countries } = require('../../models/countries');
 const { Sessions } = require('../../models/sessions');
 const _ = require('lodash');
@@ -25,7 +24,7 @@ router.post('/agent/listings/:company_id', [adminSession], async (req, res) => {
         find: {
             company_id: req.params.company_id,
             isArchive: false,
-            isDeleted: false,
+            isDeleted: false
         },
     }).then(function (table) {
         res.json({
@@ -40,7 +39,10 @@ router.post('/agent/listings/:company_id', [adminSession], async (req, res) => {
 router.get('/agent/create/:company_id', [adminSession, rbac], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
-    const countries = await Countries.find();
+    const countries = await Countries.find({
+        isArchive: false,
+        isDeleted: false
+    });
 
     res.render('admin/agent/create', {
         layout: "admin/include/layout",
@@ -59,7 +61,9 @@ router.post('/agent/create/:company_id', [adminSession, rbac], async (req, res) 
     }
     let agent = await Agent.findOne({
         company_id: req.params.company_id,
-        email: req.body.email
+        email: req.body.email,
+        isArchive: false,
+        isDeleted: false
     });
     if (agent) {
         req.flash('error', [i18n.__('company_agent_account_already_registered')]);
@@ -89,7 +93,10 @@ router.get('/agent/update/:id', [adminSession, rbac], async (req, res) => {
         req.flash('error', [i18n.__('record_not_found')]);
         return res.redirect('/admin/company');
     }
-    const countries = await Countries.find();
+    const countries = await Countries.find({
+        isArchive: false,
+        isDeleted: false
+    });
     res.render('admin/agent/update', {
         layout: "admin/include/layout",
         title: i18n.__('update_agent'),
@@ -111,6 +118,8 @@ router.post('/agent/update/:id', [adminSession, rbac], async (req, res) => {
         _id: { $ne: req.params.id },
         email: req.body.email,
         company_id: req.body.company_id,
+        isArchive: false,
+        isDeleted: false
     });
     if (agent) {
         req.flash('error', [i18n.__('company_agent_account_already_registered')]);
@@ -198,7 +207,9 @@ router.post('/agent/access-log/listings/:agent_id', [adminSession], async (req, 
         columns: req.body.columns,
         find: {
             agent_id: req.params.agent_id,
-            isActive: false
+            isActive: false,
+            isArchive: false,
+            isDeleted: false
         },
         search: {
             value: req.body.search.value,

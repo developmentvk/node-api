@@ -369,5 +369,7 @@
 	"create_agent": "Create Agent",
 	"company_details": "Company Details",
 	"update_agent": "Update Agent",
-	"agent_details": "Agent Details"
+	"agent_details": "Agent Details",
+	"account_archived" : "Your account archived.",
+	"account_deleted" : "Your account deleted"
 }

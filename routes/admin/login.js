@@ -42,7 +42,11 @@ router.post('/login', async (req, res) => {
         return res.redirect('/admin/login');
     }
 
-    let admin = await Admin.findOne({ email: req.body.username });
+    let admin = await Admin.findOne({ 
+        email: req.body.username,
+        isArchive: false,
+        isDeleted: false
+    });
     if (!admin) {
         req.flash('error', [i18n.__('invalid_combination')]);
         return res.redirect('/admin/login');
@@ -114,7 +118,11 @@ router.post('/forgot-password', async (req, res) => {
         return res.redirect('/admin/forgot-password');
     }
 
-    let admin = await Admin.findOne({ email: req.body.email });
+    let admin = await Admin.findOne({ 
+        email: req.body.email,
+        isArchive: false,
+        isDeleted: false
+    });
     if (!admin) {
         req.flash('error', [i18n.__('email_not_exist')]);
         return res.redirect('/admin/forgot-password');
@@ -139,7 +147,12 @@ router.get('/create-password/:remember_token/:id', adminAuth, async (req, res) =
         return res.redirect('/admin/forgot-password');
     }
 
-    let admin = await Admin.findOne({ remember_token: req.params.remember_token, _id: req.params.id });
+    let admin = await Admin.findOne({ 
+        remember_token: req.params.remember_token, 
+        _id: req.params.id,
+        isArchive: false,
+        isDeleted: false
+    });
     if (!admin) {
         req.flash('error', [i18n.__('password_recovery_link_expired')]);
         return res.redirect('/admin/forgot-password');
@@ -158,7 +171,12 @@ router.post('/create-password/:remember_token/:id', adminAuth, async (req, res) 
         return res.redirect(`/admin/create-password/${req.params.remember_token}/${req.params.id}`);
     }
 
-    let admin = await Admin.findOne({ remember_token: req.params.remember_token, _id: req.params.id });
+    let admin = await Admin.findOne({ 
+        remember_token: req.params.remember_token, 
+        _id: req.params.id,
+        isArchive: false,
+        isDeleted: false
+    });
     if (!admin) {
         req.flash('error', [i18n.__('password_recovery_link_expired')]);
         return res.redirect('/admin/forgot-password');

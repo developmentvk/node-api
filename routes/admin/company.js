@@ -30,6 +30,10 @@ router.post('/company/listings', [adminSession, rbac], async (req, res) => {
         skip: req.body.start,
         order: req.body.order,
         columns: req.body.columns,
+        find: {
+            isArchive: false,
+            isDeleted: false
+        },
         search: {
             value: req.body.search.value,
             fields: ['name', 'en_name', 'website_url', 'dial_code', 'mobile', 'email']
@@ -47,8 +51,15 @@ router.post('/company/listings', [adminSession, rbac], async (req, res) => {
 router.get('/company/create', [adminSession, rbac], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
-    const industry = await Industry.find({ status: 1 });
-    const countries = await Countries.find();
+    const industry = await Industry.find({ 
+        status: 1,
+        isArchive: false,
+        isDeleted: false
+    });
+    const countries = await Countries.find({
+        isArchive: false,
+        isDeleted: false
+    });
 
     res.render('admin/company/create', {
         layout: "admin/include/layout",
@@ -66,7 +77,11 @@ router.post('/company/create', [adminSession, rbac], async (req, res) => {
         req.flash('error', error.details[0].message);
         return res.redirect(`/admin/company/create`);
     }
-    let company = await Company.findOne({ email: req.body.email });
+    let company = await Company.findOne({ 
+        email: req.body.email,
+        isArchive: false,
+        isDeleted: false
+    });
     if (company) {
         req.flash('error', [i18n.__('company_account_already_registered')]);
         return res.redirect(`/admin/company/create`);
@@ -89,7 +104,7 @@ router.get('/company/update/:id', [adminSession, rbac], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
     const company = await Company.findOne({
-        _id: req.params.id
+        _id: req.params.id        
     });
     if (!company) {
         req.flash('error', [i18n.__('record_not_found')]);
@@ -98,8 +113,15 @@ router.get('/company/update/:id', [adminSession, rbac], async (req, res) => {
     company.audience = _.toArray(company.audience);
     company.chat_purpose = _.toArray(company.chat_purpose);
 
-    const industry = await Industry.find({ status: 1 });
-    const countries = await Countries.find();
+    const industry = await Industry.find({ 
+        status: 1,
+        isArchive: false,
+        isDeleted: false
+    });
+    const countries = await Countries.find({
+        isArchive: false,
+        isDeleted: false
+    });
     res.render('admin/company/update', {
         layout: "admin/include/layout",
         title: i18n.__('update_company'),
@@ -120,7 +142,9 @@ router.post('/company/update/:id', [adminSession, rbac], async (req, res) => {
 
     let company = await Company.findOne({
         _id: { $ne: req.params.id },
-        email: req.body.email
+        email: req.body.email,
+        isArchive: false,
+        isDeleted: false
     });
     if (company) {
         req.flash('error', [i18n.__('company_account_already_registered')]);
@@ -239,7 +263,9 @@ router.post('/company/access-log/listings/:company_id', [adminSession], async (r
         columns: req.body.columns,
         find: {
             company_id: req.params.company_id,
-            isActive: false
+            isActive: false,
+            isArchive: false,
+            isDeleted: false
         },
         search: {
             value: req.body.search.value,

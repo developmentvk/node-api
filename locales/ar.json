@@ -369,5 +369,7 @@
 	"create_agent": "إنشاء وكيل",
 	"company_details": "تفاصيل الشركة",
 	"update_agent": "تحديث الوكيل",
-	"agent_details": "تفاصيل الوكيل"
+	"agent_details": "تفاصيل الوكيل",
+	"account_archived" : "Your account archived.",
+	"account_deleted" : "Your account deleted"
 }

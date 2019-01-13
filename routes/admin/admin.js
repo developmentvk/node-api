@@ -28,11 +28,17 @@ router.get('/account-info', [adminSession], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
     const admins = await Admin.findOne({
-        _id: req.session.admin._id
+        _id: req.session.admin._id,
+        isArchive: false,
+        isDeleted: false
     }).populate({
         path: 'role_id',
         select: ['name', 'en_name']
     });
+    if (!admins) {
+        req.flash('error', [i18n.__('no_record_found')]);
+        return res.redirect('/admin/logout');
+    }
     admins.decoded_status = i18n.__('account_status_array')[admins.status];
 
     const adminLoginLogs = await AdminLoginLogs.findOne({
@@ -55,11 +61,23 @@ router.get('/update/account', [adminSession], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
     const admins = await Admin.findOne({
-        _id: req.session.admin._id
+        _id: req.session.admin._id,
+        isArchive: false,
+        isDeleted: false
     });
+    if (!admins) {
+        req.flash('error', [i18n.__('no_record_found')]);
+        return res.redirect('/admin/logout');
+    }
 
-    const usersRoles = await UsersRoles.find();
-    const countries = await Countries.find();
+    const usersRoles = await UsersRoles.find({
+        isArchive: false,
+        isDeleted: false
+    });
+    const countries = await Countries.find({
+        isArchive: false,
+        isDeleted: false
+    });
 
     res.render('admin/admins/update_account', {
         layout: "admin/include/layout",
@@ -80,7 +98,9 @@ router.post('/update/account', [adminSession], async (req, res) => {
     }
     let admin = await Admin.findOne({
         _id: { $ne: req.session.admin._id },
-        email: req.body.email
+        email: req.body.email,
+        isArchive: false,
+        isDeleted: false
     });
     if (admin) {
         req.flash('error', [i18n.__('admin_account_already_registered')]);
@@ -121,8 +141,14 @@ router.post('/change/password', [adminSession], async (req, res) => {
         return res.redirect(`/admin/change/password`);
     }
     let admin = await Admin.findOne({
-        _id: req.session.admin._id
+        _id: req.session.admin._id,
+        isArchive: false,
+        isDeleted: false
     });
+    if (!admin) {
+        req.flash('error', [i18n.__('no_record_found')]);
+        return res.redirect('/admin/logout');
+    }
     const validPassword = await bcrypt.compare(req.body.old_password, admin.password);
     if (!validPassword) {
         req.flash('error', [i18n.__('invalid_old_password')]);
@@ -179,6 +205,10 @@ router.post('/admins/listings', [adminSession, rbac], async (req, res) => {
         skip: req.body.start,
         order: req.body.order,
         columns: req.body.columns,
+        find: {
+            isArchive: false,
+            isDeleted: false
+        },
         search: {
             value: req.body.search.value,
             fields: ['name', 'email', 'mobile']
@@ -263,7 +293,9 @@ router.post('/admins/access-log/listings/:admin_id', [adminSession], async (req,
         columns: req.body.columns,
         find: {
             admin_id: req.params.admin_id,
-            isActive: false
+            isActive: false,
+            isArchive: false,
+            isDeleted: false
         },
         search: {
             value: req.body.search.value,
@@ -287,8 +319,14 @@ router.post('/admins/access-log/delete/:id', [adminSession, rbac], async (req, r
 router.get('/admins/create', [adminSession, rbac], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
-    const usersRoles = await UsersRoles.find();
-    const countries = await Countries.find();
+    const usersRoles = await UsersRoles.find({
+        isArchive: false,
+        isDeleted: false
+    });
+    const countries = await Countries.find({
+        isArchive: false,
+        isDeleted: false
+    });
 
     res.render('admin/admins/create', {
         layout: "admin/include/layout",
@@ -314,7 +352,11 @@ router.post('/admins/create', [adminSession, rbac], async (req, res) => {
         return res.redirect(`/admin/admins/create`);
     }
 
-    let admin = await Admin.findOne({ email: req.body.email });
+    let admin = await Admin.findOne({ 
+        email: req.body.email,
+        isArchive: false,
+        isDeleted: false
+    });
     if (admin) {
         req.flash('error', [i18n.__('admin_account_already_registered')]);
         return res.redirect(`/admin/admins/create`);
@@ -344,8 +386,14 @@ router.get('/admins/update/:id', [adminSession, rbac], async (req, res) => {
         return res.redirect('/admin/admins');
     }
 
-    const usersRoles = await UsersRoles.find();
-    const countries = await Countries.find();
+    const usersRoles = await UsersRoles.find({
+        isArchive: false,
+        isDeleted: false
+    });
+    const countries = await Countries.find({
+        isArchive: false,
+        isDeleted: false
+    });
 
     res.render('admin/admins/update', {
         layout: "admin/include/layout",
@@ -366,7 +414,9 @@ router.post('/admins/update/:id', [adminSession, rbac], async (req, res) => {
     }
     let admin = await Admin.findOne({
         _id: { $ne: req.params.id },
-        email: req.body.email
+        email: req.body.email,
+        isArchive: false,
+        isDeleted: false
     });
     if (admin) {
         req.flash('error', [i18n.__('admin_account_already_registered')]);

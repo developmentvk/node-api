@@ -25,6 +25,10 @@ router.post('/countries/listings', [adminSession, rbac], async (req, res) => {
         skip: req.body.start,
         order: req.body.order,
         columns: req.body.columns,
+        find: {
+            isArchive: false,
+            isDeleted: false
+        },
         search: {
             value: req.body.search.value,
             fields: ['name', 'en_name']
