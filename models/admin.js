@@ -56,6 +56,14 @@ const tableSchema = new mongoose.Schema({
 		default: 1,
 		maxlength: 10// 0. "Inactive", 1. "Active", 2. "Blocked", 4. "Offline"
 	},
+	isArchive: {
+		type: Boolean,
+		default: false 
+	},
+	isDeleted: {
+		type: Boolean,
+		default: false 
+	}
 }, {
 	timestamps: true
 });

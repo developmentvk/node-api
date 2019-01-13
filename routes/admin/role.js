@@ -104,7 +104,7 @@ router.post('/roles/update/:id', [adminSession, rbac], async (req, res) => {
 });
 
 router.post('/roles/delete/:id', [adminSession, rbac], async (req, res) => {
-    const usersRoles = await UsersRoles.findByIdAndRemove(req.params.id);
+    const usersRoles = await UsersRoles.findByIdAndUpdate(req.params.id, {isArchive : true}, { new: true });
     if (!usersRoles) return errorMessage(res, 'no_record_found');
     return successMessage(res, 'success', 200, usersRoles);
 });

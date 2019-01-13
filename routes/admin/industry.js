@@ -102,7 +102,7 @@ router.post('/industry/update/:id', [adminSession, rbac], async (req, res) => {
 });
 
 router.post('/industry/delete/:id', [adminSession, rbac], async (req, res) => {
-    const industry = await Industry.findByIdAndRemove(req.params.id);
+    const industry = await Industry.findByIdAndUpdate(req.params.id, {isArchive : true}, { new: true });
     if (!industry) return errorMessage(res, 'no_record_found');
     return successMessage(res, 'success', 200, industry);
 });

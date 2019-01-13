@@ -33,6 +33,14 @@ const tableSchema = new mongoose.Schema({
 	status: {
 		type: Number,
 		default: 1 // 1. Opened, 2.Closed
+	},
+	isArchive: {
+		type: Boolean,
+		default: false 
+	},
+	isDeleted: {
+		type: Boolean,
+		default: false 
 	}
 }, {
 		timestamps: true

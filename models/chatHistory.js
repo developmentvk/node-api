@@ -45,6 +45,14 @@ const tableSchema = new mongoose.Schema({
 	send_by: {
 		type: Number,
 		default: 1 // 1. Customer, 2. Admin
+	},
+	isArchive: {
+		type: Boolean,
+		default: false 
+	},
+	isDeleted: {
+		type: Boolean,
+		default: false 
 	}
 }, {
 		timestamps: true

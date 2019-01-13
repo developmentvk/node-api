@@ -74,10 +74,14 @@ const tableSchema = new mongoose.Schema({
 		type: Number,
 		default: 1 //0.Inactive, 1.Active
 	},
-	total_agents: {
-		type: Number,
-		default: 0
-	}
+	isArchive: {
+		type: Boolean,
+		default: false 
+	},
+	isDeleted: {
+		type: Boolean,
+		default: false 
+	},
 }, {
 		timestamps: true
 	}

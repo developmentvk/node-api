@@ -134,7 +134,7 @@ router.post('/agent/update/:id', [adminSession, rbac], async (req, res) => {
 });
 
 router.post('/agent/delete/:id', [adminSession, rbac], async (req, res) => {
-    const agent = await Agent.findByIdAndRemove(req.params.id);
+    const agent = await Agent.findByIdAndUpdate(req.params.id, {isArchive : true}, { new: true });
     if (!agent) return errorMessage(res, 'no_record_found');
     return successMessage(res, 'success', 200, agent);
 });
@@ -214,7 +214,7 @@ router.post('/agent/access-log/listings/:agent_id', [adminSession], async (req, 
 });
 
 router.post('/agent/access-log/delete/:id', [adminSession, rbac], async (req, res) => {
-    const agentLoginLogs = await AgentLoginLogs.findByIdAndRemove(req.params.id);
+    const agentLoginLogs = await AgentLoginLogs.findByIdAndUpdate(req.params.id, {isArchive : true}, { new: true });
     if (!agentLoginLogs) return errorMessage(res, 'no_record_found');
     return successMessage(res, 'success', 200, agentLoginLogs);
 });

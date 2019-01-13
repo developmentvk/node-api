@@ -109,7 +109,7 @@ router.post('/countries/update/:id', [adminSession, rbac], async (req, res) => {
 
 
 router.post('/countries/delete/:id', [adminSession, rbac], async (req, res) => {
-    const countries = await Countries.findByIdAndRemove(req.params.id);
+    const countries = await Countries.findByIdAndUpdate(req.params.id, {isArchive : true}, { new: true });
     if (!countries) return errorMessage(res, 'no_record_found');
     return successMessage(res, 'success', 200, countries);
 });

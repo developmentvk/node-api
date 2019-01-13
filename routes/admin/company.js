@@ -149,7 +149,7 @@ router.post('/company/update/:id', [adminSession, rbac], async (req, res) => {
 });
 
 router.post('/company/delete/:id', [adminSession, rbac], async (req, res) => {
-    const company = await Company.findByIdAndRemove(req.params.id);
+    const company = await Company.findByIdAndUpdate(req.params.id, {isArchive : true}, { new: true });
     if (!company) return errorMessage(res, 'no_record_found');
     return successMessage(res, 'success', 200, company);
 });
@@ -255,7 +255,7 @@ router.post('/company/access-log/listings/:company_id', [adminSession], async (r
 });
 
 router.post('/company/access-log/delete/:id', [adminSession, rbac], async (req, res) => {
-    const companyLoginLogs = await CompanyLoginLogs.findByIdAndRemove(req.params.id);
+    const companyLoginLogs = await CompanyLoginLogs.findByIdAndUpdate(req.params.id, {isArchive : true}, { new: true });
     if (!companyLoginLogs) return errorMessage(res, 'no_record_found');
     return successMessage(res, 'success', 200, companyLoginLogs);
 });

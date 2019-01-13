@@ -279,7 +279,7 @@ router.post('/admins/access-log/listings/:admin_id', [adminSession], async (req,
 });
 
 router.post('/admins/access-log/delete/:id', [adminSession, rbac], async (req, res) => {
-    const adminLoginLogs = await AdminLoginLogs.findByIdAndRemove(req.params.id);
+    const adminLoginLogs = await AdminLoginLogs.findByIdAndUpdate(req.params.id, {isArchive : true}, { new: true });
     if (!adminLoginLogs) return errorMessage(res, 'no_record_found');
     return successMessage(res, 'success', 200, adminLoginLogs);
 });
@@ -390,7 +390,7 @@ router.post('/admins/update/:id', [adminSession, rbac], async (req, res) => {
 });
 
 router.post('/admins/delete/:id', [adminSession, rbac], async (req, res) => {
-    const admin = await Admin.findByIdAndRemove(req.params.id);
+    const admin = await Admin.findByIdAndUpdate(req.params.id, {isArchive : true}, { new: true });
     if (!admin) return errorMessage(res, 'no_record_found');
     return successMessage(res, 'success', 200, admin);
 });

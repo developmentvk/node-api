@@ -36,7 +36,15 @@ const tableSchema = new mongoose.Schema({
     isActive: {
         type : Boolean,
         default : true
-    }
+    },
+    isArchive: {
+		type: Boolean,
+		default: false 
+	},
+	isDeleted: {
+		type: Boolean,
+		default: false 
+	}
 }, {
         timestamps: true
     }

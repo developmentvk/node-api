@@ -17,6 +17,14 @@ const tableSchema = new mongoose.Schema({
 	status: {
 		type: Number,
 		default: 1 //0.Inactive, 1.Active
+	},
+	isArchive: {
+		type: Boolean,
+		default: false 
+	},
+	isDeleted: {
+		type: Boolean,
+		default: false 
 	}
 }, {
 		timestamps: true
