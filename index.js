@@ -109,11 +109,7 @@ app.use((req, res, next) => {
     i18n.setLocale(res.locals, locale);
     moment.tz.setDefault(config.get('timezone'));
     moment.locale(locale);
-
-    if (req.cookies.session && req.session.adminAuthenticated !== true) {
-        res.clearCookie('session');
-        delete req.session.admin;
-    }
+    
     next();
 });
 

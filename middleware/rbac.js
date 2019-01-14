@@ -10,7 +10,7 @@ module.exports = async function (req, res, next) {
         let originalUrl = req.originalUrl;
         let urlArr = originalUrl.split("/");
         let mongoDBID = await _.last(urlArr);
-        if(mongoose.Types.ObjectId.isValid(mongoDBID) == true) {
+        if(mongoose.Types.ObjectId.isValid(mongoDBID) == true && mongoDBID.length == 24) {
             urlArr.splice(-1,1);
             originalUrl = urlArr.join("/");
             checkHasAccess = hasAccess(req, originalUrl);

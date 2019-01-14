@@ -132,7 +132,7 @@
 	"movie_not_in_stock": "الفيلم ليس متوفرًا",
 	"return_already_processed": "العودة معالجتها بالفعل.",
 	"user_already_registered": "المستخدم مسجل بالفعل.",
-	"company": "Comapny",
+	"company": "شركة",
 	"app_name": "الدردشة في الوقت الحقيقي",
 	"admin_panel": "لوحة الادارة",
 	"sign_in_to_start_your_session": "تسجيل الدخول لبدء جلسة العمل الخاصة بك",
@@ -370,6 +370,15 @@
 	"company_details": "تفاصيل الشركة",
 	"update_agent": "تحديث الوكيل",
 	"agent_details": "تفاصيل الوكيل",
-	"account_archived" : "Your account archived.",
-	"account_deleted" : "Your account deleted"
+	"account_archived" : "تم أرشفة حسابك.",
+	"account_deleted" : "تم حذف حسابك",
+	"all_subscriptions": "جميع الاشتراكات",
+	"annually_rental_fee": "السعر / الشهر (يتم الدفع سنوياً)",
+	"monthly_rental_fee": "السعر / الشهر (فاتورة شهرية)",
+	"chat_history": "سجل الدردشات (الأيام)",
+	"unlimited": "غير محدود",
+	"create_subscription": "إنشاء اشتراك",
+	"update_subscription": "تحديث الاشتراك",
+	"subscription_saved_successfully": "تم حفظ الاشتراك بنجاح",
+	"subscription_updated_successfully": "تم تحديث الاشتراك بنجاح"
 }

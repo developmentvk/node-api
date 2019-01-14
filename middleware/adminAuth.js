@@ -1,5 +1,4 @@
 
-const pjson = require('../package.json');
 module.exports = function (req, res, next) {
 	try {
 		if (req.session.adminAuthenticated === true && req.cookies.session) {
