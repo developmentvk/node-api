@@ -380,5 +380,12 @@
 	"create_subscription": "إنشاء اشتراك",
 	"update_subscription": "تحديث الاشتراك",
 	"subscription_saved_successfully": "تم حفظ الاشتراك بنجاح",
-	"subscription_updated_successfully": "تم تحديث الاشتراك بنجاح"
+	"subscription_updated_successfully": "تم تحديث الاشتراك بنجاح",
+	"all_modules": "جميع الوحدات",
+	"create_module": "إنشاء الوحدة",
+	"module_saved_successfully": "تم حفظ الوحدة بنجاح",
+	"subscription_permission": "إذن الاشتراك",
+	"module_permission_updated_successfully": "تم تحديث إذن الوحدة بنجاح",
+	"update_module": "تحديث الوحدة",
+	"module_updated_successfully": "تم تحديث الوحدة بنجاح"
 }

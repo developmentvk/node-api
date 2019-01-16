@@ -7,9 +7,9 @@ const tableSchema = new mongoose.Schema({
 		ref: 'SubscriptionPlans',
 		default: null
 	},
-	navigation_id: {
+	module_id: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'CompanyNavigationMasters',
+		ref: 'Modules',
 		default: null
 	}
 }, {
@@ -17,6 +17,6 @@ const tableSchema = new mongoose.Schema({
 	}
 );
 
-const SubscriptionPlansPermissions = mongoose.model('SubscriptionPlansPermissions', tableSchema);
+const ModulesPermissions = mongoose.model('ModulesPermissions', tableSchema);
 
-exports.SubscriptionPlansPermissions = SubscriptionPlansPermissions;
+exports.ModulesPermissions = ModulesPermissions;

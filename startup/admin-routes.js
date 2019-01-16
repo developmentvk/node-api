@@ -9,6 +9,7 @@ const countries = require('../routes/admin/countries');
 const industry = require('../routes/admin/industry');
 const company = require('../routes/admin/company');
 const subscription = require('../routes/admin/subscription');
+const modules = require('../routes/admin/module');
 const agent = require('../routes/admin/agent');
 const chat = require('../routes/admin/chat');
 const error = require('../middleware/error');
@@ -25,6 +26,7 @@ module.exports = function (app) {
   app.use('/admin', company);
   app.use('/admin', subscription);
   app.use('/admin/company', agent);
+  app.use('/admin', modules);
   app.use('/admin', chat);
   app.use(error);
 }

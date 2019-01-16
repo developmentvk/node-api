@@ -9,6 +9,8 @@ const path = require("path");
 const { NavigationMasters } = require('../models/navigationMasters');
 const { RolesPermissions } = require('../models/rolesPermissions');
 const { UsersPermissions } = require('../models/usersPermissions');
+const { Modules } = require('../models/modules');
+const { ModulesPermissions } = require('../models/modulesPermissions');
 const arrayToTree = require('array-to-tree');
 const _ = require('lodash');
 
@@ -202,6 +204,85 @@ function hasAccess(req, actionPath, exclude = false) {
     if (result !== undefined) { return true; } else { return false; }
 }
 
+/**
+ * Subscription Module Start
+ */
+async function getGroupModule() {
+    let modules = await Modules.find({
+        status: 1,
+        show_in_permission: 1
+    }).sort({ display_order: 'asc' }).select(['name', 'en_name', 'parent_id']).exec();
+    if (modules.length > 0) {
+        modules = JSON.parse(JSON.stringify(modules));
+        modules = arrayToTree(modules, {
+            parentProperty: 'parent_id',
+            customID: '_id'
+        });
+    }
+    return modules;
+}
+
+async function getModulePermission(accessPlanId) {
+    let modulesPermissions = await ModulesPermissions.find({
+        subscription_plan_id: accessPlanId
+    }).select(['module_id']).exec();
+    if (modulesPermissions.length > 0) {
+        modulesPermissions = JSON.parse(JSON.stringify(modulesPermissions));
+    }
+    return modulesPermissions;
+}
+
+async function getModulesPermissionIDs(accessPlanId) {
+    let output = new Array();
+    let modulesPermissions = await ModulesPermissions.find({
+        subscription_plan_id: accessPlanId
+    }).select(["module_id", '-_id']).exec();
+    if (modulesPermissions.length > 0) {
+        output = await _.map(modulesPermissions, _.property('module_id'));
+    }
+    return output;
+}
+
+async function moduleMenuListing(req, saveSession = true, accessPlanId = null) {
+    let modules = [];
+    if (saveSession == true) {
+        accessPlanId = req.session.company.subscription_plan_id;
+    }
+
+    const allowedNavIds = await getModulesPermissionIDs(accessPlanId);
+    modules = await Modules.find({
+        status: 1,
+        _id: { $in: allowedNavIds }
+    }).sort({ display_order: 'asc' }).select(['-createdAt', '-updatedAt', '-status', '-show_in_permission', '-child_permission', '-display_order']).exec();
+    if (saveSession == true) {
+        req.session.modulesPermissions = modules;
+    }
+    if (modules.length > 0) {
+        modules = JSON.parse(JSON.stringify(modules));
+        modules = arrayToTree(modules, {
+            parentProperty: 'parent_id',
+            customID: '_id'
+        });
+    }
+    if (saveSession == true) {
+        req.session.company.modules = modules;
+        req.session.save();
+    } else {
+        return modules;
+    }
+
+}
+
+function hasModuleAccess(req, actionPath, exclude = false) {
+    if (exclude == true) { return true; }
+    let result = _.find(req.session.modulesPermissions, { "action_path": actionPath });
+    if (result !== undefined) { return true; } else { return false; }
+}
+
+/**
+ * Subscription Module End
+ */
+
 module.exports = {
     successMessage,
     errorMessage,
@@ -213,4 +294,8 @@ module.exports = {
     navigationMenuListing,
     hasAccess,
     buildImageLink,
+    getGroupModule,
+    getModulePermission,
+    moduleMenuListing,
+    hasModuleAccess
 };

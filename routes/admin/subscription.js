@@ -3,7 +3,9 @@ const adminSession = require('../../middleware/adminSession');
 const rbac = require('../../middleware/rbac');
 const i18n = require("i18n");
 const { SubscriptionPlans, validate } = require('../../models/subscriptionPlans');
-const { successMessage, errorMessage } = require('../../helpers/MyHelper');
+const { ModulesPermissions } = require('../../models/modulesPermissions');
+const { successMessage, errorMessage, getGroupModule, getModulePermission } = require('../../helpers/MyHelper');
+const _ = require('lodash');
 const router = express.Router();
 
 router.get('/subscription', [adminSession, rbac], async (req, res) => {
@@ -112,9 +114,52 @@ router.post('/subscription/update/:id', [adminSession, rbac], async (req, res) =
 });
 
 router.post('/subscription/delete/:id', [adminSession, rbac], async (req, res) => {
-    const subscription = await SubscriptionPlans.findByIdAndUpdate(req.params.id, {isArchive : true}, { new: true });
+    const subscription = await SubscriptionPlans.findByIdAndUpdate(req.params.id, { isArchive: true }, { new: true });
     if (!subscription) return errorMessage(res, 'no_record_found');
     return successMessage(res, 'success', 200, subscription);
+});
+
+
+router.get('/subscription/permission/:id', [adminSession, rbac], async (req, res) => {
+    if (!req.params.id) {
+        req.flash('error', [i18n.__('record_not_found')]);
+        return res.redirect('/admin/subscription');
+    }
+
+    let error = req.flash('error');
+    let success = req.flash('success');
+    let modules = await getGroupModule();
+    let modulePermissions = await getModulePermission(req.params.id);
+    res.render('admin/subscription/permission', {
+        layout: "admin/include/layout",
+        title: i18n.__('subscription_permission'),
+        error: error,
+        success: success,
+        modules: modules,
+        modulePermissions: modulePermissions
+    });
+});
+
+router.post('/subscription/permission/:id', [adminSession, rbac], async (req, res) => {
+    if (!req.params.id) {
+        req.flash('error', [i18n.__('record_not_found')]);
+        return res.redirect(`/admin/subscription/permission/${req.params.id}`);
+    }
+
+    ModulesPermissions.deleteMany({ subscription_plan_id: req.params.id }).exec();
+
+    if (req.body.hasOwnProperty('module_id')) {
+        _.forEach(req.body.module_id, function (module_id) {
+            const modulesPermissions = new ModulesPermissions({
+                subscription_plan_id: req.params.id,
+                module_id: module_id
+            })
+            modulesPermissions.save();
+        });
+    }
+
+    req.flash('success', [i18n.__('module_permission_updated_successfully')]);
+    return res.redirect(`/admin/subscription/permission/${req.params.id}`);
 });
 
 module.exports = router; 

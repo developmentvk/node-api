@@ -14,6 +14,11 @@ const tableSchema = new mongoose.Schema({
 		maxlength: 255,
 		default: null
 	},
+	subscription_plan_id: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'SubscriptionPlans',
+		default: null
+	},
 	website_url: {
 		type: String,
 		maxlength: 255,

@@ -380,5 +380,12 @@
 	"create_subscription": "Create Subscription",
 	"update_subscription": "Update Subscription",
 	"subscription_saved_successfully": "Subscription saved successfully",
-	"subscription_updated_successfully": "Subscription updated successfully"
+	"subscription_updated_successfully": "Subscription updated successfully",
+	"all_modules": "All Modules",
+	"create_module": "Create Module",
+	"module_saved_successfully": "Module saved successfully",
+	"subscription_permission": "Subscription Permission",
+	"module_permission_updated_successfully": "Module permission updated successfully",
+	"update_module": "Update Module",
+	"module_updated_successfully": "Module updated successfully"
 }
