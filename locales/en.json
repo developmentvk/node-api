@@ -387,5 +387,6 @@
 	"subscription_permission": "Subscription Permission",
 	"module_permission_updated_successfully": "Module permission updated successfully",
 	"update_module": "Update Module",
-	"module_updated_successfully": "Module updated successfully"
+	"module_updated_successfully": "Module updated successfully",
+	"file_uploading_failed": "file_uploading_failed"
 }

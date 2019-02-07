@@ -339,10 +339,12 @@ router.get('/admins/create', [adminSession, rbac], async (req, res) => {
 });
 
 router.post('/admins/upload', async (req, res) => {
-    await uploadFile(req, res, 'file', 'images', function (err, file) {
-        if (err) return errorMessage(res, err, true);
+    try {
+        let file = await uploadFile(req, res, 'file', 'images');
         return successMessage(res, 'success', 200, { 'file': file });
-    });
+    } catch (err) {
+        errorMessage(res, err);
+    }
 });
 
 router.post('/admins/create', [adminSession, rbac], async (req, res) => {

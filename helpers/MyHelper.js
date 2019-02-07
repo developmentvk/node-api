@@ -4,6 +4,8 @@ const nodemailer = require('nodemailer');
 const config = require('config');
 const ejs = require('ejs');
 const multer = require('multer');
+const multerS3 = require('multer-s3');
+const AWS = require('aws-sdk')
 const crypto = require('crypto');
 const path = require("path");
 const { NavigationMasters } = require('../models/navigationMasters');
@@ -75,36 +77,62 @@ function buildImageLink(file) {
     return `/uploads/images/${file}`;
 }
 
-function uploadFile(req, res, fileName, fileLocation, callback) {
+function uploadFile(req, res, fileName, fileLocation, cdn = false) {
     let uploadedFilename = '';
-    let upload = multer({
-        storage: multer.diskStorage({
-            destination: (req, file, cb) => {
-                cb(null, path.join(__dirname, `../public/uploads/${fileLocation}/`))
-            },
-            filename: (req, file, cb) => {
-                let customFileName = crypto.randomBytes(18).toString('hex'),
-                    fileExtension = file.originalname.split('.')[1] // get file extension from original file name
-                uploadedFilename = customFileName + '.' + fileExtension;
-                cb(null, uploadedFilename);
-            }
-        })
-    }).single(fileName);
-    upload(req, res, function (err) {
-        if (err instanceof multer.MulterError) {
-            winston.error("A Multer error occurred when uploading.");
-            callback(err, null);
-            return;
-        } else if (err) {
-            winston.error("An unknown error occurred when uploading.");
-            callback(err, null);
-            return;
-        }
-        winston.info(res);
-        callback(null, uploadedFilename);
-        return;
-    });
+    let upload = null;
 
+    const generateFileName = file => {
+        const customName = crypto.randomBytes(18).toString('hex');
+        const fileExtension = file.originalname.split('.')[file.originalname.split('.').length - 1] // get file extension from original file name
+        uploadedFilename = `${customName}.${fileExtension}`;
+        return uploadedFilename;
+    };
+
+    if (cdn) {
+        AWS.config.update({
+            "accessKeyId": config.get('AWS_ACCESS_KEY_ID'),
+            "secretAccessKey": config.get('AWS_SECRET_ACCESS_KEY'),
+            "region": config.get('AWS_DEFAULT_REGION')
+        });
+
+        upload = multer({
+            storage: multerS3({
+                s3: new AWS.S3(),
+                bucket: config.get('AWS_BUCKET'),
+                acl: config.get('AWS_ACCESS_CONTROL'),
+                metadata: (req, file, cb) => {
+                    cb(null, { fieldName: file.fieldname });
+                },
+                key: (req, file, cb) => {
+                    cb(null, `uploads/${fileLocation}/${generateFileName(file)}`);
+                }
+            })
+        }).single(fileName);
+    } else {
+        upload = multer({
+            storage: multer.diskStorage({
+                destination: (req, file, cb) => {
+                    cb(null, path.join(__dirname, `../public/uploads/${fileLocation}/`))
+                },
+                filename: (req, file, cb) => {
+                    cb(null, generateFileName(file));
+                }
+            })
+        }).single(fileName);
+    }
+
+    return new Promise(function (resolve, reject) {
+        upload(req, res, function (err) {
+            if (err instanceof multer.MulterError) {
+                winston.error("A Multer error occurred when uploading.");
+                reject(new Error(err));
+            } else if (err) {
+                winston.error("An unknown error occurred when uploading.");
+                reject(new Error(err));
+            }
+            resolve(uploadedFilename);
+        });
+    });
 }
 
 async function getGroupNavigation() {

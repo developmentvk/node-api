@@ -2,5 +2,10 @@
   "jwtPrivateKey": "123456",
   "timezone": "Asia/Kolkata",
   "db": "mongodb://localhost/nodejs",
-  "excludeRoleId" : "5c1642a32167aa2a78b5d2a9"
+  "excludeRoleId" : "5c1642a32167aa2a78b5d2a9",
+  "AWS_ACCESS_KEY_ID" : "",
+  "AWS_SECRET_ACCESS_KEY" : "",
+  "AWS_DEFAULT_REGION" : "",
+  "AWS_BUCKET" : "",
+  "AWS_ACCESS_CONTROL" : "public-read"
 }
