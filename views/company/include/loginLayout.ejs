@@ -9,7 +9,7 @@
     <div class="login-box">
         <div class="logo">
             <a href="/"><%= __('app_name'); %></a>
-            <small><%= __('admin_panel'); %></small>
+            <small><%= __('company_panel'); %></small>
         </div>
         <div class="align-center m-b-15">
             <div class="switch">
@@ -42,7 +42,7 @@
                     closeOnCancel: true
                 }, function (isConfirm) {
                     if (isConfirm) {
-                        $.post( "/admin/admins/set-locale",{ locale : default_locale}, function( data ) {
+                        $.post( "/company/set-locale",{ locale : default_locale}, function( data ) {
                             swal("<%=  __('updated') %>!", "<%=  __('locale_successful') %>.", "success");
                             window.location.reload();
                         });

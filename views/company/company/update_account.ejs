@@ -1,0 +1,156 @@
+<div class="container-fluid">
+    <div class="block-header">
+        <ol class="breadcrumb breadcrumb-bg-teal">
+            <li><a href="/company/dashboard"><i class="material-icons">home</i> <%= __('home'); %></a></li>
+            <li><a href="/company/account-info"><i class="material-icons">remove_red_eye</i> <%= __('account_info'); %></a></li>
+            <li class="active"><i class="material-icons">add_circle</i> <%= __('update_account'); %></li>
+        </ol>
+    </div>
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <% if(error.length > 0) { %>
+                <div class="alert alert-danger">
+                    <%= error %>
+                </div>
+            <% } %>
+            <% if(success.length > 0) { %>
+            <div class="alert alert-success">
+                <%= success %>
+            </div>
+            <% } %>
+            <div class="card">
+                <div class="body">
+                    <div class="row clearfix">
+                        <form class="form-horizontal" id="update_record" method="POST">
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="name"><%= __('name'); %> <span class="required">*</span></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" value="<%= admins.name %>" id="name" name="name" class="form-control" placeholder="<%= __('name'); %>" required autofocus>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="email"><%= __('email'); %> <span class="required">*</span></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" value="<%= admins.email %>" id="email" name="email" class="form-control" placeholder="<%= __('email'); %>" required autofocus>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="dial_code"><%= __('mobile'); %></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4  m-b-0">
+                                            <select id="dial_code" name="dial_code"  class="form-control show-tick">
+                                                <option value=""><%= __('select_dial_code'); %></option>
+                                                <% if(countries.length > 0) {%>
+                                                    <% 
+                                                    _.forEach(countries, function(value, index) {
+                                                        let selected = admins.dial_code == value.dial_code ? "selected" : "";
+                                                    %>
+                                                        <option value="<%= value.dial_code %>" <%= selected %> >+<%= value.dial_code %> - <%= getLocale() == 'en' ? value.en_name : value.name %></option>
+                                                    <% }) %>
+                                                <% } %>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8  m-b-0">
+                                            <div class="form-line">
+                                                <input type="text" value="<%= admins.mobile %>" id="mobile" name="mobile" class="form-control" placeholder="<%= __('mobile'); %>" autofocus>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="image"><%= __('image'); %></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="col-sm-1 <%= admins.image ? '' : 'hide'  %> image-box">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <img src="/uploads/images/<%= admins.image %>" width="54" height="54">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-11">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="file" id="image" name="file" class="form-control" placeholder="<%= __('logo'); %>" autofocus>
+                                                <input type="hidden" name="image" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row clearfix">
+                                <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
+                                    <button type="submit" class="btn bg-blue waves-effect">
+                                        <%= __('save_changes'); %>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+$(function () {
+    $('#update_record').validate({
+        highlight: function (input) {
+            $(input).parents('.form-line').addClass('error');
+        },
+        unhighlight: function (input) {
+            $(input).parents('.form-line').removeClass('error');
+        },
+        errorPlacement: function (error, element) {
+            $(element).parents('.input-group').append(error);
+            $(element).parents('.form-group').append(error);
+        }
+    });
+
+    $('[name=file]').on('change',(function(e) {
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            url: '/company/admins/upload',
+            data:new FormData($('#update_record')[0]),
+            cache:false,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            type: 'POST',
+            success:function(data){
+                $('[name=image]').val(data.data.file);
+                $('.image-box').find('img').attr('src', `/uploads/images/${data.data.file}`)
+                $('.image-box').removeClass('hide');
+            },
+            error: function(jqXHR, exception){
+                let message = formatErrorMessage(jqXHR, exception);
+                showNotification("alert-danger", message, "top", "center", "", "");
+            }
+        });
+    }));
+});
+</script>

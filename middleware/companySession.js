@@ -1,5 +1,5 @@
 const pjson = require('../package.json');
-const { navigationMenuListing } = require('../helpers/MyHelper');
+const { moduleMenuListing } = require('../helpers/MyHelper');
 module.exports = async function (req, res, next) {
 	try {
 		if (req.session.companyAuthenticated === true && req.cookies.session) {
@@ -10,7 +10,7 @@ module.exports = async function (req, res, next) {
 			res.locals.query = req.query;
 			let current_pathname = req.path.split('/')[1];
 			res.locals.current_pathname = `/company/${current_pathname}`;
-			if(!req.session.company.hasOwnProperty('navigations')) { await navigationMenuListing(req); }
+			if(!req.session.company.hasOwnProperty('navigations')) { await moduleMenuListing(req); }
 			
 			next();
 		} else {

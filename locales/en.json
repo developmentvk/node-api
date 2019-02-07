@@ -373,8 +373,8 @@
 	"account_archived": "Your account archived.",
 	"account_deleted": "Your account deleted",
 	"all_subscriptions": "All Subscriptions",
-	"annually_rental_fee": "Price / month (billed annually)",
-	"monthly_rental_fee": "Price / month (billed monthly)",
+	"annually_rental_fee": "Price / Month (Billed annually)",
+	"monthly_rental_fee": "Price / Month (Billed monthly)",
 	"chat_history": "Chat History (Days)",
 	"unlimited": "Unlimited",
 	"create_subscription": "Create Subscription",
@@ -388,5 +388,5 @@
 	"module_permission_updated_successfully": "Module permission updated successfully",
 	"update_module": "Update Module",
 	"module_updated_successfully": "Module updated successfully",
-	"file_uploading_failed": "file_uploading_failed"
+	"company_panel": "Company Panel"
 }

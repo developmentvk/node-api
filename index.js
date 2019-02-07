@@ -146,6 +146,7 @@ require('./startup/global-room')(io, socketUsers, socketAdmins);
 require('./startup/logging')();
 require('./startup/api-routes')(app);
 require('./startup/admin-routes')(app);
+require('./startup/company-routes')(app);
 require('./startup/site-routes')(app);
 require('./startup/db')();
 require('./startup/config')();

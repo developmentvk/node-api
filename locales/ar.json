@@ -370,8 +370,8 @@
 	"company_details": "تفاصيل الشركة",
 	"update_agent": "تحديث الوكيل",
 	"agent_details": "تفاصيل الوكيل",
-	"account_archived" : "تم أرشفة حسابك.",
-	"account_deleted" : "تم حذف حسابك",
+	"account_archived": "تم أرشفة حسابك.",
+	"account_deleted": "تم حذف حسابك",
 	"all_subscriptions": "جميع الاشتراكات",
 	"annually_rental_fee": "السعر / الشهر (يتم الدفع سنوياً)",
 	"monthly_rental_fee": "السعر / الشهر (فاتورة شهرية)",
@@ -387,5 +387,6 @@
 	"subscription_permission": "إذن الاشتراك",
 	"module_permission_updated_successfully": "تم تحديث إذن الوحدة بنجاح",
 	"update_module": "تحديث الوحدة",
-	"module_updated_successfully": "تم تحديث الوحدة بنجاح"
+	"module_updated_successfully": "تم تحديث الوحدة بنجاح",
+	"company_panel": "Company Panel"
 }

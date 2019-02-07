@@ -5,7 +5,7 @@ const { AdminLoginLogs } = require('../../models/adminLoginLogs');
 const i18n = require("i18n");
 const router = express.Router();
 
-router.get('/dashboard', [adminSession, rbac], async (req, res) => {
+router.get('/dashboard', [adminSession], async (req, res) => {
     let error = req.flash('error');
     let success = req.flash('success');
     res.render('admin/dashboard/index', {

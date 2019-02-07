@@ -4,7 +4,7 @@
 <head>
     <%- include('../../common/header'); %>
     <script>
-        let session_id = "<%= admin._id %>";
+        let session_id = "<%= company._id %>";
     </script>
 </head>
 
@@ -28,7 +28,7 @@
                     <li>
                         <a href="javascript:void(0);" class="js-search">
                             <div class="switch">
-                                <label><%= __('arabic') %><input name="default_locale" value="<%= getLocale() %>" type="checkbox" <%= getLocale() == 'en' ? 'checked' : '' %>><span class="lever"></span><%= __('english') %></label>
+                                <label><%= __('arabic') %><input name="default_locale" value="<%= getLocale() %>" type="checkbox" <%= getLocale() == 'en' ? 'checked' : '' %> ><span class="lever"></span><%= __('english') %></label>
                             </div>
                         </a>
                     </li>
@@ -230,22 +230,22 @@
             <!-- User Info -->
             <div class="user-info">
                 <div class="image">
-                    <img src="<%= admin.image ? '/uploads/images/'+admin.image : '/backend/images/user.png' %>" width="48" height="48" alt="<%= admin.name %>" />
+                    <img src="<%= company.image ? '/uploads/images/'+company.image : '/backend/images/user.png' %>" width="48" height="48" alt="<%= getLocale() == 'en' ? company.en_name : company.name %>" />
                 </div>
                 <div class="info-container">
                 
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= admin.name %></div>
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= getLocale() == 'en' ? company.en_name : company.name %></div>
                     <div class="email">
-                        <span><%= __('account_id') %></span>: <%= admin._id %>
+                        <span><%= __('account_id') %></span>: <%= company._id %>
                     </div>
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="/admin/account-info"><i class="material-icons">person</i><%= __('account_info'); %></a></li>
+                            <li><a href="/company/account-info"><i class="material-icons">person</i><%= __('account_info'); %></a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="/admin/change/password"><i class="material-icons">lock</i><%= __('change_password'); %></a></li>
+                            <li><a href="/company/change/password"><i class="material-icons">lock</i><%= __('change_password'); %></a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="/admin/logout"><i class="material-icons">input</i><%= __('sign_out'); %></a></li>
+                            <li><a href="/company/logout"><i class="material-icons">input</i><%= __('sign_out'); %></a></li>
                         </ul>
                     </div>
                 </div>
@@ -257,10 +257,10 @@
             <!-- Footer -->
             <div class="legal">
                 <div class="copyright">
-                    &copy; <%= (new Date()).getFullYear(); %> <a href="/admin/dashboard"><%= __('app_name'); %> - <%= __('admin_panel'); %></a>.
+                    &copy; <%= (new Date()).getFullYear(); %> <a href="/company/dashboard"><%= __('app_name'); %> - <%= __('company_panel'); %></a>.
                 </div>
                 <div class="version">
-                    <b><%= __('version'); %>: </b> <%= admin.version %>
+                    <b><%= __('version'); %>: </b> <%= company.version %>
                 </div>
             </div>
             <!-- #Footer -->
@@ -301,7 +301,7 @@
                     closeOnCancel: true
                 }, function (isConfirm) {
                     if (isConfirm) {
-                        $.post( "/admin/admins/set-locale",{ locale : default_locale}, function( data ) {
+                        $.post( "/company/set-locale",{ locale : default_locale}, function( data ) {
                             swal("<%=  __('updated') %>!", "<%=  __('locale_successful') %>.", "success");
                             window.location.reload();
                         });
