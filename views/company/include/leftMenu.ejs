@@ -1,9 +1,9 @@
 <div class="menu">
     <ul class="list">
         <li class="header"><%= __('main_navigation'); %></li>
-        <% if(company.hasOwnProperty('navigations')) { %>
-            <% if(company.navigations.length > 0) { %>
-                <% _.forEach(company.navigations, function(value) {%>
+        <% if(company.hasOwnProperty('modules')) { %>
+            <% if(company.modules.length > 0) { %>
+                <% _.forEach(company.modules, function(value) {%>
                 <% if(value.show_in_menu == 1) {%>
                     <li class="<%= current_pathname == value.action_path ? 'active' : '' %>">
                         <% if(value.hasOwnProperty('children')) { %>

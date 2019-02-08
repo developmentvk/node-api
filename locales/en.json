@@ -388,5 +388,6 @@
 	"module_permission_updated_successfully": "Module permission updated successfully",
 	"update_module": "Update Module",
 	"module_updated_successfully": "Module updated successfully",
-	"company_panel": "Company Panel"
+	"company_panel": "Company Panel",
+	"company_login": "Company Login"
 }

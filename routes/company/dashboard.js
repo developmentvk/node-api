@@ -5,6 +5,7 @@ const i18n = require("i18n");
 const router = express.Router();
 
 router.get('/dashboard', [companySession], async (req, res) => {
+
     let error = req.flash('error');
     let success = req.flash('success');
     res.render('company/dashboard/index', {

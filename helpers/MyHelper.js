@@ -278,6 +278,7 @@ async function moduleMenuListing(req, saveSession = true, accessPlanId = null) {
     }
 
     const allowedNavIds = await getModulesPermissionIDs(accessPlanId);
+    
     modules = await Modules.find({
         status: 1,
         _id: { $in: allowedNavIds }
