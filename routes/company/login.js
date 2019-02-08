@@ -51,6 +51,7 @@ router.post('/login', async (req, res) => {
         req.flash('error', [i18n.__('invalid_combination')]);
         return res.redirect('/company/login');
     }
+
     const validPassword = await bcrypt.compare(req.body.password, company.password);
     if (!validPassword) {
         req.flash('error', [i18n.__('invalid_combination')]);
@@ -71,7 +72,7 @@ router.post('/login', async (req, res) => {
             }, { new: true });
         })
 
-        req.app.io.emit("logoutSessionEvent", {
+        req.app.io.emit("logoutDuplicateSessionEvent", {
             company_id: company._id,
             action: 'duplicate'
         });

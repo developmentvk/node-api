@@ -54,7 +54,7 @@ router.get('/logs/prepare', [adminSession, rbac], async (req, res) => {
                 })
             })
 
-            req.app.io.emit("logFilePrepairedEvent", output);
+            req.app.io.emit("logFilePreparedEvent", output);
             // console.log('finished reading files:', output);
         });
 

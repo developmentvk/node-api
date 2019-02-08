@@ -22,7 +22,14 @@ socket.on('connect', function () {
         }
     });
 
-    socket.on('logFilePrepairedEvent', function (data) {
+    socket.on('logoutDuplicateSessionEvent', function (data) {
+        if(data.company_id == session_id)
+        {
+            window.location.replace(`${site_url}/company/login?logout=${data.action}`);
+        }
+    });
+
+    socket.on('logFilePreparedEvent', function (data) {
         $('#count_box').html(data.length);
         let html = '';
          if(data.length > 0) { 
