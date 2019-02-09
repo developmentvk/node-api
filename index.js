@@ -19,7 +19,7 @@ const express = require('express'),
 
 
 const numUsers = 0;
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 6000;
 
 const { SocketUsers } = require('./helpers/SocketUsers');
 const { SocketAdmins } = require('./helpers/SocketAdmins');
