@@ -1,4 +1,4 @@
 node_modules/
 coverage/
 /logs/*
-public/uploads/images/*
+#public/uploads/images/*
