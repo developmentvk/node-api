@@ -95,7 +95,7 @@ router.post('/login', async (req, res) => {
         req.session.cookie.maxAge = (24 * 7) * 60 * 60 * 1000 // 7 days;
     }
 
-    // await moduleMenuListing(req, true);
+    await moduleMenuListing(req, true);
 
     return res.redirect('/company/dashboard');
 });

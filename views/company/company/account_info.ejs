@@ -20,7 +20,7 @@
             <div class="card">
                 <div class="header">
                     <h2>
-                        <%= data.name %>
+                        <%= getLocale() == 'en' ? data.en_name : data.name; %>
                         <small><%= __('account_id') %> : <%= data._id %></small>
                     </h2>
                     <ul class="header-dropdown m-r--5">
@@ -70,6 +70,14 @@
                                             </span>
                                             <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
                                                 <%= data.name %>
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item clearfix">
+                                            <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <%= __('en_name') %>
+                                            </span>
+                                            <span class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <%= data.en_name %>
                                             </span>
                                         </li>
                                         <li class="list-group-item clearfix">
