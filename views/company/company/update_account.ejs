@@ -29,7 +29,61 @@
                                 <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" value="<%= admins.name %>" id="name" name="name" class="form-control" placeholder="<%= __('name'); %>" required autofocus>
+                                            <input type="text" value="<%= company.name %>" id="name" name="name" class="form-control" placeholder="<%= __('name'); %>" required autofocus>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="en_name"><%= __('en_name'); %> <span class="required">*</span></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" value="<%= company.en_name %>" id="en_name" name="en_name" class="form-control" placeholder="<%= __('en_name'); %>" required autofocus>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="website_url"><%= __('website_url'); %> <span class="required">*</span></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="url" value="<%= company.website_url %>" id="website_url" name="website_url" class="form-control" pattern="^(http[s]?:\/\/)?([-\w\d]+)(\.[-\w\d]+)*(\.([a-zA-Z]{2,5}|[\d]{1,3})){1,2}(\/([-~%\.\(\)\w\d]*\/*)*(#[-\w\d]+)?)?$" placeholder="<%= __('website_url'); %>" required autofocus>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="dial_code"><%= __('mobile'); %></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 m-b-0">
+                                            <select id="dial_code" name="dial_code"  class="form-control show-tick">
+                                                <option value=""><%= __('select_dial_code'); %></option>
+                                                <% if(countries.length > 0) {%>
+                                                    <% 
+                                                        _.forEach(countries, function(value, index) {
+                                                        let selected = company.dial_code == value.dial_code ? "selected" : "";    
+                                                    %>
+                                                        <option value="<%= value.dial_code %>" <%= selected %> >+<%= value.dial_code %> - <%= getLocale() == 'en' ? value.en_name : value.name %></option>
+                                                    <% }) %>
+                                                <% } %>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 m-b-0">
+                                            <div class="form-line">
+                                                <input type="text"  value="<%= company.mobile %>" id="mobile" name="mobile" class="form-control" placeholder="<%= __('mobile'); %>" autofocus>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -42,7 +96,7 @@
                                 <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" value="<%= admins.email %>" id="email" name="email" class="form-control" placeholder="<%= __('email'); %>" required autofocus>
+                                            <input type="email"  value="<%= company.email %>" id="email" name="email" class="form-control" placeholder="<%= __('email'); %>" required  email autofocus>
                                         </div>
                                     </div>
                                 </div>
@@ -50,51 +104,94 @@
 
                             <div class="row clearfix">
                                 <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                    <label for="dial_code"><%= __('mobile'); %></label>
+                                    <label for="industry_id"><%= __('industry'); %><span class="required">*</span></label>
                                 </div>
                                 <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                     <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4  m-b-0">
-                                            <select id="dial_code" name="dial_code"  class="form-control show-tick">
-                                                <option value=""><%= __('select_dial_code'); %></option>
-                                                <% if(countries.length > 0) {%>
-                                                    <% 
-                                                    _.forEach(countries, function(value, index) {
-                                                        let selected = admins.dial_code == value.dial_code ? "selected" : "";
-                                                    %>
-                                                        <option value="<%= value.dial_code %>" <%= selected %> >+<%= value.dial_code %> - <%= getLocale() == 'en' ? value.en_name : value.name %></option>
-                                                    <% }) %>
-                                                <% } %>
-                                            </select>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8  m-b-0">
-                                            <div class="form-line">
-                                                <input type="text" value="<%= admins.mobile %>" id="mobile" name="mobile" class="form-control" placeholder="<%= __('mobile'); %>" autofocus>
-                                            </div>
-                                        </div>
+                                        <select id="industry_id" name="industry_id"  class="form-control show-tick" autofocus required>
+                                            <option value=""><%= __('select_industry'); %></option>
+                                            <% if(industry.length > 0) {%>
+                                                <% _.forEach(industry, function(value, index) {
+                                                    let selected = (company.industry_id && (value._id == company.industry_id.toString())) ? "selected" : "";      
+                                                %>
+                                                    <option value="<%= value._id %>" <%= selected %> ><%= getLocale() == 'en' ? value.en_name : value.name %></option>
+                                                <% }) %>
+                                            <% } %>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row clearfix">
                                 <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                    <label for="image"><%= __('image'); %></label>
+                                    <label for="number_of_employees"><%= __('number_of_employees'); %><span class="required">*</span></label>
                                 </div>
                                 <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                    <div class="col-sm-1 <%= admins.image ? '' : 'hide'  %> image-box">
+                                    <div class="form-group">
+                                        <select id="number_of_employees" name="number_of_employees"  class="form-control show-tick" autofocus required>
+                                            <option value=""><%= __('select_number_of_employees'); %></option>
+                                            <% _.forEach(__('number_of_employees_array'), function(value, index) {
+                                                let selected = company.number_of_employees == index ? "selected" : "";    
+                                            %>
+                                                <option value="<%= index %>" <%= selected %> ><%= value %></option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="logo"><%= __('logo'); %></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="col-sm-1 <%= company.logo ? '' : 'hide'  %> image-box">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <img src="/uploads/images/<%= admins.image %>" width="54" height="54">
+                                                <img src="/uploads/images/<%= company.logo %>" width="54" height="54">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-11">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="file" id="image" name="file" class="form-control" placeholder="<%= __('logo'); %>" autofocus>
-                                                <input type="hidden" name="image" />
+                                                <input type="file" id="logo" name="file" class="form-control" placeholder="<%= __('logo'); %>" autofocus>
+                                                <input type="hidden" name="logo" />
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="audience"><%= __('audience'); %><span class="required">*</span></label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <%  _.forEach(__('audience_array'), function(value, index) { 
+                                            let selected = _.includes(company.audience, index) ?  'checked="checked"' : ''; 
+                                        %>
+                                            <input type="checkbox" <%= selected %> name="audience" id="audience<%= value %>" class="with-gap checkbox-col-purple" value="<%= index %>" required>
+                                            <label for="audience<%= value %>"><%= value %></label>
+                                        <% }) %>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                    <label for="chat_purpose"><%= __('chat_purpose'); %> <span class="required">*</span</label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                    <div class="form-group">
+                                        <%  _.forEach(__('chat_purpose_array'), function(value, index) { 
+                                            let selected = _.includes(company.chat_purpose, index) ?  'checked="checked"' : ''; 
+                                        %>
+                                            <input type="checkbox" <%= selected %> name="chat_purpose" id="chat_purpose_<%= value %>" class="with-gap checkbox-col-purple" value="<%= index %>" required>
+                                            <label for="chat_purpose_<%= value %>"><%= value %></label>
+                                        <% }) %>
                                     </div>
                                 </div>
                             </div>

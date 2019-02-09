@@ -250,7 +250,17 @@ function validateUpdate(table) {
 
 function validateUpdateAccount(user) {
 	const schema = {
-		name: Joi.string().min(5).max(255).required().label(i18n.__('name')).error(errors => {
+		name: Joi.string().max(255).required().label(i18n.__('name')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		en_name: Joi.string().max(255).required().label(i18n.__('en_name')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		website_url: Joi.string().max(255).required().label(i18n.__('website_url')).error(errors => {
 			return errors.map(err => { 
 				return { message : i18n.__(`joi.${err.type}`, err.context)};
 			});
@@ -270,12 +280,32 @@ function validateUpdateAccount(user) {
 				return { message : i18n.__(`joi.${err.type}`, err.context)};
 			});
 		}),
+		logo: Joi.string().allow('').optional().label(i18n.__('logo')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
 		file: Joi.string().allow('').optional().label(i18n.__('file')).error(errors => {
 			return errors.map(err => { 
 				return { message : i18n.__(`joi.${err.type}`, err.context)};
 			});
 		}),
-		image: Joi.string().allow('').optional().label(i18n.__('image')).error(errors => {
+		industry_id: Joi.objectId().required().label(i18n.__('industry')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		number_of_employees: Joi.number().required().label(i18n.__('number_of_employees')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		audience: Joi.any().required().label(i18n.__('audience')).error(errors => {
+			return errors.map(err => { 
+				return { message : i18n.__(`joi.${err.type}`, err.context)};
+			});
+		}),
+		chat_purpose: Joi.any().required().label(i18n.__('chat_purpose')).error(errors => {
 			return errors.map(err => { 
 				return { message : i18n.__(`joi.${err.type}`, err.context)};
 			});

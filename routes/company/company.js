@@ -29,7 +29,30 @@ router.get('/account-info', [companySession], async (req, res) => {
         req.flash('error', [i18n.__('no_record_found')]);
         return res.redirect('/company/logout');
     }
+    let audienceArr = new Array();
+    audience = _.toArray(company.audience);
+    if (audience.length > 0) {
+        _.forEach(audience, function (value) {
+            if (value != ',') {
+                audienceArr.push(i18n.__('audience_array')[value]);
+            }
+        });
+    }
+    company.decoded_audience = audienceArr.length > 0 ? audienceArr.join(', ') : '';
+
+    let chat_purposeArr = new Array();
+    chat_purpose = _.toArray(company.chat_purpose);
+    if (chat_purpose.length > 0) {
+        _.forEach(chat_purpose, function (value) {
+            if (value != ',') {
+                chat_purposeArr.push(i18n.__('chat_purpose_array')[value]);
+            }
+        })
+    }
+    company.decoded_chat_purpose = chat_purposeArr.length > 0 ? chat_purposeArr.join(', ') : '';
+
     company.decoded_status = i18n.__('account_status_array')[company.status];
+    company.decoded_number_of_employees = i18n.__('number_of_employees_array')[company.number_of_employees];
 
     const companyLoginLogs = await CompanyLoginLogs.findOne({
         company_id: company._id,
@@ -59,7 +82,10 @@ router.get('/update/account', [companySession], async (req, res) => {
         return res.redirect('/company/logout');
     }
 
-    const industry = await Industry.find({
+    company.audience = _.toArray(company.audience);
+    company.chat_purpose = _.toArray(company.chat_purpose);
+
+    const industry = await Industry.find({ 
         status: 1,
         isArchive: false,
         isDeleted: false
@@ -98,12 +124,18 @@ router.post('/update/account', [companySession], async (req, res) => {
     }
     let fields = {
         name: req.body.name,
-        email: req.body.email,
+        en_name: req.body.en_name,
+        website_url: req.body.website_url,
         dial_code: req.body.dial_code,
         mobile: req.body.mobile,
+        email: req.body.email,
+        industry_id: req.body.industry_id,
+        number_of_employees: req.body.number_of_employees,
+        audience: req.body.audience,
+        chat_purpose: req.body.chat_purpose
     };
-    if (req.body.image) {
-        fields.image = req.body.image;
+    if (req.body.logo) {
+        fields.logo = req.body.logo;
     }
     await Company.findByIdAndUpdate(req.session.company._id, fields, { new: true });
 
